@@ -1,7 +1,8 @@
 
-#include <vector>
 #include "txref.h"
 #include "../libbech32/bech32.h"
+#include <vector>
+#include <stdexcept>
 
 namespace {
 

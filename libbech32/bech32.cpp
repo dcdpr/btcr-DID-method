@@ -1,5 +1,6 @@
 #include "bech32.h"
-
+#include <algorithm>
+#include <stdexcept>
 
 namespace {
 
