@@ -62,7 +62,7 @@ int parseCommandLineArgs(int argc, char **argv,
     opt->addUsage( "<did>                       the BTCR DID to resolve. Could be txref or txref-ext based" );
 
     opt->setFlag("help", 'h');
-    opt->setCommandOption("rpchost");
+    opt->setOption("rpchost");
     opt->setOption("rpcuser");
     opt->setOption("rpcpassword");
     opt->setOption("rpcport");

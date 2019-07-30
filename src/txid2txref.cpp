@@ -61,7 +61,7 @@ int parseCommandLineArgs(int argc, char **argv,
     opt->addUsage( "<txid|txref|txref-ext>      input: can be a txid to encode, or a txref or txref-ext to decode" );
 
     opt->setFlag("help", 'h');
-    opt->setCommandOption("rpchost");
+    opt->setOption("rpchost");
     opt->setOption("rpcuser");
     opt->setOption("rpcpassword");
     opt->setOption("rpcport");
