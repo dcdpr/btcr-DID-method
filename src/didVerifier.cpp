@@ -53,7 +53,7 @@ int parseCommandLineArgs(int argc, char **argv, struct RpcConfig &config, struct
     opt->addUsage( "<did>                       the BTCR DID to verify. Could be txref or txref-ext based" );
 
     opt->setFlag("help", 'h');
-    opt->setCommandOption("rpchost");
+    opt->setOption("rpchost");
     opt->setOption("rpcuser");
     opt->setOption("rpcpassword");
     opt->setOption("rpcport");

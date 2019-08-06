@@ -63,7 +63,7 @@ int parseCommandLineArgs(int argc, char **argv,
     opt->addUsage( "<ddoRef>        reference to a DDO you want as part of your DID (optional)" );
 
     opt->setFlag("help", 'h');
-    opt->setCommandOption("rpchost");
+    opt->setOption("rpchost");
     opt->setOption("rpcuser");
     opt->setOption("rpcpassword");
     opt->setOption("rpcport");
