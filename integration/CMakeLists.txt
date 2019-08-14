@@ -41,10 +41,13 @@ set_tests_properties("IntegrationTests_t2t_txref_from_known_txid" PROPERTIES
 
 # get txrefext from a known txid.
 
+# we decided during the btcr summer 2019 hackathon to not generate or accept the txrefext form of a txid
+# where the txoIndex is 0. In those cases we should only generate or accept the short txref form. This
+# test was changed to show t2t outputting a txref instead of outputting a txrefext
 add_test(NAME "IntegrationTests_t2t_txrefext_from_known_txid_index_0"
     COMMAND $<TARGET_FILE:txid2txref> --txoIndex 0 f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107)
 set_tests_properties("IntegrationTests_t2t_txrefext_from_known_txid_index_0" PROPERTIES
-        PASS_REGULAR_EXPRESSION "txtest1:8yv2-xzpq-qqqq-9yce-nk")
+        PASS_REGULAR_EXPRESSION "txtest1:xyv2-xzpq-q9wa-p7t")
 
 add_test(NAME "IntegrationTests_t2t_txrefext_from_known_txid_index_1"
     COMMAND $<TARGET_FILE:txid2txref> --txoIndex 1 f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107)
@@ -54,7 +57,7 @@ set_tests_properties("IntegrationTests_t2t_txrefext_from_known_txid_index_1" PRO
 # get txid from txref.
 
 add_test(NAME "IntegrationTests_t2t_txid_from_txrefext"
-    COMMAND $<TARGET_FILE:txid2txref> txtest1:8yv2-xzpq-qqqq-9yce-nk)
+    COMMAND $<TARGET_FILE:txid2txref> txtest1:8yv2-xzpq-qpqq-8x3w-2w)
 set_tests_properties("IntegrationTests_t2t_txid_from_txrefext" PROPERTIES
         PASS_REGULAR_EXPRESSION "f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107")
 

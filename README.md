@@ -133,7 +133,7 @@ createBtcrDid.
 
 ```
 $ ./src/txid2txref --help
-Usage: txid2txref [options] <txid|txref|txref-ext>
+Usage: txid2txref [options] <txid|txref>
 [...]
 
 > ./createBtcrDid --help
@@ -158,7 +158,7 @@ Usage: txid2txref [options] <txid>
  --config [config_path]     Full pathname to bitcoin.conf (default: <homedir>/.bitcoin/bitcoin.conf)
  --txoIndex [index #]       Index # for XTO within the transaction (default: 0)
 
-<txid|txref|txref-ext>      input: can be a txid to encode, or a txref or txref-ext to decode
+<txid|txref>                input: can be a txid to encode, or a txref to decode
 ```
 
 Many of the runtime options for txid2txref are for connecting to
@@ -212,11 +212,6 @@ $ ./src/txid2txref f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528
   "txref": "txtest1:xyv2-xzpq-q9wa-p7t"
 }
 
-$ ./src/txid2txref --txoIndex 0 f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107 | jq '{txref}'
-{
-  "txref": "txtest1:8yv2-xzpq-qqqq-9yce-nk"
-}
-
 $ ./src/txid2txref --txoIndex 1 f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107 | jq '{txref}'
 {
   "txref": "txtest1:8yv2-xzpq-qpqq-8x3w-2w"
@@ -257,7 +252,7 @@ Usage: createBtcrDid [options] <inputXXX> <changeAddress> <private key> <fee> <d
  --config [config_path]     Full pathname to bitcoin.conf (default: <homedir>/.bitcoin/bitcoin.conf)
  --txoIndex [index]         Index # of which TXO to use from the input transaction (default: 0)
 
-<inputXXX>      input: (bitcoin address, txid, txref, or txref-ext) needs at least slightly more unspent BTCs than your offered fee
+<inputXXX>      input: (bitcoin address, txid, txref) needs at least slightly more unspent BTCs than your offered fee
 <outputAddress> output bitcoin address: will receive transaction change and be the basis for your DID
 <private key>   private key in base58 (wallet import format)
 <fee>           fee you are willing to pay (suggestion: >0.001 BTC)
@@ -293,7 +288,7 @@ This is the input transaction--where you need to have at least slightly
 more unspent BTCs than your offered fee (see below). You can refer to
 this transaction in many ways: a bitcoin address (plus txoIndex, given
 with `--txoIndex` parameter); a txid (plus txoIndex); a txref (plus
-txoIndex), or a txref-ext.
+txoIndex).
 
 #### outputAddress
 This is the output bitcoin address. It will receive transaction change and be the basis for your DID.

@@ -10,8 +10,11 @@
 #include "txid2txref.h"
 #include "t2tSupport.h"
 #include <bitcoinapi/bitcoinapi.h>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 #include "anyoption.h"
 
+namespace pt = boost::property_tree;
 
 struct CmdlineInput {
     std::string query ="";
@@ -56,7 +59,7 @@ int parseCommandLineArgs(int argc, char **argv,
     opt->addUsage( " --config [config_path]     Full pathname to bitcoin.conf (default: <homedir>/.bitcoin/bitcoin.conf) " );
     opt->addUsage( " --txoIndex [index]         Index # of which TXO to use from the input transaction (default: 0) " );
     opt->addUsage( "" );
-    opt->addUsage( "<inputXXX>      input: (bitcoin address, txid, txref, or txref-ext) needs at least slightly more unspent BTCs than your offered fee" );
+    opt->addUsage( "<inputXXX>      input: (bitcoin address, txid, txref) needs at least slightly more unspent BTCs than your offered fee" );
     opt->addUsage( "<outputAddress> output bitcoin address: will receive transaction change and be the basis for your DID" );
     opt->addUsage( "<private key>   private key in base58 (wallet import format)" );
     opt->addUsage( "<fee>           fee you are willing to pay (suggestion: >0.001 BTC)" );
@@ -159,6 +162,19 @@ int parseCommandLineArgs(int argc, char **argv,
     // TODO validate position arguments
 
     return 1;
+}
+
+void printAsJson(const std::string & txid) {
+    pt::ptree root;
+
+    if(!txid.empty()) {
+        root.put("comment", "transaction submitted");
+        root.put("txid", txid);
+    }
+    else
+        root.put("error", "the network did not accept our transaction");
+
+    pt::write_json(std::cout, root);
 }
 
 
@@ -285,10 +301,7 @@ int main(int argc, char *argv[]) {
         // broadcast to network
         std::string resultTxid = btc.sendrawtransaction(signedRawTransaction);
 
-        if(!resultTxid.empty())
-            std::cout << "Transaction submitted. Result txid: " << resultTxid << std::endl;
-        else
-            std::cerr << "Error: the network did not accept our transaction" << std::endl;
+        printAsJson(resultTxid);
 
         // TODO create a DID object and print out the DID string. Warn that it isn't valid until
         // the transaction has enough confirmations
