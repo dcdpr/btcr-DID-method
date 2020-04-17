@@ -1,5 +1,6 @@
 include(CTest)
 find_package(CURL)
+include(../cmake/FindJSONCPP.cmake)
 
 # Almost all of these integration tests require an existing
 # ~/.bitcoin/bitcoin.conf with rpc* parameters that point to a
@@ -158,11 +159,12 @@ set_target_properties(IntegrationTests_chainSoQuery PROPERTIES CXX_EXTENSIONS OF
 target_include_directories(IntegrationTests_chainSoQuery
         PUBLIC
         ${CMAKE_SOURCE_DIR}
-        ${PROJECT_SOURCE_DIR}/src)
+        ${PROJECT_SOURCE_DIR}/src
+	${JSONCPP_INCLUDE_DIRS})
 
 target_link_libraries(IntegrationTests_chainSoQuery
         PUBLIC
-        jsoncpp ${CURL_LIBRARIES})
+        ${JSONCPP_LIBRARIES} ${CURL_LIBRARIES})
 
 add_test(NAME "IntegrationTests_chainSoQuery"
         COMMAND $<TARGET_FILE:IntegrationTests_chainSoQuery>)

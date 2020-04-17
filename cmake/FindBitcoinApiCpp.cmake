@@ -5,14 +5,15 @@
 #  BITCOINAPICPP_INCLUDE_DIRS, where to find bitcoinapi.h
 #  BITCOINAPICPP_LIBRARIES, the libraries needed to use BitcoinApiCpp.
 
-FIND_PATH(BITCOINAPICPP_INCLUDE_DIRS bitcoinapi.h
-/usr/include
-/usr/local/include
-PATH_SUFFIXES bitcoinapi
+FIND_PATH(BITCOINAPICPP_INCLUDE_DIRS
+NAMES bitcoinapi/bitcoinapi.h
+PATHS /usr/include /usr/local/include
 )
 
-
-FIND_LIBRARY(BITCOINAPICPP_LIBRARIES NAMES bitcoinapi HINTS /usr/lib /usr/local/lib)
+FIND_LIBRARY(BITCOINAPICPP_LIBRARIES
+NAMES bitcoinapi
+PATHS /usr/lib /usr/local/lib
+)
 
 IF (BITCOINAPICPP_LIBRARIES AND BITCOINAPICPP_INCLUDE_DIRS)
     SET(BITCOINAPICPP_LIBRARIES ${BITCOINAPICPP_LIBRARIES})
