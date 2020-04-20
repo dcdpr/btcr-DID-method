@@ -185,9 +185,9 @@ TEST(TxrefTest, addDashes_withHRPs) {
 
 TEST(TxrefTest, prettyPrint) {
     std::string hrp = txref::BECH32_HRP_MAIN;
-    std::string plain = "tx1rqqqqqqqqmhuqhp";
+    std::string plain = "tx1rqqqqqqqqygrlgl";
     std::string pretty = prettyPrint(plain, hrp.length());
-    EXPECT_EQ(pretty, "tx1:rqqq-qqqq-qmhu-qhp");
+    EXPECT_EQ(pretty, "tx1:rqqq-qqqq-qygr-lgl");
 }
 
 
@@ -197,12 +197,12 @@ TEST(TxrefTest, extract_magicCode) {
     uint8_t magicCode;
     bech32::HrpAndDp bs;
 
-    txref = "tx1rqqqqqqqqmhuqhp";
+    txref = "tx1rqqqqqqqqygrlgl";
     bs = bech32::decode(txref);
     extractMagicCode(magicCode, bs);
     EXPECT_EQ(magicCode, txref::MAGIC_BTC_MAIN);
 
-    txref = "txtest1xjk0uqayzat0dz8";
+    txref = "txtest1xjk0uqayzz5sjae";
     bs = bech32::decode(txref);
     extractMagicCode(magicCode, bs);
     EXPECT_EQ(magicCode, txref::MAGIC_BTC_TEST);
@@ -214,12 +214,12 @@ TEST(TxrefTest, extract_version) {
     uint8_t version;
     bech32::HrpAndDp bs;
 
-    txref = "tx1rqqqqqqqqmhuqhp";
+    txref = "tx1rqqqqqqqqygrlgl";
     bs = bech32::decode(txref);
     extractVersion(version, bs);
     EXPECT_EQ(version, 0);
 
-    txref = "txtest1xjk0uqayzat0dz8";
+    txref = "txtest1xjk0uqayzz5sjae";
     bs = bech32::decode(txref);
     extractVersion(version, bs);
     EXPECT_EQ(version, 0);
@@ -231,32 +231,32 @@ TEST(TxrefTest, extract_block_height) {
     int blockHeight;
     bech32::HrpAndDp bs;
 
-    txref = "tx1rqqqqqqqqmhuqhp";
+    txref = "tx1rqqqqqqqqygrlgl";
     bs = bech32::decode(txref);
     extractBlockHeight(blockHeight, bs);
     EXPECT_EQ(blockHeight, 0);
 
-    txref = "tx1rqqqqqlll8xhjkg";
+    txref = "tx1rqqqqqlllcegdfk";
     bs = bech32::decode(txref);
     extractBlockHeight(blockHeight, bs);
     EXPECT_EQ(blockHeight, 0);
 
-    txref = "tx1r7llllqqqghqqr8";
+    txref = "tx1r7llllqqqhgllue";
     bs = bech32::decode(txref);
     extractBlockHeight(blockHeight, bs);
     EXPECT_EQ(blockHeight, 0xFFFFFF);
 
-    txref = "tx1r7lllllll5xtjzw";
+    txref = "tx1r7lllllllte5das";
     bs = bech32::decode(txref);
     extractBlockHeight(blockHeight, bs);
     EXPECT_EQ(blockHeight, 0xFFFFFF);
 
-    txref = "tx1rjk0uqayzsrwhqe";
+    txref = "tx1rjk0uqayz0u3gl8";
     bs = bech32::decode(txref);
     extractBlockHeight(blockHeight, bs);
     EXPECT_EQ(blockHeight, 466793);
 
-    txref = "txtest1xjk0uqayzat0dz8";
+    txref = "txtest1xjk0uqayzz5sjae";
     bs = bech32::decode(txref);
     extractBlockHeight(blockHeight, bs);
     EXPECT_EQ(blockHeight, 466793);
@@ -268,32 +268,32 @@ TEST(TxrefTest, extract_transaction_position) {
     int transactionPosition;
     bech32::HrpAndDp bs;
 
-    txref = "tx1rqqqqqqqqmhuqhp";
+    txref = "tx1rqqqqqqqqygrlgl";
     bs = bech32::decode(txref);
     extractTransactionPosition(transactionPosition, bs);
     EXPECT_EQ(transactionPosition, 0);
 
-    txref = "tx1rqqqqqlll8xhjkg";
+    txref = "tx1rqqqqqlllcegdfk";
     bs = bech32::decode(txref);
     extractTransactionPosition(transactionPosition, bs);
     EXPECT_EQ(transactionPosition, 0x7FFF);
 
-    txref = "tx1r7llllqqqghqqr8";
+    txref = "tx1r7llllqqqhgllue";
     bs = bech32::decode(txref);
     extractTransactionPosition(transactionPosition, bs);
     EXPECT_EQ(transactionPosition, 0);
 
-    txref = "tx1r7lllllll5xtjzw";
+    txref = "tx1r7lllllllte5das";
     bs = bech32::decode(txref);
     extractTransactionPosition(transactionPosition, bs);
     EXPECT_EQ(transactionPosition, 0x7FFF);
 
-    txref = "tx1rjk0uqayzsrwhqe";
+    txref = "tx1rjk0uqayz0u3gl8";
     bs = bech32::decode(txref);
     extractTransactionPosition(transactionPosition, bs);
     EXPECT_EQ(transactionPosition, 2205);
 
-    txref = "txtest1xjk0uqayzat0dz8";
+    txref = "txtest1xjk0uqayzz5sjae";
     bs = bech32::decode(txref);
     extractTransactionPosition(transactionPosition, bs);
     EXPECT_EQ(transactionPosition, 2205);
@@ -305,32 +305,32 @@ TEST(TxrefTest, extract_txo_position) {
     int txoIndex;
     bech32::HrpAndDp bs;
 
-    txref = "tx1rqqqqqqqqmhuqhp";
+    txref = "tx1rqqqqqqqqygrlgl";
     bs = bech32::decode(txref);
     extractTxoIndex(txoIndex, bs);
     EXPECT_EQ(txoIndex, 0);
 
-    txref = "tx1rqqqqqlll8xhjkg";
+    txref = "tx1rqqqqqlllcegdfk";
     bs = bech32::decode(txref);
     extractTxoIndex(txoIndex, bs);
     EXPECT_EQ(txoIndex, 0);
 
-    txref = "tx1r7llllqqqghqqr8";
+    txref = "tx1r7llllqqqhgllue";
     bs = bech32::decode(txref);
     extractTxoIndex(txoIndex, bs);
     EXPECT_EQ(txoIndex, 0);
 
-    txref = "tx1r7lllllll5xtjzw";
+    txref = "tx1r7lllllllte5das";
     bs = bech32::decode(txref);
     extractTxoIndex(txoIndex, bs);
     EXPECT_EQ(txoIndex, 0);
 
-    txref = "tx1rjk0uqayzsrwhqe";
+    txref = "tx1rjk0uqayz0u3gl8";
     bs = bech32::decode(txref);
     extractTxoIndex(txoIndex, bs);
     EXPECT_EQ(txoIndex, 0);
 
-    txref = "txtest1xjk0uqayzat0dz8";
+    txref = "txtest1xjk0uqayzz5sjae";
     bs = bech32::decode(txref);
     extractTxoIndex(txoIndex, bs);
     EXPECT_EQ(txoIndex, 0);
@@ -340,29 +340,29 @@ TEST(TxrefTest, extract_txo_position) {
 TEST(TxrefTest, txref_add_hrps) {
     std::string txref;
 
-    txref = "rqqqqqqqqmhuqhp";
-    EXPECT_EQ(addHrpIfNeeded(txref), "tx1rqqqqqqqqmhuqhp");
+    txref = "rqqqqqqqqygrlgl";
+    EXPECT_EQ(addHrpIfNeeded(txref), "tx1rqqqqqqqqygrlgl");
 
-    txref = "xjk0uqayzat0dz8";
-    EXPECT_EQ(addHrpIfNeeded(txref), "txtest1xjk0uqayzat0dz8");
+    txref = "xjk0uqayzz5sjae";
+    EXPECT_EQ(addHrpIfNeeded(txref), "txtest1xjk0uqayzz5sjae");
 
 }
 
 // check that we correctly encode some sample txrefs
 TEST(TxrefTest, txref_encode_mainnet) {
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN, 0, 0),
-              "tx1:rqqq-qqqq-qmhu-qhp");
+              "tx1:rqqq-qqqq-qygr-lgl");
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN, 0, 0x7FFF),
-              "tx1:rqqq-qqll-l8xh-jkg");
+              "tx1:rqqq-qqll-lceg-dfk");
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN, 0xFFFFFF, 0),
-              "tx1:r7ll-llqq-qghq-qr8");
+              "tx1:r7ll-llqq-qhgl-lue");
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN, 0xFFFFFF, 0x7FFF),
-              "tx1:r7ll-llll-l5xt-jzw");
+              "tx1:r7ll-llll-lte5-das");
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN, 466793, 2205),
-              "tx1:rjk0-uqay-zsrw-hqe");
+              "tx1:rjk0-uqay-z0u3-gl8");
 
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST, 466793, 2205),
-              "txtest1:xjk0-uqay-zat0-dz8");
+              "txtest1:xjk0-uqay-zz5s-jae");
 }
 
 RC_GTEST_PROP(TxrefTestRC, checkThatEncodeAndDecodeProduceSameParameters, ()
@@ -394,12 +394,12 @@ TEST(TxrefTest, extract_extended_magicCode) {
     uint8_t magicCode;
     bech32::HrpAndDp bs;
 
-    txref = "tx1yjk0uqayzu4xnk6upc";
+    txref = "tx1yjk0uqayzu4xvf9r7x";
     bs = bech32::decode(txref);
     extractMagicCode(magicCode, bs);
     EXPECT_EQ(magicCode, txref::MAGIC_BTC_MAIN_EXTENDED);
 
-    txref = "txtest18jk0uqayzu4xaw4hzl";
+    txref = "txtest18jk0uqayzu4xz32gap";
     bs = bech32::decode(txref);
     extractMagicCode(magicCode, bs);
     EXPECT_EQ(magicCode, txref::MAGIC_BTC_TEST_EXTENDED);
@@ -412,22 +412,22 @@ TEST(TxrefTest, extract_extended_block_height) {
     int blockHeight;
     bech32::HrpAndDp bs;
 
-    txref = "tx1yqqqqqqqqqqqksvh26";
+    txref = "tx1yqqqqqqqqqqqf0ng4y";
     bs = bech32::decode(txref);
     extractBlockHeight(blockHeight, bs);
     EXPECT_EQ(blockHeight, 0);
 
-    txref = "tx1y7llllqqqqqqa5zytc";
+    txref = "tx1y7llllqqqqqqztam5x";
     bs = bech32::decode(txref);
     extractBlockHeight(blockHeight, bs);
     EXPECT_EQ(blockHeight, 0xFFFFFF);
 
-    txref = "tx1yjk0uqayzu4xnk6upc";
+    txref = "tx1yjk0uqayzu4xvf9r7x";
     bs = bech32::decode(txref);
     extractBlockHeight(blockHeight, bs);
     EXPECT_EQ(blockHeight, 466793);
 
-    txref = "txtest18jk0uqayzu4xaw4hzl";
+    txref = "txtest18jk0uqayzu4xz32gap";
     bs = bech32::decode(txref);
     extractBlockHeight(blockHeight, bs);
     EXPECT_EQ(blockHeight, 466793);
@@ -440,22 +440,22 @@ TEST(TxrefTest, extract_extended_transaction_position) {
     int transactionPosition;
     bech32::HrpAndDp bs;
 
-    txref = "tx1yqqqqqqqqqqqksvh26";
+    txref = "tx1yqqqqqqqqqqqf0ng4y";
     bs = bech32::decode(txref);
     extractTransactionPosition(transactionPosition, bs);
     EXPECT_EQ(transactionPosition, 0);
 
-    txref = "tx1yqqqqqlllqqqv0h22k";
+    txref = "tx1yqqqqqlllqqqnsg44g";
     bs = bech32::decode(txref);
     extractTransactionPosition(transactionPosition, bs);
     EXPECT_EQ(transactionPosition, 0x7FFF);
 
-    txref = "tx1yjk0uqayzu4xnk6upc";
+    txref = "tx1yjk0uqayzu4xvf9r7x";
     bs = bech32::decode(txref);
     extractTransactionPosition(transactionPosition, bs);
     EXPECT_EQ(transactionPosition, 2205);
 
-    txref = "txtest18jk0uqayzu4xaw4hzl";
+    txref = "txtest18jk0uqayzu4xz32gap";
     bs = bech32::decode(txref);
     extractTransactionPosition(transactionPosition, bs);
     EXPECT_EQ(transactionPosition, 2205);
@@ -468,27 +468,27 @@ TEST(TxrefTest, extract_extended_txo_index) {
     int txoIndex;
     bech32::HrpAndDp bs;
 
-    txref = "tx1yqqqqqqqqqqqksvh26";
+    txref = "tx1yqqqqqqqqqqqf0ng4y";
     bs = bech32::decode(txref);
     extractTxoIndex(txoIndex, bs);
     EXPECT_EQ(txoIndex, 0);
 
-    txref = "tx1yqqqqqqqqpqq5j9qnz";
+    txref = "tx1yqqqqqqqqpqqtd6lvu";
     bs = bech32::decode(txref);
     extractTxoIndex(txoIndex, bs);
     EXPECT_EQ(txoIndex, 1);
 
-    txref = "tx1yqqqqqqqqu4x8fexrm";
+    txref = "tx1yqqqqqqqqu4xckxeu9";
     bs = bech32::decode(txref);
     extractTxoIndex(txoIndex, bs);
     EXPECT_EQ(txoIndex, 0x1ABC);
 
-    txref = "tx1yjk0uqayzu4xnk6upc";
+    txref = "tx1yjk0uqayzu4xvf9r7x";
     bs = bech32::decode(txref);
     extractTxoIndex(txoIndex, bs);
     EXPECT_EQ(txoIndex, 0x1ABC);
 
-    txref = "txtest18jk0uqayzu4xaw4hzl";
+    txref = "txtest18jk0uqayzu4xz32gap";
     bs = bech32::decode(txref);
     extractTxoIndex(txoIndex, bs);
     EXPECT_EQ(txoIndex, 0x1ABC);
@@ -510,36 +510,36 @@ TEST(TxrefTest, txref_add_hrps_extended) {
 // check that we correctly encode some sample extended txrefs
 TEST(TxrefTest, txref_encode_extended_mainnet) {
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0, 0, 0),
-              "tx1:yqqq-qqqq-qqqq-ksvh-26");
+              "tx1:yqqq-qqqq-qqqq-f0ng-4y");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0, 0x7FFF, 0),
-              "tx1:yqqq-qqll-lqqq-v0h2-2k");
+              "tx1:yqqq-qqll-lqqq-nsg4-4g");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0xFFFFFF, 0, 0),
-              "tx1:y7ll-llqq-qqqq-a5zy-tc");
+              "tx1:y7ll-llqq-qqqq-ztam-5x");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0xFFFFFF, 0x7FFF, 0),
-              "tx1:y7ll-llll-lqqq-8tee-t5");
+              "tx1:y7ll-llll-lqqq-c5xx-52");
 
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0, 0, 1),
-              "tx1:yqqq-qqqq-qpqq-5j9q-nz");
+              "tx1:yqqq-qqqq-qpqq-td6l-vu");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0, 0x7FFF, 1),
-              "tx1:yqqq-qqll-lpqq-wd7a-nw");
+              "tx1:yqqq-qqll-lpqq-3jpz-vs");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0xFFFFFF, 0, 1),
-              "tx1:y7ll-llqq-qpqq-lktn-jq");
+              "tx1:y7ll-llqq-qpqq-qf5v-d7");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0xFFFFFF, 0x7FFF, 1),
-              "tx1:y7ll-llll-lpqq-9fsw-jv");
+              "tx1:y7ll-llll-lpqq-6k03-dj");
 
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0, 0, 0x1ABC),
-              "tx1:yqqq-qqqq-qu4x-8fex-rm");
+              "tx1:yqqq-qqqq-qu4x-ckxe-u9");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0, 0x7FFF, 0x1ABC),
-              "tx1:yqqq-qqll-lu4x-akzm-rh");
+              "tx1:yqqq-qqll-lu4x-zfay-uf");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0xFFFFFF, 0, 0x1ABC),
-              "tx1:y7ll-llqq-qu4x-vdh4-ze");
+              "tx1:y7ll-llqq-qu4x-njg2-a8");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0xFFFFFF, 0x7FFF, 0x1ABC),
-              "tx1:y7ll-llll-lu4x-kjvg-z4");
+              "tx1:y7ll-llll-lu4x-fdnh-at");
 
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 466793, 2205, 0x1ABC),
-              "tx1:yjk0-uqay-zu4x-nk6u-pc");
+              "tx1:yjk0-uqay-zu4x-vf9r-7x");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST_EXTENDED, 466793, 2205, 0x1ABC),
-              "txtest1:8jk0-uqay-zu4x-aw4h-zl");
+              "txtest1:8jk0-uqay-zu4x-z32g-ap");
 }
 
 RC_GTEST_PROP(TxrefTestRC, checkThatEncodeAndDecodeProduceSameExtendedParameters, ()
@@ -564,83 +564,83 @@ TEST(TxrefTest, txref_encode_bip_examples) {
 
     // Genesis Coinbase Transaction (Transaction #0 of Block #0):
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN, 0, 0),
-              "tx1:rqqq-qqqq-qmhu-qhp");
+              "tx1:rqqq-qqqq-qygr-lgl");
 
     // Transaction #2205 of Block #466793:
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN, 466793, 2205),
-              "tx1:rjk0-uqay-zsrw-hqe");
+              "tx1:rjk0-uqay-z0u3-gl8");
 
     // The following list gives properly encoded Bitcoin mainnet TxRef's
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN, 0, 0),
-              "tx1:rqqq-qqqq-qmhu-qhp");
+              "tx1:rqqq-qqqq-qygr-lgl");
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN, 0, 0x7FFF),
-              "tx1:rqqq-qqll-l8xh-jkg");
+              "tx1:rqqq-qqll-lceg-dfk");
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN, 0xFFFFFF, 0x0),
-              "tx1:r7ll-llqq-qghq-qr8");
+              "tx1:r7ll-llqq-qhgl-lue");
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN, 0xFFFFFF, 0x7FFF),
-              "tx1:r7ll-llll-l5xt-jzw");
+              "tx1:r7ll-llll-lte5-das");
 
     // The following list gives properly encoded Bitcoin testnet TxRef's
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST, 0, 0),
-              "txtest1:xqqq-qqqq-qkla-64l");
+              "txtest1:xqqq-qqqq-qfqz-92p");
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST, 0, 0x7FFF),
-              "txtest1:xqqq-qqll-l2wk-g5k");
+              "txtest1:xqqq-qqll-l43f-htg");
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST, 0xFFFFFF, 0x0),
-              "txtest1:x7ll-llqq-q9lp-6pe");
+              "txtest1:x7ll-llqq-q6q7-978");
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST, 0xFFFFFF, 0x7FFF),
-              "txtest1:x7ll-llll-lew2-gqs");
+              "txtest1:x7ll-llll-lx34-hlw");
 
-    // The following list gives valid (though strangley formatted) Bitcoin TxRef's
+    // The following list gives valid (though strangely formatted) Bitcoin TxRef's
     EXPECT_EQ(txrefEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN, 0x71F69, 0x89D),
-              "tx1:rjk0-uqay-zsrw-hqe");
+              "tx1:rjk0-uqay-z0u3-gl8");
 
     // The following list gives properly encoded Bitcoin mainnet TxRef's with Outpoints
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0, 0, 0),
-              "tx1:yqqq-qqqq-qqqq-ksvh-26");
+              "tx1:yqqq-qqqq-qqqq-f0ng-4y");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0, 0x7FFF, 0),
-              "tx1:yqqq-qqll-lqqq-v0h2-2k");
+              "tx1:yqqq-qqll-lqqq-nsg4-4g");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0xFFFFFF, 0x0, 0),
-              "tx1:y7ll-llqq-qqqq-a5zy-tc");
+              "tx1:y7ll-llqq-qqqq-ztam-5x");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0xFFFFFF, 0x7FFF, 0),
-              "tx1:y7ll-llll-lqqq-8tee-t5");
+              "tx1:y7ll-llll-lqqq-c5xx-52");
 
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0, 0, 1),
-              "tx1:yqqq-qqqq-qpqq-5j9q-nz");
+              "tx1:yqqq-qqqq-qpqq-td6l-vu");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0, 0x7FFF, 1),
-              "tx1:yqqq-qqll-lpqq-wd7a-nw");
+              "tx1:yqqq-qqll-lpqq-3jpz-vs");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0xFFFFFF, 0x0, 1),
-              "tx1:y7ll-llqq-qpqq-lktn-jq");
+              "tx1:y7ll-llqq-qpqq-qf5v-d7");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0xFFFFFF, 0x7FFF, 1),
-              "tx1:y7ll-llll-lpqq-9fsw-jv");
+              "tx1:y7ll-llll-lpqq-6k03-dj");
 
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0x71F69, 0x89D, 0x123),
-              "tx1:yjk0-uqay-zrfq-g2cg-t8");
+              "tx1:yjk0-uqay-zrfq-h48h-5e");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0x71F69, 0x89D, 0x1ABC),
-              "tx1:yjk0-uqay-zu4x-nk6u-pc");
+              "tx1:yjk0-uqay-zu4x-vf9r-7x");
 
     // The following list gives properly encoded Bitcoin testnet TxRef's with Outpoints
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST_EXTENDED, 0, 0, 0),
-              "txtest1:8qqq-qqqq-qqqq-cgru-fa");
+              "txtest1:8qqq-qqqq-qqqq-8hur-kr");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST_EXTENDED, 0, 0x7FFF, 0),
-              "txtest1:8qqq-qqll-lqqq-zhcp-f3");
+              "txtest1:8qqq-qqll-lqqq-ag87-k0");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST_EXTENDED, 0xFFFFFF, 0x0, 0),
-              "txtest1:87ll-llqq-qqqq-nvd0-gl");
+              "txtest1:87ll-llqq-qqqq-vnjs-hp");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST_EXTENDED, 0xFFFFFF, 0x7FFF, 0),
-              "txtest1:87ll-llll-lqqq-fnkj-gn");
+              "txtest1:87ll-llll-lqqq-kvfd-hd");
 
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST_EXTENDED, 0, 0, 1),
-              "txtest1:8qqq-qqqq-qpqq-622t-s9");
+              "txtest1:8qqq-qqqq-qpqq-9445-0m");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST_EXTENDED, 0, 0x7FFF, 1),
-              "txtest1:8qqq-qqll-lpqq-q43k-sf");
+              "txtest1:8qqq-qqll-lpqq-l2wf-0h");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST_EXTENDED, 0xFFFFFF, 0x0, 1),
-              "txtest1:87ll-llqq-qpqq-3wyc-38");
+              "txtest1:87ll-llqq-qpqq-w3m8-we");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST_EXTENDED, 0xFFFFFF, 0x7FFF, 1),
-              "txtest1:87ll-llll-lpqq-t3l9-3t");
+              "txtest1:87ll-llll-lpqq-5wq6-w4");
 
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST_EXTENDED, 0x71F69, 0x89D, 0x123),
-              "txtest1:8jk0-uqay-zrfq-xjhr-gq");
+              "txtest1:8jk0-uqay-zrfq-edgu-h7");
     EXPECT_EQ(txrefExtEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST_EXTENDED, 0x71F69, 0x89D, 0x1ABC),
-              "txtest1:8jk0-uqay-zu4x-aw4h-zl");
+              "txtest1:8jk0-uqay-zu4x-z32g-ap");
 }
 
 TEST(TxrefTest, txref_decode_bip_examples) {
@@ -650,128 +650,128 @@ TEST(TxrefTest, txref_decode_bip_examples) {
     std::string txref;
 
     // Genesis Coinbase Transaction (Transaction #0 of Block #0):
-    height = 0; pos = 0; txref = "tx1:rqqq-qqqq-qmhu-qhp";
+    height = 0; pos = 0; txref = "tx1:rqqq-qqqq-qygr-lgl";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
 
 
     // Transaction #2205 of Block #466793:
-    height = 466793; pos = 2205; txref = "tx1:rjk0-uqay-zsrw-hqe";
+    height = 466793; pos = 2205; txref = "tx1:rjk0-uqay-z0u3-gl8";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
 
 
     // The following list gives properly encoded Bitcoin mainnet TxRef's
-    height = 0; pos = 0; txref = "tx1:rqqq-qqqq-qmhu-qhp";
+    height = 0; pos = 0; txref = "tx1:rqqq-qqqq-qygr-lgl";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
 
-    height = 0; pos = 0x7FFF; txref = "tx1:rqqq-qqll-l8xh-jkg";
+    height = 0; pos = 0x7FFF; txref = "tx1:rqqq-qqll-lceg-dfk";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
 
-    height = 0xFFFFFF; pos = 0x0; txref = "tx1:r7ll-llqq-qghq-qr8";
+    height = 0xFFFFFF; pos = 0x0; txref = "tx1:r7ll-llqq-qhgl-lue";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
 
-    height = 0xFFFFFF; pos = 0x7FFF; txref = "tx1:r7ll-llll-l5xt-jzw";
+    height = 0xFFFFFF; pos = 0x7FFF; txref = "tx1:r7ll-llll-lte5-das";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
 
 
     // The following list gives properly encoded Bitcoin testnet TxRef's
-    height = 0; pos = 0; txref = "txtest1:xqqq-qqqq-qkla-64l";
+    height = 0; pos = 0; txref = "txtest1:xqqq-qqqq-qfqz-92p";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
 
-    height = 0; pos = 0x7FFF; txref = "txtest1:xqqq-qqll-l2wk-g5k";
+    height = 0; pos = 0x7FFF; txref = "txtest1:xqqq-qqll-l43f-htg";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
 
-    height = 0xFFFFFF; pos = 0x0; txref = "txtest1:x7ll-llqq-q9lp-6pe";
+    height = 0xFFFFFF; pos = 0x0; txref = "txtest1:x7ll-llqq-q6q7-978";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
 
-    height = 0xFFFFFF; pos = 0x7FFF; txref = "txtest1:x7ll-llll-lew2-gqs";
+    height = 0xFFFFFF; pos = 0x7FFF; txref = "txtest1:x7ll-llll-lx34-hlw";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
 
 
-    // The following list gives valid (though strangley formatted) Bitcoin TxRef's
-    height = 0x71F69; pos = 0x89D; txref = "tx1:rjk0-uqay-zsrw-hqe";
+    // The following list gives valid (though strangely formatted) Bitcoin TxRef's
+    height = 0x71F69; pos = 0x89D; txref = "tx1:rjk0-uqay-z0u3-gl8";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
 
 
     // The following list gives properly encoded Bitcoin mainnet TxRef's with Outpoints
-    height = 0; pos = 0; txoIndex = 0; txref = "tx1:yqqq-qqqq-qqqq-ksvh-26";
+    height = 0; pos = 0; txoIndex = 0; txref = "tx1:yqqq-qqqq-qqqq-f0ng-4y";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
     RC_ASSERT(loc.txoIndex == txoIndex);
 
-    height = 0; pos = 0x7FFF; txoIndex = 0; txref = "tx1:yqqq-qqll-lqqq-v0h2-2k";
+    height = 0; pos = 0x7FFF; txoIndex = 0; txref = "tx1:yqqq-qqll-lqqq-nsg4-4g";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
     RC_ASSERT(loc.txoIndex == txoIndex);
 
-    height = 0xFFFFFF; pos = 0x0; txoIndex = 0; txref = "tx1:y7ll-llqq-qqqq-a5zy-tc";
+    height = 0xFFFFFF; pos = 0x0; txoIndex = 0; txref = "tx1:y7ll-llqq-qqqq-ztam-5x";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
     RC_ASSERT(loc.txoIndex == txoIndex);
 
-    height = 0xFFFFFF; pos = 0x7FFF; txoIndex = 0; txref = "tx1:y7ll-llll-lqqq-8tee-t5";
-    loc = txref::decode(txref);
-    RC_ASSERT(loc.blockHeight == height);
-    RC_ASSERT(loc.transactionPosition == pos);
-    RC_ASSERT(loc.txoIndex == txoIndex);
-
-
-    height = 0; pos = 0; txoIndex = 1; txref = "tx1:yqqq-qqqq-qpqq-5j9q-nz";
-    loc = txref::decode(txref);
-    RC_ASSERT(loc.blockHeight == height);
-    RC_ASSERT(loc.transactionPosition == pos);
-    RC_ASSERT(loc.txoIndex == txoIndex);
-
-    height = 0; pos = 0x7FFF; txoIndex = 1; txref = "tx1:yqqq-qqll-lpqq-wd7a-nw";
-    loc = txref::decode(txref);
-    RC_ASSERT(loc.blockHeight == height);
-    RC_ASSERT(loc.transactionPosition == pos);
-    RC_ASSERT(loc.txoIndex == txoIndex);
-
-    height = 0xFFFFFF; pos = 0x0; txoIndex = 1; txref = "tx1:y7ll-llqq-qpqq-lktn-jq";
-    loc = txref::decode(txref);
-    RC_ASSERT(loc.blockHeight == height);
-    RC_ASSERT(loc.transactionPosition == pos);
-    RC_ASSERT(loc.txoIndex == txoIndex);
-
-    height = 0xFFFFFF; pos = 0x7FFF; txoIndex = 1; txref = "tx1:y7ll-llll-lpqq-9fsw-jv";
+    height = 0xFFFFFF; pos = 0x7FFF; txoIndex = 0; txref = "tx1:y7ll-llll-lqqq-c5xx-52";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
     RC_ASSERT(loc.txoIndex == txoIndex);
 
 
-    height = 0x71F69; pos = 0x89D; txoIndex = 0x123; txref = "tx1:yjk0-uqay-zrfq-g2cg-t8";
+    height = 0; pos = 0; txoIndex = 1; txref = "tx1:yqqq-qqqq-qpqq-td6l-vu";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
     RC_ASSERT(loc.txoIndex == txoIndex);
 
-    height = 0x71F69; pos = 0x89D; txoIndex = 0x1ABC; txref = "tx1:yjk0-uqay-zu4x-nk6u-pc";
+    height = 0; pos = 0x7FFF; txoIndex = 1; txref = "tx1:yqqq-qqll-lpqq-3jpz-vs";
+    loc = txref::decode(txref);
+    RC_ASSERT(loc.blockHeight == height);
+    RC_ASSERT(loc.transactionPosition == pos);
+    RC_ASSERT(loc.txoIndex == txoIndex);
+
+    height = 0xFFFFFF; pos = 0x0; txoIndex = 1; txref = "tx1:y7ll-llqq-qpqq-qf5v-d7";
+    loc = txref::decode(txref);
+    RC_ASSERT(loc.blockHeight == height);
+    RC_ASSERT(loc.transactionPosition == pos);
+    RC_ASSERT(loc.txoIndex == txoIndex);
+
+    height = 0xFFFFFF; pos = 0x7FFF; txoIndex = 1; txref = "tx1:y7ll-llll-lpqq-6k03-dj";
+    loc = txref::decode(txref);
+    RC_ASSERT(loc.blockHeight == height);
+    RC_ASSERT(loc.transactionPosition == pos);
+    RC_ASSERT(loc.txoIndex == txoIndex);
+
+
+    height = 0x71F69; pos = 0x89D; txoIndex = 0x123; txref = "tx1:yjk0-uqay-zrfq-h48h-5e";
+    loc = txref::decode(txref);
+    RC_ASSERT(loc.blockHeight == height);
+    RC_ASSERT(loc.transactionPosition == pos);
+    RC_ASSERT(loc.txoIndex == txoIndex);
+
+    height = 0x71F69; pos = 0x89D; txoIndex = 0x1ABC; txref = "tx1:yjk0-uqay-zu4x-vf9r-7x";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
@@ -779,68 +779,131 @@ TEST(TxrefTest, txref_decode_bip_examples) {
 
 
     // The following list gives properly encoded Bitcoin testnet TxRef's with Outpoints
-    height = 0; pos = 0; txoIndex = 0; txref = "txtest1:8qqq-qqqq-qqqq-cgru-fa";
+    height = 0; pos = 0; txoIndex = 0; txref = "txtest1:8qqq-qqqq-qqqq-8hur-kr";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
     RC_ASSERT(loc.txoIndex == txoIndex);
 
-    height = 0; pos = 0x7FFF; txoIndex = 0; txref = "txtest1:8qqq-qqll-lqqq-zhcp-f3";
+    height = 0; pos = 0x7FFF; txoIndex = 0; txref = "txtest1:8qqq-qqll-lqqq-ag87-k0";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
     RC_ASSERT(loc.txoIndex == txoIndex);
 
-    height = 0xFFFFFF; pos = 0x0; txoIndex = 0; txref = "txtest1:87ll-llqq-qqqq-nvd0-gl";
+    height = 0xFFFFFF; pos = 0x0; txoIndex = 0; txref = "txtest1:87ll-llqq-qqqq-vnjs-hp";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
     RC_ASSERT(loc.txoIndex == txoIndex);
 
-    height = 0xFFFFFF; pos = 0x7FFF; txoIndex = 0; txref = "txtest1:87ll-llll-lqqq-fnkj-gn";
-    loc = txref::decode(txref);
-    RC_ASSERT(loc.blockHeight == height);
-    RC_ASSERT(loc.transactionPosition == pos);
-    RC_ASSERT(loc.txoIndex == txoIndex);
-
-
-    height = 0; pos = 0; txoIndex = 1; txref = "txtest1:8qqq-qqqq-qpqq-622t-s9";
-    loc = txref::decode(txref);
-    RC_ASSERT(loc.blockHeight == height);
-    RC_ASSERT(loc.transactionPosition == pos);
-    RC_ASSERT(loc.txoIndex == txoIndex);
-
-    height = 0; pos = 0x7FFF; txoIndex = 1; txref = "txtest1:8qqq-qqll-lpqq-q43k-sf";
-    loc = txref::decode(txref);
-    RC_ASSERT(loc.blockHeight == height);
-    RC_ASSERT(loc.transactionPosition == pos);
-    RC_ASSERT(loc.txoIndex == txoIndex);
-
-    height = 0xFFFFFF; pos = 0x0; txoIndex = 1; txref = "txtest1:87ll-llqq-qpqq-3wyc-38";
-    loc = txref::decode(txref);
-    RC_ASSERT(loc.blockHeight == height);
-    RC_ASSERT(loc.transactionPosition == pos);
-    RC_ASSERT(loc.txoIndex == txoIndex);
-
-    height = 0xFFFFFF; pos = 0x7FFF; txoIndex = 1; txref = "txtest1:87ll-llll-lpqq-t3l9-3t";
+    height = 0xFFFFFF; pos = 0x7FFF; txoIndex = 0; txref = "txtest1:87ll-llll-lqqq-kvfd-hd";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
     RC_ASSERT(loc.txoIndex == txoIndex);
 
 
-    height = 0x71F69; pos = 0x89D; txoIndex = 0x123; txref = "txtest1:8jk0-uqay-zrfq-xjhr-gq";
+    height = 0; pos = 0; txoIndex = 1; txref = "txtest1:8qqq-qqqq-qpqq-9445-0m";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
     RC_ASSERT(loc.txoIndex == txoIndex);
 
-    height = 0x71F69; pos = 0x89D; txoIndex = 0x1ABC; txref = "txtest1:8jk0-uqay-zu4x-aw4h-zl";
+    height = 0; pos = 0x7FFF; txoIndex = 1; txref = "txtest1:8qqq-qqll-lpqq-l2wf-0h";
     loc = txref::decode(txref);
     RC_ASSERT(loc.blockHeight == height);
     RC_ASSERT(loc.transactionPosition == pos);
     RC_ASSERT(loc.txoIndex == txoIndex);
 
+    height = 0xFFFFFF; pos = 0x0; txoIndex = 1; txref = "txtest1:87ll-llqq-qpqq-w3m8-we";
+    loc = txref::decode(txref);
+    RC_ASSERT(loc.blockHeight == height);
+    RC_ASSERT(loc.transactionPosition == pos);
+    RC_ASSERT(loc.txoIndex == txoIndex);
+
+    height = 0xFFFFFF; pos = 0x7FFF; txoIndex = 1; txref = "txtest1:87ll-llll-lpqq-5wq6-w4";
+    loc = txref::decode(txref);
+    RC_ASSERT(loc.blockHeight == height);
+    RC_ASSERT(loc.transactionPosition == pos);
+    RC_ASSERT(loc.txoIndex == txoIndex);
+
+
+    height = 0x71F69; pos = 0x89D; txoIndex = 0x123; txref = "txtest1:8jk0-uqay-zrfq-edgu-h7";
+    loc = txref::decode(txref);
+    RC_ASSERT(loc.blockHeight == height);
+    RC_ASSERT(loc.transactionPosition == pos);
+    RC_ASSERT(loc.txoIndex == txoIndex);
+
+    height = 0x71F69; pos = 0x89D; txoIndex = 0x1ABC; txref = "txtest1:8jk0-uqay-zu4x-z32g-ap";
+    loc = txref::decode(txref);
+    RC_ASSERT(loc.blockHeight == height);
+    RC_ASSERT(loc.transactionPosition == pos);
+    RC_ASSERT(loc.txoIndex == txoIndex);
+
+}
+
+TEST(ClassifyInputStringTest, test_empty) {
+    EXPECT_EQ(classifyInputString(""), unknown_param);
+}
+
+TEST(ClassifyInputStringTest, test_random) {
+    EXPECT_EQ(classifyInputString("oihjediouhwisdubch"), unknown_param);
+}
+
+TEST(ClassifyInputStringTest, test_address) {
+    EXPECT_EQ(classifyInputString("17VZNX1SN5NtKa8UQFxwQbFeFc3iqRYhem"), address_param);
+    EXPECT_EQ(classifyInputString("3EktnHQD7RiAE6uzMj2ZifT9YgRrkSgzQX"), address_param);
+    EXPECT_EQ(classifyInputString("2MzQwSSnBHWHqSAqtTVQ6v47XtaisrJa1Vc"), address_param);
+    EXPECT_EQ(classifyInputString("mzgjzyj9i9JyU5zBQyNBZMkm2QNz2MQ3Se"), address_param);
+    EXPECT_EQ(classifyInputString("mxgj4vFNNWPdRb45tHoJoVqfahYkc3QYZ4"), address_param);
+    EXPECT_EQ(classifyInputString("mxgj4vFNNWPdRb45tHoJoVqfahYk8ec3QYZ4"), unknown_param);
+}
+
+TEST(ClassifyInputStringTest, test_bad_address) {
+    // too long
+    EXPECT_EQ(classifyInputString("17VZNX1SN5NtKa8UQFxwQbFeFc3iqRYhemse"), unknown_param);
+    EXPECT_EQ(classifyInputString("3EktnHQD7RiAE6uzMj2ZifT9YgRrkSgzQXdd"), unknown_param);
+    EXPECT_EQ(classifyInputString("2MzQwSSnBHWHqSAqtTVQ6v47XtaisrJa1Vcd"), unknown_param);
+    EXPECT_EQ(classifyInputString("mzgjzyj9i9JyU5zBQyNBZMkm2QNz2MQ3Sedd"), unknown_param);
+    EXPECT_EQ(classifyInputString("mxgj4vFNNWPdRb45tHoJoVqfahYkc3QYZ4dd"), unknown_param);
+    EXPECT_EQ(classifyInputString("mxgj4vFNNWPdRb45tHoJoVqfahYk8ec3QYZ4"), unknown_param);
+    // too short
+    EXPECT_EQ(classifyInputString("17VZNX1SN5NtKa8UQFxwQbFeF"), unknown_param);
+    EXPECT_EQ(classifyInputString("3EktnHQD7RiAE6uzMj2ZffT9Y"), unknown_param);
+    EXPECT_EQ(classifyInputString("2MzQwSSnBHWHqSAqtTVQ6v47X"), unknown_param);
+}
+
+TEST(ClassifyInputStringTest, test_anomolies) {
+    // classifyInputString isn't perfect. Here are some examples where it is wrong
+
+    // should be "unknown_param" since these are too-short bitcoin addresses, but they happen
+    // to have the right number of characters after being cleaned of invalid characters
+    EXPECT_EQ(classifyInputString("mzgjzyj9i9JyU5zBQyNBZMkm2"), txref_param);
+    EXPECT_EQ(classifyInputString("mxgj4vFNNWPdRb45tHoJoVqfa"), txref_param);
+}
+
+TEST(ClassifyInputStringTest, test_txid) {
+    EXPECT_EQ(classifyInputString("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"), txid_param);
+    EXPECT_EQ(classifyInputString("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca4953991b7852b855"), unknown_param);
+}
+
+TEST(ClassifyInputStringTest, test_txref) {
+    // mainnet
+    EXPECT_EQ(classifyInputString("tx1rqqqqqqqqygrlgl"), txref_param);
+    EXPECT_EQ(classifyInputString("rqqqqqqqqygrlgl"), txref_param);
+    // testnet
+    EXPECT_EQ(classifyInputString("txtest1xjk0uqayzz5sjae"), txref_param);
+    EXPECT_EQ(classifyInputString("xjk0uqayzz5sjae"), txref_param);
+}
+
+TEST(ClassifyInputStringTest, test_txrefext) {
+    // mainnet
+    EXPECT_EQ(classifyInputString("tx1yqqqqqqqqqqqf0ng4y"), txrefext_param);
+    EXPECT_EQ(classifyInputString("yqqqqqqqqqqqf0ng4y"), txrefext_param);
+    // testnet
+    EXPECT_EQ(classifyInputString("txtest18jk0uqayzu4xaw4hzl"), txrefext_param);
+    EXPECT_EQ(classifyInputString("8jk0uqayzu4xaw4hzl"), txrefext_param);
 }
 
 

@@ -59,6 +59,10 @@ namespace bech32 {
 
 // C bindings - structs and functions
 
+#ifndef __cplusplus
+#include <stddef.h>
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -85,6 +89,7 @@ typedef enum bech32_error_e
     E_BECH32_UNKNOWN_ERROR,
     E_BECH32_NULL_ARGUMENT,
     E_BECH32_LENGTH_TOO_SHORT,
+    E_BECH32_INVALID_CHECKSUM,
     E_BECH32_MAX_ERROR
 } bech32_error;
 

@@ -59,10 +59,10 @@ void encode_mainnetExamples_areSuccessful() {
     };
 
     struct examples mainnet_examples[] = {
-            { 0, 0, 0, "tx1:rqqq-qqqq-qmhu-qhp" },
-            { 0, 0x7FFF, 0, "tx1:rqqq-qqll-l8xh-jkg" },
-            { 0xFFFFFF, 0x7FFF, 0, "tx1:r7ll-llll-l5xt-jzw" },
-            { 466793, 2205, 0, "tx1:rjk0-uqay-zsrw-hqe" },
+            { 0, 0, 0, "tx1:rqqq-qqqq-qygr-lgl" },
+            { 0, 0x7FFF, 0, "tx1:rqqq-qqll-lceg-dfk" },
+            { 0xFFFFFF, 0x7FFF, 0, "tx1:r7ll-llll-lte5-das" },
+            { 466793, 2205, 0, "tx1:rjk0-uqay-z0u3-gl8" },
     };
     int num_examples = sizeof(mainnet_examples) / sizeof(mainnet_examples[0]);
 
@@ -91,13 +91,13 @@ void encode_mainnetExtendedExamples_areSuccessful() {
     };
 
     struct examples mainnet_examples[] = {
-            { 0, 0, 100, "tx1:yqqq-qqqq-qyrq-0ks7-gt" },
-            { 0, 0, 0x1FFF, "tx1:yqqq-qqqq-qll8-p5t3-qa" },
-            { 0, 0x1FFF, 100, "tx1:yqqq-qqll-8yrq-6d7j-km" },
-            { 0x1FFFFF, 0, 200, "tx1:y7ll-lrqq-qgxq-2dcs-u5" },
-            { 0x1FFFFF, 0x1FFF, 0x1FFF, "tx1:y7ll-lrll-8ll8-n7qg-vg" },
-            { 466793, 2205, 10, "tx1:yjk0-uqay-z2qq-km8k-yl" },
-            { 466793, 2205, 0x1FFF, "tx1:yjk0-uqay-zll8-4tgt-z7" }
+            { 0, 0, 100, "tx1:yqqq-qqqq-qyrq-sf0p-h4" },
+            { 0, 0, 0x1FFF, "tx1:yqqq-qqqq-qll8-7t5w-lr" },
+            { 0, 0x1FFF, 100, "tx1:yqqq-qqll-8yrq-9jpd-f9" },
+            { 0x1FFFFF, 0, 200, "tx1:y7ll-lrqq-qgxq-4j80-r2" },
+            { 0x1FFFFF, 0x1FFF, 0x1FFF, "tx1:y7ll-lrll-8ll8-vplh-nk" },
+            { 466793, 2205, 10, "tx1:yjk0-uqay-z2qq-fycf-mp" },
+            { 466793, 2205, 0x1FFF, "tx1:yjk0-uqay-zll8-25h5-aq" }
     };
     int num_examples = sizeof(mainnet_examples) / sizeof(mainnet_examples[0]);
 
@@ -126,9 +126,9 @@ void encode_testnetExamples_areSuccessful() {
     };
 
     struct examples testnet_examples[] = {
-            { 0, 0, 0, "txtest1:xqqq-qqqq-qkla-64l"},
-            { 0xFFFFFF, 0x7FFF, 0, "txtest1:x7ll-llll-lew2-gqs"},
-            { 467883, 2355, 0, "txtest1:xk63-uqnf-zasf-wgq"},
+            { 0, 0, 0, "txtest1:xqqq-qqqq-qfqz-92p"},
+            { 0xFFFFFF, 0x7FFF, 0, "txtest1:x7ll-llll-lx34-hlw"},
+            { 467883, 2355, 0, "txtest1:xk63-uqnf-zz0k-3h7"},
     };
     int num_examples = sizeof(testnet_examples) / sizeof(testnet_examples[0]);
 
@@ -157,12 +157,12 @@ void encode_testnetExtendedExamples_areSuccessful() {
     };
 
     struct examples testnet_examples[] = {
-            { 0, 0, 0x1FFF, "txtest1:8qqq-qqqq-qll8-0vy6-r6" },
-            { 0, 0x7FFF, 100, "txtest1:8qqq-qqll-lyrq-m3yg-tq" },
-            { 0xFFFFFF, 0, 200, "txtest1:87ll-llqq-qgxq-gqua-v5" },
-            { 0xFFFFFF, 0x7FFF, 0x1FFF, "txtest1:87ll-llll-lll8-7h35-z5" },
-            { 466793, 2205, 10, "txtest1:8jk0-uqay-z2qq-crga-8c" },
-            { 466793, 2205, 0x1FFF, "txtest1:8jk0-uqay-zll8-mn8q-pe" }
+            { 0, 0, 0x1FFF, "txtest1:8qqq-qqqq-qll8-snm9-uy" },
+            { 0, 0x7FFF, 100, "txtest1:8qqq-qqll-lyrq-ywmh-57" },
+            { 0xFFFFFF, 0, 200, "txtest1:87ll-llqq-qgxq-hlrz-n2" },
+            { 0xFFFFFF, 0x7FFF, 0x1FFF, "txtest1:87ll-llll-lll8-pgwt-a2" },
+            { 466793, 2205, 10, "txtest1:8jk0-uqay-z2qq-8uhz-cx" },
+            { 466793, 2205, 0x1FFF, "txtest1:8jk0-uqay-zll8-yvcl-78" }
     };
     int num_examples = sizeof(testnet_examples) / sizeof(testnet_examples[0]);
 
@@ -194,8 +194,8 @@ void encode_AnyExamples_areSuccessful() {
 
     { // mainnet
         struct examples mainnet_examples[] = {
-                {466793, 2205, 0,  "tx1:rjk0-uqay-zsrw-hqe"},
-                {466793, 2205, 10, "tx1:yjk0-uqay-z2qq-km8k-yl"}
+                {466793, 2205, 0,  "tx1:rjk0-uqay-z0u3-gl8"},
+                {466793, 2205, 10, "tx1:yjk0-uqay-z2qq-fycf-mp"}
         };
         int num_examples = sizeof(mainnet_examples) / sizeof(mainnet_examples[0]);
 
@@ -221,8 +221,8 @@ void encode_AnyExamples_areSuccessful() {
 
     { // testnet
         struct examples testnet_examples[] = {
-                {467883, 2355, 0,  "txtest1:xk63-uqnf-zasf-wgq"},
-                {466793, 2205, 10, "txtest1:8jk0-uqay-z2qq-crga-8c"}
+                {467883, 2355, 0,  "txtest1:xk63-uqnf-zz0k-3h7"},
+                {466793, 2205, 10, "txtest1:8jk0-uqay-z2qq-8uhz-cx"}
         };
         int num_examples = sizeof(testnet_examples) / sizeof(testnet_examples[0]);
 
@@ -298,10 +298,10 @@ void decode_mainnetExamples_areSuccessful() {
     };
 
     struct examples mainnet_examples[] = {
-            { "tx1:rqqq-qqqq-qmhu-qhp", 0, 0, 0},
-            { "tx1:rqqq-qqll-l8xh-jkg", 0, 0x7FFF, 0},
-            { "tx1:r7ll-llll-l5xt-jzw", 0xFFFFFF, 0x7FFF, 0},
-            { "tx1:rjk0-uqay-zsrw-hqe", 466793, 2205, 0},
+            { "tx1:rqqq-qqqq-qygr-lgl", 0, 0, 0},
+            { "tx1:rqqq-qqll-lceg-dfk", 0, 0x7FFF, 0},
+            { "tx1:r7ll-llll-lte5-das", 0xFFFFFF, 0x7FFF, 0},
+            { "tx1:rjk0-uqay-z0u3-gl8", 466793, 2205, 0},
     };
     int num_examples = sizeof(mainnet_examples) / sizeof(mainnet_examples[0]);
 
@@ -336,13 +336,13 @@ void decode_mainnetExtendedExamples_areSuccessful() {
     };
 
     struct examples mainnet_examples[] = {
-            { "tx1:yqqq-qqqq-qyrq-0ks7-gt", 0, 0, 100 },
-            { "tx1:yqqq-qqqq-qll8-p5t3-qa", 0, 0, 0x1FFF },
-            { "tx1:yqqq-qqll-8yrq-6d7j-km", 0, 0x1FFF, 100 },
-            { "tx1:y7ll-lrqq-qgxq-2dcs-u5", 0x1FFFFF, 0, 200 },
-            { "tx1:y7ll-lrll-8ll8-n7qg-vg", 0x1FFFFF, 0x1FFF, 0x1FFF },
-            { "tx1:yjk0-uqay-z2qq-km8k-yl", 466793, 2205, 10 },
-            { "tx1:yjk0-uqay-zll8-4tgt-z7", 466793, 2205, 0x1FFF }
+            { "tx1:yqqq-qqqq-qyrq-sf0p-h4", 0, 0, 100 },
+            { "tx1:yqqq-qqqq-qll8-7t5w-lr", 0, 0, 0x1FFF },
+            { "tx1:yqqq-qqll-8yrq-9jpd-f9", 0, 0x1FFF, 100 },
+            { "tx1:y7ll-lrqq-qgxq-4j80-r2", 0x1FFFFF, 0, 200 },
+            { "tx1:y7ll-lrll-8ll8-vplh-nk", 0x1FFFFF, 0x1FFF, 0x1FFF },
+            { "tx1:yjk0-uqay-z2qq-fycf-mp", 466793, 2205, 10 },
+            { "tx1:yjk0-uqay-zll8-25h5-aq", 466793, 2205, 0x1FFF }
     };
     int num_examples = sizeof(mainnet_examples) / sizeof(mainnet_examples[0]);
 
@@ -377,9 +377,9 @@ void decode_testnetExamples_areSuccessful() {
     };
 
     struct examples testnet_examples[] = {
-            { "txtest1:xqqq-qqqq-qkla-64l", 0, 0, 0},
-            { "txtest1:x7ll-llll-lew2-gqs", 0xFFFFFF, 0x7FFF, 0},
-            { "txtest1:xk63-uqnf-zasf-wgq", 467883, 2355, 0},
+            { "txtest1:xqqq-qqqq-qfqz-92p", 0, 0, 0},
+            { "txtest1:x7ll-llll-lx34-hlw", 0xFFFFFF, 0x7FFF, 0},
+            { "txtest1:xk63-uqnf-zz0k-3h7", 467883, 2355, 0},
     };
     int num_examples = sizeof(testnet_examples) / sizeof(testnet_examples[0]);
 
@@ -414,12 +414,12 @@ void decode_testnetExtendedExamples_areSuccessful() {
     };
 
     struct examples testnet_examples[] = {
-            { "txtest1:8qqq-qqqq-qll8-0vy6-r6", 0, 0, 0x1FFF },
-            { "txtest1:8qqq-qqll-lyrq-m3yg-tq", 0, 0x7FFF, 100, },
-            { "txtest1:87ll-llqq-qgxq-gqua-v5", 0xFFFFFF, 0, 200 },
-            { "txtest1:87ll-llll-lll8-7h35-z5", 0xFFFFFF, 0x7FFF, 0x1FFF },
-            { "txtest1:8jk0-uqay-z2qq-crga-8c", 466793, 2205, 10 },
-            { "txtest1:8jk0-uqay-zll8-mn8q-pe", 466793, 2205, 0x1FFF }
+            { "txtest1:8qqq-qqqq-qll8-snm9-uy", 0, 0, 0x1FFF },
+            { "txtest1:8qqq-qqll-lyrq-ywmh-57", 0, 0x7FFF, 100, },
+            { "txtest1:87ll-llqq-qgxq-hlrz-n2", 0xFFFFFF, 0, 200 },
+            { "txtest1:87ll-llll-lll8-pgwt-a2", 0xFFFFFF, 0x7FFF, 0x1FFF },
+            { "txtest1:8jk0-uqay-z2qq-8uhz-cx", 466793, 2205, 10 },
+            { "txtest1:8jk0-uqay-zll8-yvcl-78", 466793, 2205, 0x1FFF }
     };
     int num_examples = sizeof(testnet_examples) / sizeof(testnet_examples[0]);
 
@@ -457,8 +457,8 @@ void decode_AnyExtendedExamples_areSuccessful() {
 
     { // mainnet
         struct examples mainnet_examples[] = {
-                {"tx1:rjk0-uqay-zsrw-hqe",     466793, 2205, 0},
-                {"tx1:yjk0-uqay-z2qq-km8k-yl", 466793, 2205, 10}
+                {"tx1:rjk0-uqay-z0u3-gl8",     466793, 2205, 0},
+                {"tx1:yjk0-uqay-z2qq-fycf-mp", 466793, 2205, 10}
         };
         int num_examples = sizeof(mainnet_examples) / sizeof(mainnet_examples[0]);
 
@@ -481,8 +481,8 @@ void decode_AnyExtendedExamples_areSuccessful() {
 
     { // testnet
         struct examples testnet_examples[] = {
-                {"txtest1:xk63-uqnf-zasf-wgq",     467883, 2355, 0},
-                {"txtest1:8jk0-uqay-z2qq-crga-8c", 466793, 2205, 10}
+                {"txtest1:xk63-uqnf-zz0k-3h7",     467883, 2355, 0},
+                {"txtest1:8jk0-uqay-z2qq-8uhz-cx", 466793, 2205, 10}
         };
         int num_examples = sizeof(testnet_examples) / sizeof(testnet_examples[0]);
 

@@ -17,7 +17,7 @@
 
 namespace {
 
-    const char CHAIN_SO_URL[] = "https://chain.so/api/v2";
+    const char CHAIN_SO_URL[] = "https://sochain.com/api/v2";
     const char MAINNET_CODE[] = "BTC";
     const char TESTNET_CODE[] = "BTCTEST";
 
@@ -145,7 +145,12 @@ std::string ChainSoQuery::retrieveJsonData(const std::string &url, int retryAtte
     CurlWrapper curl;
     sleep(1); // chain.so free API has rate limits, so pause here before every request
     std::string jsonData = curl.download(url);
-    if (jsonData.find("Too many requests") != std::string::npos) {
+    if (jsonData.empty()) {
+        std::cerr << "No data returned from chain.so. Sleeping for " << 5 * retryAttempt << " seconds...\n";
+        sleep(5u * static_cast<unsigned int>(retryAttempt));
+        return retrieveJsonData(url, retryAttempt + 1);
+    }
+    else if (jsonData.find("Too many requests") != std::string::npos) {
         std::cerr << "Too many requests to chain.so. Sleeping for " << 5 * retryAttempt << " seconds...\n";
         sleep(5u * static_cast<unsigned int>(retryAttempt));
         return retrieveJsonData(url, retryAttempt + 1);
@@ -188,10 +193,13 @@ std::string ChainSoQuery::getLastUpdatedTxid(
 
     std::string url = isTxSpentUrl(network, txid, utxoIndex);
     std::string data = retrieveJsonData(url);
-    Json::Value obj = parseJson(data);
-
-    return extractLastUpdatedTxid(obj, txid, network);
-
+    try {
+        Json::Value obj = parseJson(data);
+        return extractLastUpdatedTxid(obj, txid, network);
+    }
+    catch(Json::RuntimeError &) {
+        return "";
+    }
 }
 
 /**

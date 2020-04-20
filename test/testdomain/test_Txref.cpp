@@ -125,7 +125,7 @@ TEST(TxrefTest, constructingTxref_withGoodTxref_isSuccessful) {
 
     // this txrefStr was made via
     // txrefEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN, 466793, 2205)
-    std::string txrefStr = "rjk0-uqay-zsrw-hqe";
+    std::string txrefStr = "rjk0-uqay-z0u3-gl8";
     int blockHeight = 466793;
     std::vector<std::string>::size_type transactionPos = 2205;
     std::string txidStr = "0c92d46fb3d9dfd60bead61515f0a13159f77c9800a9e572f1b64e1ba2dc24f6";
@@ -182,7 +182,7 @@ TEST(TxrefTest, constructingTxref_withGoodTxrefExt_isSuccessful) {
 
     // this txrefStr was made via
     // txrefEncode(txref::BECH32_HRP_MAIN, txref::MAGIC_BTC_MAIN_EXTENDED, 0, 0, 0)
-    std::string txrefStr = "yqqq-qqqq-qqqq-ksvh-26";
+    std::string txrefStr = "yqqq-qqqq-qqqq-f0ng-4y";
     int blockHeight = 0;
     std::vector<std::string>::size_type transactionPos = 0;
     std::string txidStr = "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b";
@@ -238,8 +238,8 @@ TEST(TxrefTest, constructingTxref_withGoodTxrefExtVout1_isSuccessful) {
     MockBitcoinRPCFacade btc;
 
     // this txrefStr was made via
-    // txrefEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST_EXTENDED, 1355601, 1022, 1)
-    std::string txrefStr = "8z4h-jz7l-qpqq-n28t-rl";
+    // txrefExtEncode(txref::BECH32_HRP_TEST, txref::MAGIC_BTC_TEST_EXTENDED, 1355601, 1022, 1)
+    std::string txrefStr = "8z4h-jz7l-qpqq-v4c5-up";
     int blockHeight = 1355601;
     std::vector<std::string>::size_type transactionPos = 1022;
     std::string txidStr = "cb0252c5ea4e24bee19edd1ed1338ef077dc75d30383097d8c4bae3a9862b35a";
