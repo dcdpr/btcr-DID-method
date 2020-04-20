@@ -49,7 +49,7 @@ int parseCommandLineArgs(int argc, char **argv,
     opt->setFileDelimiterChar('=');
 
     opt->addUsage( "" );
-    opt->addUsage( "Usage: createBtcrDid [options] <inputXXX> <changeAddress> <network> <WIF> <fee> <ddoRef>" );
+    opt->addUsage( "Usage: createBtcrDid [options] <inputXXX> <outputAddress> <private key> <fee> <ddoRef>" );
     opt->addUsage( "" );
     opt->addUsage( " -h  --help                 Print this help " );
     opt->addUsage( " --rpchost [rpchost or IP]  RPC host (default: 127.0.0.1) " );
