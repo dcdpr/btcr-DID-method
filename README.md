@@ -2,7 +2,7 @@
 
 To support the development of our DID method, we created two
 command-line applications. The first application, `txid2txref`, can
-convert bitcoin transaction ids, or
+convert Bitcoin transaction ids, or
 [txids](https://bitcoin.org/en/glossary/txid), to
 [txrefs](https://github.com/bitcoin/bips/blob/master/bip-0136.mediawiki),
 and vice-versa. It uses bitcoind to verify the transactions. The second
