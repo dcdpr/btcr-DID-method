@@ -7,7 +7,7 @@ convert bitcoin transaction ids, or
 [txrefs](https://github.com/bitcoin/bips/blob/master/bip-0136.mediawiki),
 and vice-versa. It uses bitcoind to verify the transactions. The second
 application, `createBtcrDid`, will create a [decentralized identifier
-(DID)](https://w3c-ccg.github.io/did-spec/) on the bitcoin
+(DID)](https://w3c-ccg.github.io/did-spec/) on the Bitcoin
 blockchain. It also uses bitcoind to submit the transaction needed to
 create the DID.
 
@@ -292,12 +292,12 @@ $ ./src/createBtcrDid --config /tmp/bitcoin.conf ...
 #### inputXXX
 This is the input transaction--where you need to have at least slightly
 more unspent BTCs than your offered fee (see below). You can refer to
-this transaction in many ways: a bitcoin address (plus txoIndex, given
+this transaction in many ways: a Bitcoin address (plus txoIndex, given
 with `--txoIndex` parameter); a txid (plus txoIndex); a txref (plus
 txoIndex).
 
 #### outputAddress
-This is the output bitcoin address. It will receive transaction change and be the basis for your DID.
+This is the output Bitcoin address. It will receive transaction change and be the basis for your DID.
 
 #### private key
 private key in base58 (wallet import format)
@@ -403,4 +403,4 @@ has the effect of changing the checksum values embedded in the txrefs and DIDs o
 
 More info can be found [here](https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2019-December/017521.html).
 
-If you find that a DID is reported as invalid by BTCR, you may be using an old one with a (now) invalid checksum. In that case, you should update the txref part of your DID with the `txid2tref` program.
+If you find that a DID is reported as invalid by BTCR, you may be using an old one with a (now) invalid checksum. In that case, you should update the txref part of your DID with the `txid2tref` program.  There are no known outdated implementations.
