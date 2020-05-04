@@ -42,7 +42,7 @@ TEST(DidTest, constructingDid_withBadTxrefStr_isUnsuccessful) {
 TEST(DidTest, constructingDid_withGoodTxrefStr_isSuccessful) {
     MockBitcoinRPCFacade btc;
 
-    std::string didStr = "did:btcr:rjk0-uqay-zsrw-hqe";
+    std::string didStr = "did:btcr:rjk0-uqay-z0u3-gl8";
 
     // if bitcoind CAN find a txid, it will return the hex of the rawtransaction
     getrawtransaction_t rawTransaction1;

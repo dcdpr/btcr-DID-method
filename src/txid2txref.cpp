@@ -18,11 +18,20 @@ struct CmdlineInput {
 };
 
 
+std::string txref2did(const std::string & txref) {
+    if(txref.empty())
+        return "";
+    auto pos = txref.find_first_of(':');
+    std::string didPrefix = "did:btcr";
+    return didPrefix + txref.substr(pos);
+}
+
 void printAsJson(const t2t::Transaction &transaction) {
     pt::ptree root;
 
     root.put("txid", transaction.txid);
     root.put("txref", transaction.txref);
+    root.put("did", txref2did(transaction.txref));
     root.put("network", transaction.network);
     root.put("block-height", transaction.blockHeight);
     root.put("transaction-position", transaction.position);
@@ -48,7 +57,7 @@ int parseCommandLineArgs(int argc, char **argv,
     opt->setFileDelimiterChar('=');
 
     opt->addUsage( "" );
-    opt->addUsage( "Usage: txid2txref [options] <txid|txref|txref-ext>" );
+    opt->addUsage( "Usage: txid2txref [options] <txid|txref>" );
     opt->addUsage( "" );
     opt->addUsage( " -h  --help                 Print this help " );
     opt->addUsage( " --rpchost [rpchost or IP]  RPC host (default: 127.0.0.1) " );
@@ -58,7 +67,7 @@ int parseCommandLineArgs(int argc, char **argv,
     opt->addUsage( " --config [config_path]     Full pathname to bitcoin.conf (default: <homedir>/.bitcoin/bitcoin.conf) " );
     opt->addUsage( " --txoIndex [index #]       Index # for TXO within the transaction (default: 0) " );
     opt->addUsage( "" );
-    opt->addUsage( "<txid|txref|txref-ext>      input: can be a txid to encode, or a txref or txref-ext to decode" );
+    opt->addUsage( "<txid|txref>                input: can be a txid to encode, or a txref to decode" );
 
     opt->setFlag("help", 'h');
     opt->setOption("rpchost");
@@ -130,10 +139,12 @@ int parseCommandLineArgs(int argc, char **argv,
         rpcConfig.rpcport = std::atoi(opt->getValue("rpcport"));
     }
 
-    // see if a txoIndex was provided. If so, make sure to force generation of extended txref
+    // see if a txoIndex was provided. If so, make sure to force generation of extended txref,
+    // unless the txoIndex is 0
     if (opt->getValue("txoIndex") != nullptr) {
         config.txoIndex = std::atoi(opt->getValue("txoIndex"));
-        config.forceExtended = true;
+        if(config.txoIndex != 0)
+            config.forceExtended = true;
     }
 
     // finally, the last argument will be the query string -- either the txid or the txref

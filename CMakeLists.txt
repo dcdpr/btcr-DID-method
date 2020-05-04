@@ -4,6 +4,8 @@ project(btcr_did VERSION 1.0.0
                  DESCRIPTION "Creating and interacting with BTCR DIDs"
                  LANGUAGES C CXX )
 
+set(CMAKE_CXX_STANDARD 11)
+
 #if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 #   message(FATAL_ERROR "In-source builds are not allowed.")
 #endif("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
@@ -17,7 +19,7 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES Clang)
 endif()
 
 add_subdirectory(external/anyoption)
-add_subdirectory(external/jsoncpp)
+#add_subdirectory(external/jsoncpp)
 add_subdirectory(libbech32)
 add_subdirectory(libtxref)
 add_subdirectory(src)

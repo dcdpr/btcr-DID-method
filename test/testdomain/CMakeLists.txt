@@ -8,9 +8,11 @@ set_target_properties(UnitTests_domain PROPERTIES CXX_EXTENSIONS OFF)
 
 target_include_directories(UnitTests_domain
     PUBLIC
-        ${PROJECT_SOURCE_DIR}/src/domain)
+        ${PROJECT_SOURCE_DIR}/src/domain
+	${JSONCPP_INCLUDE_DIRS}
+	${BITCOINAPICPP_INCLUDE_DIRS})
 
-target_link_libraries(UnitTests_domain bech32 txref jsoncpp ${BITCOINAPICPP_LIBRARIES} gtest gmock rapidcheck_gtest)
+target_link_libraries(UnitTests_domain bech32 txref ${JSONCPP_LIBRARIES} ${BITCOINAPICPP_LIBRARIES} gtest gmock rapidcheck_gtest)
 
 add_test(NAME UnitTests_domain
          COMMAND UnitTests_domain)

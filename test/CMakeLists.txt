@@ -45,11 +45,13 @@ target_include_directories(UnitTests_src
         ${CMAKE_SOURCE_DIR}
         ${PROJECT_SOURCE_DIR}/src
         ${PROJECT_SOURCE_DIR}/libbech32
-        ${PROJECT_SOURCE_DIR}/libtxref)
+        ${PROJECT_SOURCE_DIR}/libtxref
+	${JSONCPP_INCLUDE_DIRS}
+	${BITCOINAPICPP_INCLUDE_DIRS})
 
 target_link_libraries(UnitTests_src
     PUBLIC
-        txref bech32 jsoncpp ${BITCOINAPICPP_LIBRARIES} ${CURL_LIBRARIES} gtest gmock rapidcheck_gtest)
+        txref bech32 ${JSONCPP_LIBRARIES} ${BITCOINAPICPP_LIBRARIES} ${CURL_LIBRARIES} gtest gmock rapidcheck_gtest)
 
 # CTest targets
 

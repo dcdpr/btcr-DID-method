@@ -1,29 +1,15 @@
 # btcr-DID-method
 
 To support the development of our DID method, we created two
-command-line applications. The first application, `txid2txref` can
+command-line applications. The first application, `txid2txref`, can
 convert bitcoin transaction ids, or
 [txids](https://bitcoin.org/en/glossary/txid), to
-[txrefs](https://github.com/veleslavs/bips/blob/c83837536d6629f754ce5a88bbe245e0a615e76e/bip-XXXX-Bech32_Encoded_Transaction_Position_References.mediawiki),
+[txrefs](https://github.com/bitcoin/bips/blob/master/bip-0136.mediawiki),
 and vice-versa. It uses bitcoind to verify the transactions. The second
 application, `createBtcrDid`, will create a [decentralized identifier
 (DID)](https://w3c-ccg.github.io/did-spec/) on the bitcoin
 blockchain. It also uses bitcoind to submit the transaction needed to
 create the DID.
-
-
-# txid2txref
-
-The txid2txref application is based on the [txid2bech32
-app](https://github.com/WebOfTrustInfo/btcr-hackathon) created during
-the 2017 BTCR Virtual Hackathon.
-
-txid2txref is run as `txid2txref [txid]` and when given a valid `txid`,
-will output a `txref` along with some other info. txid2txref will
-communicate with an instance of bitcoind via RPC to retrieve information
-about that transaction so it can create the `txref`. txid2txref can also
-be run as `txid2txref [txref]` and will output info about the bitcoin
-transaction referred to.
 
 ## Building txid2txref and createBtcrDid
 
@@ -31,63 +17,24 @@ This README assumes that you have bitcoind running somewhere, locally
 or remotely. bitcoind needs to be a full node--either on mainnet or
 testnet--and needs to have `—txindex` and RPC turned on.
 
-We have developed and tested txid2txref and createBtcrDid on MacOS,
-Debian and Ubuntu-based systems. The following instructions should work
-with either Debian jessie or stretch. Building and running on different
-systems should be pretty similar.
+We have developed and tested `txid2txref` and `createBtcrDid` on MacOS,
+Debian, Ubuntu and MacOS systems. Each OS has it differences, so please check the instructions below:
 
-### Install some pre-requirements
+### Debian / Ubuntu
 
-First you need to install a basic C++ setup and several dependent
-packages. Example:
+The following instructions should work with any of Debian 8: "jessie", 9: "stretch" or 10: "buster". These 
+instructions also work with Ubuntu 16: "xenial xerus" and 18: "bionic beaver". Intermediate versions of the above 
+will probably work as well, but if you have any problems please let us know.
+
+#### Install some pre-requirements
+
+You will need to have a basic C++ development setup and several dependent packages:
 ```
-$ sudo apt-get install make cmake gcc g++ libcurl4-openssl-dev libjsoncpp-dev libjansson-dev uuid-dev libjsonrpccpp-dev libjsonrpccpp-tools libboost-dev
-$ sudo apt-get install curl wget unzip git
-```
-
-### Build and Install libbitcoinrpc
-
-Next you need to build and install `libbitcoinrpc`. (The instructions
-below on installing `libbitcoinrpc` are adapted from a draft tutorial: [Learning-Bitcoin-from-the-Command-Line](https://github.com/ChristopherA/Learning-Bitcoin-from-the-Command-Line/) from section [12.2_Accessing Bitcoind with C](https://github.com/ChristopherA/Learning-Bitcoin-from-the-Command-Line/blob/master/12_2_Accessing_Bitcoind_with_C.md).
-
-Download [libbitcoinrpc from Github](https://github.com/gitmarek/libbitcoinrpc/). Clone it or grab a zip file, as you prefer.
-
-```
-$ git clone https://github.com/gitmarek/libbitcoinrpc.git
-$ # or
-$ wget https://github.com/gitmarek/libbitcoinrpc/archive/master.zip && unzip master.zip && rm master.zip
+$ sudo apt-get update
+$ sudo apt-get install make cmake gcc g++ libcurl4-openssl-dev libjsoncpp-dev uuid-dev libjsonrpccpp-dev libjsonrpccpp-tools libboost-dev
 ```
 
-Before you can compile and install the package, you'll probably need to
-adjust your `$PATH`, so that you can access `/sbin/ldconfig`:
-```
-$ export PATH="/sbin:$PATH"
-```
-
-For a debian or Ubuntu system, you'll want to adjust the `INSTALL_HEADERPATH`
-and `INSTALL_LIBPATH` in the `libbitcoinrpc` `Makefile` to install to
-`/usr` instead of `/usr/lib`:
-```
-$ cd libbitcoinrpc-master
-$ vi Makefile
-# edit the following two lines:
-INSTALL_LIBPATH    := $(INSTALL_PREFIX)/usr/lib
-INSTALL_HEADERPATH := $(INSTALL_PREFIX)/usr/include
-```
-(If you prefer not to sully your `/usr/lib`, the alternative is to
-change your `/etc/ld.so.conf` or its dependent files appropriately ...
-but for a test setup on a test machine, this is probably fine.)
-
-Then you can compile:
-```
-$ make
-```
-If that works, you can install the package:
-```
-$ sudo make install
-```
-
-### Build and install libbitcoin-api-cpp
+#### Build and install libbitcoin-api-cpp
 
 Download [libbitcoin-api-cpp from Github](https://github.com/minium/bitcoin-api-cpp/). Clone it or grab a zip file, as you prefer.
 
@@ -100,7 +47,7 @@ $ wget https://github.com/minium/bitcoin-api-cpp/archive/master.zip && unzip mas
 This is a cmake-based project, so the standard process can be done here:
 
 ```
-cd bitcoin-api-cpp-master
+cd bitcoin-api-cpp
 mkdir build
 cd build
 cmake ..
@@ -108,12 +55,12 @@ make
 sudo make install
 ```
 
-### Build txid2txref and createBtcrDid
+#### Build txid2txref and createBtcrDid
 
 If you don't already have it, download [btcr-DID-method from Github](https://github.com/dcdpr/btcr-DID-method/). Clone it or grab a zip file, as you prefer.
 
 ```
-$ git clone git@github.com:dcdpr/btcr-DID-method.git
+$ git clone https://github.com/dcdpr/btcr-DID-method.git
 $ # or
 $ wget https://github.com/dcdpr/btcr-DID-method/archive/master.zip && unzip master.zip && rm master.zip
 ```
@@ -121,29 +68,86 @@ $ wget https://github.com/dcdpr/btcr-DID-method/archive/master.zip && unzip mast
 This is a cmake-based project, so the standard process can be done here:
 
 ```
-cd btcr-DID-method-master
+cd btcr-DID-method
 mkdir build
 cd build
 cmake ..
 make
 ```
 
-If all goes well, you should be able to run txid2txref and
-createBtcrDid.
+### MacOS
+
+The following instructions should work with any of MacOS 10.13: "High Sierra", 10.14: "Mojave" and 10.15: "Catalina".
+
+#### Install some pre-requirements
+
+You will want to install [homebrew](https://brew.sh/) if you haven't already. See their installation instructions, or try:
+```
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+``` 
+
+Next, you will need to get some packages:
+```
+$ brew update
+$ brew install jsoncpp libjson-rpc-cpp boost
+```
+
+#### Build and install bitcoin-api-cpp
+
+homebrew installs jsoncpp (from above step) a little differently than bitcoin-api-cpp expects. Until the bitcoin-api-cpp folks update their project, 
+you should download our local copy of [bitcoin-api-cpp from Github](https://github.com/danpape/bitcoin-api-cpp/). Clone it or grab a zip file, as you prefer.
 
 ```
-$ ./src/txid2txref --help
-Usage: txid2txref [options] <txid|txref|txref-ext>
-[...]
+$ git clone https://github.com/danpape/bitcoin-api-cpp.git
+$ # or
+$ wget https://github.com/danpape/bitcoin-api-cpp/archive/master.zip && unzip master.zip && rm master.zip
+```
 
-> ./createBtcrDid --help
-Usage: createBtcrDid [options] <inputXXX> <changeAddress> <private key> <fee> <ddoRef>
-[...]
+This is a cmake-based project, so the standard process can be done here:
+
+```
+cd bitcoin-api-cpp
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+```
+
+#### Build txid2txref and createBtcrDid
+
+If you don't already have it, download [btcr-DID-method from Github](https://github.com/dcdpr/btcr-DID-method/). Clone it or grab a zip file, as you prefer.
+
+```
+$ git clone https://github.com/dcdpr/btcr-DID-method.git
+$ # or
+$ wget https://github.com/dcdpr/btcr-DID-method/archive/master.zip && unzip master.zip && rm master.zip
+```
+
+This is a cmake-based project, so the standard process can be done here:
+
+```
+cd btcr-DID-method
+mkdir build
+cd build
+cmake ..
+make
 ```
 
 # Running txid2txref
 
-You can ask txid2txref for help and it will show all the runtime options
+The `txid2txref` application is based on the [txid2bech32
+app](https://github.com/WebOfTrustInfo/btcr-hackathon) created during
+the 2017 BTCR Virtual Hackathon.
+
+`txid2txref` is run as `txid2txref [txid]` and when given a valid `txid`,
+will output a `txref` along with some other info. `txid2txref` will
+communicate with an instance of bitcoind via RPC to retrieve information
+about that transaction so it can create the `txref`. `txid2txref` can also
+be run as `txid2txref [txref]` and will output info about the bitcoin
+transaction referred to.
+
+You can ask `txid2txref` for help and it will show all the runtime options
 available:
 
 ```
@@ -158,10 +162,10 @@ Usage: txid2txref [options] <txid>
  --config [config_path]     Full pathname to bitcoin.conf (default: <homedir>/.bitcoin/bitcoin.conf)
  --txoIndex [index #]       Index # for XTO within the transaction (default: 0)
 
-<txid|txref|txref-ext>      input: can be a txid to encode, or a txref or txref-ext to decode
+<txid|txref>                input: can be a txid to encode, or a txref to decode
 ```
 
-Many of the runtime options for txid2txref are for connecting to
+Many of the runtime options for `txid2txref` are for connecting to
 bitcoind over RPC. There are four `--rpc*` options that you can use for
 connecting to a local or remote bitcoind:
 
@@ -184,7 +188,7 @@ $ ./src/txid2txref --config /tmp/bitcoin.conf <txid>
 {...}
 ```
 
-When given a txid, txid2txref will connect to bitcoind to verify it is a
+When given a txid, `txid2txref` will connect to bitcoind to verify it is a
 valid txid and, if found, gather some info about it. Then it will output
 some JSON with details about that transaction, and the txref.
 
@@ -194,60 +198,57 @@ Error: transaction f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7521
 
 $ ./src/txid2txref f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107
 {
-  "txid": "f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107",
-  "txref": "txtest1:xyv2-xzpq-q9wa-p7t",
-  "network": "test",
-  "block-height": "1152194",
-  "transaction-position": "1",
-  "txo-index": "0",
-  "query-string": "f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107"
+    "txid": "f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107",
+    "txref": "txtest1:xyv2-xzpq-q63z-7p4",
+    "did": "did:btcr:xyv2-xzpq-q63z-7p4",
+    "network": "test",
+    "block-height": "1152194",
+    "transaction-position": "1",
+    "txo-index": "0",
+    "query-string": "f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107"
 }
 ```
 
-txid2txref can also output an extended txref if the --txoIndex flag is given.
+`txid2txref` can also output an extended txref if the --txoIndex flag is given.
 
 ```
 $ ./src/txid2txref f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107 | jq '{txref}'
 {
-  "txref": "txtest1:xyv2-xzpq-q9wa-p7t"
-}
-
-$ ./src/txid2txref --txoIndex 0 f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107 | jq '{txref}'
-{
-  "txref": "txtest1:8yv2-xzpq-qqqq-9yce-nk"
+  "txref": "txtest1:xyv2-xzpq-q63z-7p4"
 }
 
 $ ./src/txid2txref --txoIndex 1 f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107 | jq '{txref}'
 {
-  "txref": "txtest1:8yv2-xzpq-qpqq-8x3w-2w"
+  "txref": "txtest1:8yv2-xzpq-qpqq-cew3-4s"
 }
 ```
 
-Alternately, instead of a txid, txid2txref can be given a txref to
+Alternately, instead of a txid, `txid2txref` can be given a txref to
 decode and look up the transaction info in bitcoind:
 
 ```
 $ ./src/txid2txref txtest1:8yv2-xzpq-qpqq-8x3w-2w
 {
     "txid": "f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107",
-    "txref": "txtest1:8yv2-xzpq-qpqq-8x3w-2w",
+    "txref": "txtest1:8yv2-xzpq-qpqq-cew3-4s",
+    "did": "did:btcr:8yv2-xzpq-qpqq-cew3-4s",
     "network": "test",
     "block-height": "1152194",
     "transaction-position": "1",
     "txo-index": "1",
-    "query-string": "txtest1:8yv2-xzpq-qpqq-8x3w-2w"
+    "query-string": "txtest1:8yv2-xzpq-qpqq-cew3-4s"
 }
 ```
 
 
 # Running createBtcrDid
 
-You can ask createBtcrDid for help, and it will show all the runtime
+You can ask `createBtcrDid` for help, and it will show all the runtime
 options available:
 
 ```
-> ./createBtcrDid --help
-Usage: createBtcrDid [options] <inputXXX> <changeAddress> <private key> <fee> <ddoRef>
+> ./src/createBtcrDid --help
+Usage: createBtcrDid [options] <inputXXX> <outputAddress> <private key> <fee> <ddoRef>
 
  -h  --help                 Print this help
  --rpchost [rpchost or IP]  RPC host (default: 127.0.0.1)
@@ -257,14 +258,14 @@ Usage: createBtcrDid [options] <inputXXX> <changeAddress> <private key> <fee> <d
  --config [config_path]     Full pathname to bitcoin.conf (default: <homedir>/.bitcoin/bitcoin.conf)
  --txoIndex [index]         Index # of which TXO to use from the input transaction (default: 0)
 
-<inputXXX>      input: (bitcoin address, txid, txref, or txref-ext) needs at least slightly more unspent BTCs than your offered fee
+<inputXXX>      input: (bitcoin address, txid, txref) needs at least slightly more unspent BTCs than your offered fee
 <outputAddress> output bitcoin address: will receive transaction change and be the basis for your DID
 <private key>   private key in base58 (wallet import format)
 <fee>           fee you are willing to pay (suggestion: >0.001 BTC)
 <ddoRef>        reference to a DDO you want as part of your DID (optional)
 ```
 
-Many of the runtime options for createBtcrDid are for connecting to
+Many of the runtime options for `createBtcrDid` are for connecting to
 bitcoind over RPC. There are four `--rpc*` options that you can use for
 connecting to a local or remote bitcoind:
 
@@ -286,14 +287,14 @@ $ ./src/createBtcrDid --config /tmp/bitcoin.conf ...
 {...}
 ```
 
-createBtcrDid has many required positional parameters:
+`createBtcrDid` has many required positional parameters:
 
 #### inputXXX
 This is the input transaction--where you need to have at least slightly
 more unspent BTCs than your offered fee (see below). You can refer to
 this transaction in many ways: a bitcoin address (plus txoIndex, given
 with `--txoIndex` parameter); a txid (plus txoIndex); a txref (plus
-txoIndex), or a txref-ext.
+txoIndex).
 
 #### outputAddress
 This is the output bitcoin address. It will receive transaction change and be the basis for your DID.
@@ -334,13 +335,13 @@ $ bitcoin-cli listunspent | jq -r '.[] | { txid: .txid, address: .address, vout:
 }
 ```
 
-If you want to start using txrefs right away, you can use txid2txref to
+If you want to start using txrefs right away, you can use `txid2txref` to
 convert your txid:
 
 ```
 $ ./src/txid2txref --txoIndex 0 79d864cc59b0c3ac240fc78e5a79edb13182b88c9ed1c60526eda6657a5d5e9e | jq '{txref}'
 {
-  "txref": "txtest1:8vn9-0z8q-qqqq-u6ff-m0"
+  "txref": "txtest1:xvn9-0z8q-qn3s-nf7"
 }
 ```
 
@@ -364,10 +365,10 @@ $ bitcoin-cli dumpprivkey mvwGweRzRDwydpJfW1uqWJN4iZvNBZ9zZ4
 randomrandomrandomrandomrandomrandomrandomrandomrand
 ```
 
-Putting this all together, now you are ready to run createBtcrDid:
+Putting this all together, now you are ready to run `createBtcrDid`:
 
 ```
-./createBtcrDid \
+$ ./src/createBtcrDid \
 79d864cc59b0c3ac240fc78e5a79edb13182b88c9ed1c60526eda6657a5d5e9e \
 myxJdFGMAnX4SiBg2hTKsZRr8ReE5irjS5 \
 randomrandomrandomrandomrandomrandomrandomrandomrand \
@@ -387,4 +388,19 @@ and can see that 0.0005 BTC was spent, from
 `myxJdFGMAnX4SiBg2hTKsZRr8ReE5irjS5`. There is also an extra TXO there,
 with 0.0 BTC which contains the DDO linked from github.
 
+Finally, you can again use `txid2txref` to get your DID:
+```
+$ ./src/txid2txref --txoIndex 1 cd94e5a4a1aa1b19988faed93d31d50195b75390130304358369a63e8caec5ef | jq '{did}'
+{
+  "did": "did:btcr:8km9-0zyz-qpqq-sutc-5x"
+}
+```
 
+## Note: bech32bis update
+In Decemeber, 2019, Pieter Wuille did [research](https://gist.github.com/sipa/a9845b37c1b298a7301c33a04090b2eb) into the error detecting 
+properties of the bech32 encoding alorithm. Based on a problem and fix he found, an internal constant in the algorithm has been updated from `1` to `0x3FFFFFFF`. This 
+has the effect of changing the checksum values embedded in the txrefs and DIDs output by our programs.
+
+More info can be found [here](https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2019-December/017521.html).
+
+If you find that a DID is reported as invalid by BTCR, you may be using an old one with a (now) invalid checksum. In that case, you should update the txref part of your DID with the `txid2tref` program.

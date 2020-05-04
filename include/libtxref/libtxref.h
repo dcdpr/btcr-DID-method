@@ -63,6 +63,15 @@ namespace txref {
     // returns identifying data
     LocationData decode(const std::string & txref);
 
+
+    enum InputParam { unknown_param, address_param, txid_param, txref_param, txrefext_param };
+
+    // This function will determine if the input string is a Bitcoin address, txid,
+    // txref, or txrefext_param. This is not meant to be an exhaustive test--should only be
+    // used as a first pass to see what sort of string might be passed in as input.
+    InputParam classifyInputString(const std::string & str);
+
+
     namespace limits {
 
         const int TXREF_STRING_MIN_LENGTH = 18;                    // ex: "tx1rqqqqqqqqmhuqhp"
@@ -87,6 +96,11 @@ namespace txref {
 #endif // #ifdef __cplusplus
 
 // C bindings - structs and functions
+
+#ifndef __cplusplus
+#include <stddef.h>
+#include <stdbool.h>
+#endif
 
 #ifdef __cplusplus
 extern "C" {
