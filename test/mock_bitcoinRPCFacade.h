@@ -21,8 +21,8 @@ public:
             std::string(const std::vector<txout_t>& inputs, const std::map<std::string, double>& amounts));
     MOCK_CONST_METHOD2(createrawtransaction,
             std::string(const std::vector<txout_t>& inputs, const std::map<std::string, std::string>& amounts));
-    MOCK_CONST_METHOD4(signrawtransaction,
-            std::string(const std::string& rawTx, const std::vector<signrawtxin_t> & inputs, const std::vector<std::string>& privkeys, const std::string& sighashtype));
+    MOCK_CONST_METHOD4(signrawtransactionwithkey,
+                       std::string(const std::string& rawTx, const std::vector<signrawtxinext_t> & inputs, const std::vector<std::string>& privkeys, const std::string& sighashtype));
     MOCK_CONST_METHOD0(getblockchaininfo,
             blockchaininfo_t());
     virtual ~MockBitcoinRPCFacade();

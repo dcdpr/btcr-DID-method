@@ -284,14 +284,15 @@ int main(int argc, char *argv[]) {
         std::string rawTransaction = btc.createrawtransaction(inputs, amounts);
 
         // sign with private key
-        signrawtxin_t signrawtxin;
+        signrawtxinext_t signrawtxin;
         signrawtxin.txid = unspentData.txid;
         signrawtxin.n = static_cast<unsigned int>(unspentData.utxoIndex);
         signrawtxin.scriptPubKey = unspentData.scriptPubKeyHex;
         signrawtxin.redeemScript = "";
+        signrawtxin.amount = std::to_string(satoshi2btc(unspentData.amountSatoshis));
 
         std::string signedRawTransaction =
-                btc.signrawtransaction(rawTransaction, {signrawtxin}, {transactionData.privateKey}, "ALL");
+                btc.signrawtransactionwithkey(rawTransaction, {signrawtxin}, {transactionData.privateKey}, "ALL");
 
         if(signedRawTransaction.empty()) {
             std::cerr << "Error: transaction could not be signed. Check your private key." << std::endl;
