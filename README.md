@@ -152,7 +152,7 @@ available:
 
 ```
 $ ./src/txid2txref --help
-Usage: txid2txref [options] <txid>
+Usage: txid2txref [options] <txid|txref>
 
  -h  --help                 Print this help
  --rpchost [rpchost or IP]  RPC host (default: 127.0.0.1)

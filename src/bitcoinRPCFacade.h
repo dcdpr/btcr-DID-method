@@ -13,7 +13,6 @@ struct getrawtransaction_t;
 struct blockinfo_t;
 struct utxoinfo_t;
 struct txout_t;
-struct signrawtxin_t;
 
 // struct for local impl of getblockchaininfo()
 struct blockchaininfo_t {
@@ -30,6 +29,16 @@ struct blockchaininfo_t {
     //std::vector<...> softforks;
     //std::vector<...> bip9_softforks;
 };
+
+// struct for local impl of signrawtxin_t
+struct signrawtxinext_t {
+    std::string txid;
+    unsigned int n;
+    std::string scriptPubKey;
+    std::string redeemScript;
+    std::string amount;
+};
+
 
 struct RpcConfig {
     std::string rpcuser = "";
@@ -60,15 +69,15 @@ public:
     virtual std::string createrawtransaction(const std::vector<txout_t>& inputs, const std::map<std::string, double>& amounts) const;
     virtual std::string createrawtransaction(const std::vector<txout_t>& inputs, const std::map<std::string, std::string>& amounts) const;
 
-    virtual std::string signrawtransaction(const std::string& rawTx, const std::vector<signrawtxin_t> & inputs, const std::vector<std::string>& privkeys, const std::string& sighashtype) const;
-
-    std::string sendrawtransaction(const std::string& hexString, bool highFee=false) const;
-
     // implement missing bitcoinapi functions
     virtual blockchaininfo_t getblockchaininfo() const;
+    virtual std::string signrawtransactionwithkey(const std::string& rawTx, const std::vector<signrawtxinext_t> & inputs, const std::vector<std::string>& privkeys, const std::string& sighashtype) const;
+
+    // re-implement out-of-date bitcoinapi functions
+    virtual std::string sendrawtransaction(const std::string& hexString) const;
 
 protected:
-    BitcoinRPCFacade() {}
+    BitcoinRPCFacade() = default;
 };
 
 

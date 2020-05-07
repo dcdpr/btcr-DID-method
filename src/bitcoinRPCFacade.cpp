@@ -91,18 +91,54 @@ std::string BitcoinRPCFacade::createrawtransaction(
     return bitcoinAPI->createrawtransaction(inputs, amounts);
 }
 
-std::string
-BitcoinRPCFacade::signrawtransaction(const std::string &rawTx, const std::vector<signrawtxin_t> & inputs,
-                                     const std::vector<std::string> &privkeys, const std::string &sighashtype) const {
-    signrawtransaction_t signedTx = bitcoinAPI->signrawtransaction(rawTx, inputs, privkeys, sighashtype);
-    if(signedTx.complete) {
-        return signedTx.hex;
-    }
-    return ""; // TODO throw?
+std::string BitcoinRPCFacade::sendrawtransaction(const std::string &hexString) const {
+    std::string command = "sendrawtransaction";
+    Value params, result;
+    params.append(hexString);
+    // not sending anything for maxfeerate
+    result = bitcoinAPI->sendcommand(command, params);
+
+    return result.asString();
 }
 
-std::string BitcoinRPCFacade::sendrawtransaction(const std::string &hexString, bool highFee) const {
-    return bitcoinAPI->sendrawtransaction(hexString, highFee);
+std::string
+BitcoinRPCFacade::signrawtransactionwithkey(
+        const std::string &rawTx, const std::vector<signrawtxinext_t> &inputs,
+        const std::vector<std::string> &privkeys, const std::string &sighashtype) const {
+
+    std::string command = "signrawtransactionwithkey";
+    Value params, result;
+
+    params.append(rawTx);
+
+    Value privkeyValues(Json::arrayValue);
+    for(const auto & privkey : privkeys){
+        privkeyValues.append(privkey);
+    }
+
+    Value inputValues(Json::arrayValue);
+    for(const auto & input : inputs){
+        Value val;
+        val["txid"] = input.txid;
+        val["vout"] = input.n;
+        val["scriptPubKey"] = input.scriptPubKey;
+        if(!input.redeemScript.empty()){
+            val["redeemScript"] = input.redeemScript;
+        }
+        val["amount"] = input.amount;
+        inputValues.append(val);
+    }
+
+    params.append(privkeyValues);
+    params.append(inputValues);
+    params.append(sighashtype);
+
+    result = bitcoinAPI->sendcommand(command, params);
+
+    if(result["complete"].asBool()) {
+        return result["hex"].asString();
+    }
+    return "";
 }
 
 
