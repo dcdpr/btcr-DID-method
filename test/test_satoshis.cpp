@@ -28,6 +28,12 @@ TEST(SatoshisTest, test_s2b) {
     s = 1234567000;
     EXPECT_DOUBLE_EQ(satoshi2btc(s), 12.34567);
 
+    s = 1154000;
+    EXPECT_DOUBLE_EQ(satoshi2btc(s), 0.01154);
+
+    s = 1164026;
+    EXPECT_DOUBLE_EQ(satoshi2btc(s), 0.01164026);
+
     s = SATOSHIS_PER_BTC / 10;
     EXPECT_DOUBLE_EQ(satoshi2btc(s), 0.1);
 
@@ -36,6 +42,26 @@ TEST(SatoshisTest, test_s2b) {
 
     s = SATOSHIS_PER_BTC;
     EXPECT_DOUBLE_EQ(satoshi2btc(s), 1);
+}
+
+TEST(SatoshisTest, test_s2b_stringconversions) {
+    int64_t s = 1;
+    EXPECT_EQ(btc_to_string(satoshi2btc(s)), "0.00000001");
+
+    s = 1154000;
+    EXPECT_EQ(btc_to_string(satoshi2btc(s)), "0.01154000");
+
+    s = 1164026;
+    EXPECT_EQ(btc_to_string(satoshi2btc(s)), "0.01164026");
+
+    s = SATOSHIS_PER_BTC / 10;
+    EXPECT_EQ(btc_to_string(satoshi2btc(s)), "0.10000000");
+
+    s = SATOSHIS_PER_BTC * 10;
+    EXPECT_EQ(btc_to_string(satoshi2btc(s)), "10.00000000");
+
+    s = SATOSHIS_PER_BTC;
+    EXPECT_EQ(btc_to_string(satoshi2btc(s)), "1.00000000");
 }
 
 

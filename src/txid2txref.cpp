@@ -6,15 +6,15 @@
 #include "bitcoinRPCFacade.h"
 #include <bitcoinapi/bitcoinapi.h>
 #include "anyoption.h"
+#include "classifyInputString.h"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
 namespace pt = boost::property_tree;
 
 struct CmdlineInput {
-    std::string query ="";
-    int txoIndex = 0;
-    bool forceExtended = false;
+    std::string query;
+    int txoIndex = -1;
 };
 
 
@@ -49,9 +49,23 @@ std::string find_homedir() {
     return ret;
 }
 
+int convertNumericArg(const std::string & argName, AnyOption *opt) {
+    int i;
+    try {
+        i = std::stoi(opt->getValue(argName.c_str()));
+    }
+    catch(std::invalid_argument &) {
+        std::cerr << "Error: " << argName << " '" << opt->getValue(argName.c_str())
+                  << "' is invalid. Check command line usage.\n";
+        opt->printUsage();
+        std::exit(-1);
+    }
+    return i;
+}
+
 int parseCommandLineArgs(int argc, char **argv,
                          struct RpcConfig &rpcConfig,
-                         struct CmdlineInput &config) {
+                         struct CmdlineInput &cmdlineInput) {
 
     auto opt = std::unique_ptr<AnyOption>(new AnyOption());
     opt->setFileDelimiterChar('=');
@@ -97,8 +111,7 @@ int parseCommandLineArgs(int argc, char **argv,
             std::string configPath = home + "/.bitcoin/bitcoin.conf";
             if(!opt->processFile(configPath.data())) {
                 std::cerr << "Warning: Config file " << configPath
-                          << " not readable. Perhaps try --config? Attempting to continue..."
-                          << std::endl;
+                          << " not readable. Perhaps try --config? Attempting to continue...\n";
             }
         }
     }
@@ -120,7 +133,7 @@ int parseCommandLineArgs(int argc, char **argv,
 
     // see if there is an rpcuser specified. If not, exit
     if (opt->getValue("rpcuser") == nullptr) {
-        std::cerr << "'rpcuser' not found. Check bitcoin.conf or command line usage." << std::endl;
+        std::cerr << "Error: 'rpcuser' not found. Check bitcoin.conf or command line usage.\n";
         opt->printUsage();
         return -1;
     }
@@ -128,7 +141,7 @@ int parseCommandLineArgs(int argc, char **argv,
 
     // see if there is an rpcpassword specified. If not, exit
     if (opt->getValue("rpcpassword") == nullptr) {
-        std::cerr << "'rpcpassword' not found. Check bitcoin.conf or command line usage." << std::endl;
+        std::cerr << "Error: 'rpcpassword' not found. Check bitcoin.conf or command line usage.\n";
         opt->printUsage();
         return -1;
     }
@@ -136,24 +149,26 @@ int parseCommandLineArgs(int argc, char **argv,
 
     // will try both well known ports (8332 and 18332) if one is not specified
     if (opt->getValue("rpcport") != nullptr) {
-        rpcConfig.rpcport = std::atoi(opt->getValue("rpcport"));
+        rpcConfig.rpcport = convertNumericArg("rpcport", opt.get());
     }
 
-    // see if a txoIndex was provided. If so, make sure to force generation of extended txref,
-    // unless the txoIndex is 0
+    // see if a txoIndex was provided.
     if (opt->getValue("txoIndex") != nullptr) {
-        config.txoIndex = std::atoi(opt->getValue("txoIndex"));
-        if(config.txoIndex != 0)
-            config.forceExtended = true;
+        cmdlineInput.txoIndex = convertNumericArg("txoIndex", opt.get());
+        if(cmdlineInput.txoIndex < 0) {
+            std::cerr << "Error: txoIndex '" << cmdlineInput.txoIndex << "' should be zero or greater. Check command line usage.\n";
+            opt->printUsage();
+            return -1;
+        }
     }
 
     // finally, the last argument will be the query string -- either the txid or the txref
     if(opt->getArgc() < 1) {
-        std::cerr << "txid/txref not found. Check command line usage." << std::endl;
+        std::cerr << "Error: txid/txref not found. Check command line usage.\n";
         opt->printUsage();
         return -1;
     }
-    config.query = opt->getArgv(0);
+    cmdlineInput.query = opt->getArgv(0);
 
     return 1;
 }
@@ -168,24 +183,30 @@ int main(int argc, char *argv[]) {
         std::exit(ret);
     }
 
-    try
-    {
+    try {
         BitcoinRPCFacade btc(rpcConfig);
 
         t2t::Transaction transaction;
 
-        // TODO temporary
-        t2t::ConfigTemp configTemp;
-        configTemp.query = cmdlineInput.query;
-        configTemp.txoIndex = cmdlineInput.txoIndex;
-        configTemp.forceExtended = cmdlineInput.forceExtended;
+        InputParam inputParam = classifyInputString(cmdlineInput.query);
 
-
-        if(cmdlineInput.query.length() == 64) {
-            t2t::encodeTxid(btc, configTemp, transaction);
+        if(inputParam == InputParam::txid_param) {
+            if(cmdlineInput.txoIndex < 0)
+                cmdlineInput.txoIndex = 0;
+            t2t::encodeTxid(btc, cmdlineInput.query, cmdlineInput.txoIndex, transaction);
+        }
+        else if(inputParam == InputParam::txref_param || inputParam == InputParam::txrefext_param) {
+            t2t::decodeTxref(btc, cmdlineInput.query, transaction);
+            if(cmdlineInput.txoIndex >= 0)
+                std::cerr << "Warning: txoIndex '"
+                          << cmdlineInput.txoIndex
+                          << "' was ignored as the txref given already has an index '"
+                          << transaction.txoIndex
+                          << "' encoded within.\n";
         }
         else {
-            t2t::decodeTxref(btc, configTemp, transaction);
+            std::cerr << "Error: " << cmdlineInput.query << " is an invalid txid or txref.\n";
+            std::exit(-1);
         }
 
         printAsJson(transaction);
@@ -194,16 +215,16 @@ int main(int argc, char *argv[]) {
     catch(BitcoinException &e)
     {
         if(e.getCode() == -5) {
-            std::cerr << "Error: transaction " << cmdlineInput.query << " not found." << std::endl;
+            std::cerr << "Error: transaction " << cmdlineInput.query << " not found.\n";
             std::exit(-1);
         }
 
-        std::cerr << e.getCode() << " " << e.getMessage() << std::endl;
+        std::cerr << "Error: " << e.getCode() << " " << e.getMessage() << std::endl;
         std::exit(-1);
     }
     catch(std::runtime_error &e)
     {
-        std::cerr << e.what() << std::endl;
+        std::cerr << "Error: " << e.what() << std::endl;
         std::exit(-1);
     }
 

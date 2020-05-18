@@ -125,6 +125,9 @@ BitcoinRPCFacade::signrawtransactionwithkey(
         if(!input.redeemScript.empty()){
             val["redeemScript"] = input.redeemScript;
         }
+        if(!input.witnessScript.empty()){
+            val["witnessScript"] = input.witnessScript;
+        }
         val["amount"] = input.amount;
         inputValues.append(val);
     }
@@ -139,6 +142,44 @@ BitcoinRPCFacade::signrawtransactionwithkey(
         return result["hex"].asString();
     }
     return "";
+}
+
+btcaddressinfo_t BitcoinRPCFacade::getaddressinfo(const std::string &address) const {
+    std::string command = "getaddressinfo";
+    Value params, result;
+
+    params.append(address);
+
+    result = bitcoinAPI->sendcommand(command, params);
+
+    btcaddressinfo_t ret;
+
+    ret.address = result["address"].asString();
+    ret.scriptPubKey = result["scriptPubKey"].asString();
+    ret.ismine = result["ismine"].asBool();
+    ret.iswatchonly = result["iswatchonly"].asBool();
+    ret.solvable = result["solvable"].asBool();
+    ret.desc = result["desc"].asString();
+    ret.isscript = result["isscript"].asBool();
+    ret.ischange = result["ischange"].asBool();
+    ret.iswitness = result["iswitness"].asBool();
+    ret.witness_version = result["witness_version"].asInt();
+    ret.witness_program = result["witness_program"].asString();
+    ret.script = result["script"].asString();
+    ret.hex = result["hex"].asString();
+//array?    ret.pubkeys = result["pubkeys"]; // Array of pubkeys associated with the known redeemscript (only if "script" is "multisig")
+    ret.sigsrequired = result["sigsrequired"].asInt();
+    ret.pubkey = result["pubkey"].asString();
+    //ret.embedded = result["embedded"]; // {...},           (object, optional) Information about the address embedded in P2SH or P2WSH, if relevant and known. It includes all getaddressinfo output fields for the embedded address, excluding metadata ("timestamp", "hdkeypath", "hdseedid") and relation to the wallet ("ismine", "iswatchonly").
+    ret.iscompressed = result["iscompressed"].asBool();
+    ret.label = result["label"].asString();
+    ret.timestamp = result["timestamp"].asInt();
+    ret.hdkeypath = result["hdkeypath"].asString();
+    ret.hdseedid = result["hdseedid"].asString();
+    ret.hdmasterfingerprint = result["hdmasterfingerprint"].asString();
+//array?    ret.labels = result["labels"]; // Array of labels associated with the address.
+
+    return ret;
 }
 
 
