@@ -10,6 +10,7 @@ find_package(CURL)
 add_executable(txid2txref
         txid2txref.h txid2txref.cpp
         t2tSupport.h t2tSupport.cpp
+        classifyInputString.h classifyInputString.cpp
         bitcoinRPCFacade.h bitcoinRPCFacade.cpp)
 
 target_compile_features(txid2txref PRIVATE cxx_std_11)

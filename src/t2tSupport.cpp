@@ -7,7 +7,7 @@
 
 namespace t2t {
 
-    void encodeTxid(const BitcoinRPCFacade &btc, const ConfigTemp &config, struct Transaction &transaction) {
+    void encodeTxid(const BitcoinRPCFacade & btc, const std::string & txid, int txoIndex, struct Transaction & transaction) {
 
         blockchaininfo_t blockChainInfo = btc.getblockchaininfo();
 
@@ -15,7 +15,7 @@ namespace t2t {
         bool isTestnet = blockChainInfo.chain == "test";
 
         // use txid to call getrawtransaction to find the blockhash
-        getrawtransaction_t rawTransaction = btc.getrawtransaction(config.query, 1);
+        getrawtransaction_t rawTransaction = btc.getrawtransaction(txid, 1);
         std::string blockHash = rawTransaction.blockhash;
 
         // use blockhash to call getblock to find the block height
@@ -25,7 +25,7 @@ namespace t2t {
         // warn if #confirmations are too low
         int numConfirmations = blockInfo.confirmations;
         if (numConfirmations < 6) {
-            std::cout << "Warning: 6 confirmations are required for a valid txref: only "
+            std::cerr << "Warning: 6 confirmations are required for a valid txref: only "
                       << numConfirmations << " found." << std::endl;
         }
 
@@ -34,21 +34,21 @@ namespace t2t {
         std::vector<std::string>::size_type blockIndex;
         for (blockIndex = 0; blockIndex < blockTransactions.size(); ++blockIndex) {
             std::string blockTxid = blockTransactions.at(blockIndex);
-            if (blockTxid == config.query)
+            if (blockTxid == txid)
                 break;
         }
 
         if (blockIndex == blockTransactions.size()) {
-            std::cerr << "Error: Could not find transaction " << config.query
+            std::cerr << "Error: Could not find transaction " << txid
                       << " within the block." << std::endl;
             std::exit(-1);
         }
 
         // verify that the txoIndex provided on command line is valid for this txid
         auto numTxos = static_cast<int>(rawTransaction.vout.size());
-        if(config.txoIndex >= numTxos) {
-            std::cerr << "Error: txoIndex provided [" << config.txoIndex
-                      << "] is too large for transaction " << config.query << std::endl;
+        if(txoIndex >= numTxos) {
+            std::cerr << "Error: txoIndex provided [" << txoIndex
+                      << "] is too large for transaction " << txid << std::endl;
             std::exit(-1);
         }
 
@@ -56,25 +56,25 @@ namespace t2t {
         std::string txref;
         if (isTestnet) {
             txref = txref::encodeTestnet(
-                    blockHeight, static_cast<int>(blockIndex), config.txoIndex, config.forceExtended);
+                    blockHeight, static_cast<int>(blockIndex), txoIndex, false);
         } else {
             txref = txref::encode(
-                    blockHeight, static_cast<int>(blockIndex), config.txoIndex, config.forceExtended);
+                    blockHeight, static_cast<int>(blockIndex), txoIndex, false);
         }
 
         // output
-        transaction.query = config.query;
-        transaction.txid = config.query;
+        transaction.query = txid;
+        transaction.txid = txid;
         transaction.txref = txref;
         transaction.blockHeight = blockHeight;
         transaction.position = static_cast<int>(blockIndex);
         transaction.network = blockChainInfo.chain;
-        transaction.txoIndex = config.txoIndex;
+        transaction.txoIndex = txoIndex;
     }
 
-    void decodeTxref(const BitcoinRPCFacade &btc, const ConfigTemp &config, struct Transaction &transaction) {
+    void decodeTxref(const BitcoinRPCFacade &btc, const std::string & txref, struct Transaction &transaction) {
 
-        txref::LocationData locationData = txref::decode(config.query);
+        txref::LocationData locationData = txref::decode(txref);
 
         blockchaininfo_t blockChainInfo = btc.getblockchaininfo();
 
@@ -91,13 +91,13 @@ namespace t2t {
                     static_cast<unsigned long>(locationData.transactionPosition));
         }
         catch (std::out_of_range &) {
-            std::cerr << "Error: Could not find transaction " << config.query
-                      << " within the block." << std::endl;
+            std::cerr << "Error: Could not find txid for transactionPosition '" << locationData.transactionPosition
+                      << "' within the block." << std::endl;
             std::exit(-1);
         }
 
         // output
-        transaction.query = config.query;
+        transaction.query = txref;
         transaction.txid = txid;
         transaction.txref = locationData.txref;
         transaction.blockHeight = locationData.blockHeight;
