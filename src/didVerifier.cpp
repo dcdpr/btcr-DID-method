@@ -1,20 +1,11 @@
+#include "bitcoinRPCFacade.h"
+#include "encodeOpReturnData.h"
+#include "classifyInputString.h"
+#include "anyoption.h"
 #include <iostream>
 #include <cstdlib>
 #include <memory>
-#include "bitcoinRPCFacade.h"
-#include "chainQuery.h"
-#include "chainSoQuery.h"
-#include "encodeOpReturnData.h"
-#include "satoshis.h"
-#include "classifyInputString.h"
-#include "txid2txref.h"
-#include "t2tSupport.h"
 #include <bitcoinapi/bitcoinapi.h>
-#include "anyoption.h"
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-
-namespace pt = boost::property_tree;
 
 
 struct TransactionData {
@@ -35,9 +26,29 @@ std::string find_homedir() {
     return ret;
 }
 
+int convertIntegerArg(const std::string & argName, AnyOption *opt) {
+    int i;
+    try {
+        i = std::stoi(opt->getValue(argName.c_str()));
+    }
+    catch(std::invalid_argument &) {
+        std::cerr << "Error: " << argName << " '" << opt->getValue(argName.c_str())
+                  << "' is invalid. Check command line usage.\n";
+        opt->printUsage();
+        std::exit(-1);
+    }
+    catch(std::out_of_range &) {
+        std::cerr << "Error: " << argName << " '" << opt->getValue(argName.c_str())
+                  << "' is invalid. Check command line usage.\n";
+        opt->printUsage();
+        std::exit(-1);
+    }
+    return i;
+}
+
 int parseCommandLineArgs(int argc, char **argv, struct RpcConfig &config, struct TransactionData &transactionData) {
 
-    auto opt = new AnyOption();
+    auto opt = std::unique_ptr<AnyOption>(new AnyOption());
     opt->setFileDelimiterChar('=');
 
     opt->addUsage( "" );
@@ -66,7 +77,6 @@ int parseCommandLineArgs(int argc, char **argv, struct RpcConfig &config, struct
     // print usage if no options
     if( ! opt->hasOptions()) {
         opt->printUsage();
-        delete opt;
         return 0;
     }
 
@@ -93,7 +103,6 @@ int parseCommandLineArgs(int argc, char **argv, struct RpcConfig &config, struct
     // print usage if help was requested
     if (opt->getFlag("help") || opt->getFlag('h')) {
         opt->printUsage();
-        delete opt;
         return 0;
     }
 
@@ -106,7 +115,6 @@ int parseCommandLineArgs(int argc, char **argv, struct RpcConfig &config, struct
     if (opt->getValue("rpcuser") == nullptr) {
         std::cerr << "'rpcuser' not found. Check bitcoin.conf or command line usage." << std::endl;
         opt->printUsage();
-        delete opt;
         return -1;
     }
     config.rpcuser = opt->getValue("rpcuser");
@@ -115,21 +123,19 @@ int parseCommandLineArgs(int argc, char **argv, struct RpcConfig &config, struct
     if (opt->getValue("rpcpassword") == nullptr) {
         std::cerr << "'rpcpassword' not found. Check bitcoin.conf or command line usage." << std::endl;
         opt->printUsage();
-        delete opt;
         return -1;
     }
     config.rpcpassword = opt->getValue("rpcpassword");
 
     // will try both well known ports (8332 and 18332) if one is not specified
     if (opt->getValue("rpcport") != nullptr) {
-        config.rpcport = std::atoi(opt->getValue("rpcport"));
+        config.rpcport = convertIntegerArg("rpcport", opt.get());
     }
 
     // get the positional arguments
     if(opt->getArgc() < 1) {
         std::cerr << "Error: all required arguments not found. Check command line usage." << std::endl;
         opt->printUsage();
-        delete opt;
         return -1;
     }
     transactionData.inputString = opt->getArgv(0);

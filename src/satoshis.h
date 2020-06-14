@@ -8,6 +8,7 @@
 #include <ios>
 #include <iomanip>
 #include <limits>
+#include <sstream>
 
 const int SATOSHIS_PER_BTC = 100000000;
 

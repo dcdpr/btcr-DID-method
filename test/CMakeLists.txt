@@ -51,7 +51,7 @@ target_include_directories(UnitTests_src
 
 target_link_libraries(UnitTests_src
     PUBLIC
-        txref bech32 ${JSONCPP_LIBRARIES} ${BITCOINAPICPP_LIBRARIES} ${CURL_LIBRARIES} gtest gmock rapidcheck_gtest)
+        txref bech32 nlohmann-json ${JSONCPP_LIBRARIES} ${BITCOINAPICPP_LIBRARIES} ${CURL_LIBRARIES} gtest gmock rapidcheck_gtest)
 
 # CTest targets
 

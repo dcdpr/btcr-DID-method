@@ -38,7 +38,7 @@ target_compile_options(createBtcrDid PRIVATE ${DCD_CXX_FLAGS})
 set_target_properties(createBtcrDid PROPERTIES CXX_EXTENSIONS OFF)
 target_include_directories(createBtcrDid PRIVATE ${JSONCPP_INCLUDE_DIRS} ${BITCOINAPICPP_INCLUDE_DIRS})
 
-target_link_libraries(createBtcrDid PUBLIC bech32 txref anyoption ${JSONCPP_LIBRARIES} ${BITCOINAPICPP_LIBRARIES} ${CURL_LIBRARIES})
+target_link_libraries(createBtcrDid PUBLIC bech32 txref anyoption nlohmann-json ${JSONCPP_LIBRARIES} ${BITCOINAPICPP_LIBRARIES} ${CURL_LIBRARIES})
 
 ############################################################
 # Target: didResolver
@@ -57,7 +57,7 @@ target_compile_options(didResolver PRIVATE ${DCD_CXX_FLAGS})
 set_target_properties(didResolver PROPERTIES CXX_EXTENSIONS OFF)
 target_include_directories(didResolver PRIVATE ${JSONCPP_INCLUDE_DIRS} ${BITCOINAPICPP_INCLUDE_DIRS})
 
-target_link_libraries(didResolver PUBLIC bech32 txref anyoption ${JSONCPP_LIBRARIES} ${BITCOINAPICPP_LIBRARIES} ${CURL_LIBRARIES})
+target_link_libraries(didResolver PUBLIC bech32 txref anyoption nlohmann-json ${JSONCPP_LIBRARIES} ${BITCOINAPICPP_LIBRARIES} ${CURL_LIBRARIES})
 
 ############################################################
 # Target: didVerifier
@@ -74,7 +74,7 @@ target_compile_options(didVerifier PRIVATE ${DCD_CXX_FLAGS})
 set_target_properties(didVerifier PROPERTIES CXX_EXTENSIONS OFF)
 target_include_directories(didVerifier PRIVATE ${JSONCPP_INCLUDE_DIRS} ${BITCOINAPICPP_INCLUDE_DIRS})
 
-target_link_libraries(didVerifier PUBLIC bech32 txref anyoption ${JSONCPP_LIBRARIES} ${BITCOINAPICPP_LIBRARIES})
+target_link_libraries(didVerifier PUBLIC bech32 txref anyoption nlohmann-json ${JSONCPP_LIBRARIES} ${BITCOINAPICPP_LIBRARIES})
 
 
 #install(TARGETS txid2txref createBtcrDid didResolver didVerifier DESTINATION bin)

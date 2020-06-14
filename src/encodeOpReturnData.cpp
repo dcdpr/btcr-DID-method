@@ -1,9 +1,10 @@
 #include "encodeOpReturnData.h"
 
+#include <sstream>
+#include <iomanip>
+
 namespace {
-
     const int MAX_OP_RETURN_LENGTH = 80;
-
 }
 
 std::string encodeOpReturnData(const std::string &data) {

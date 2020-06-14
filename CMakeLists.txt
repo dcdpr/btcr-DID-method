@@ -19,7 +19,7 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES Clang)
 endif()
 
 add_subdirectory(external/anyoption)
-#add_subdirectory(external/jsoncpp)
+add_subdirectory(external/nlohmann)
 add_subdirectory(libbech32)
 add_subdirectory(libtxref)
 add_subdirectory(src)

@@ -1,6 +1,8 @@
 #ifndef TXREF_TXID2TXREF_H
 #define TXREF_TXID2TXREF_H
 
+#include <string>
+
 namespace t2t {
 
     struct Transaction {

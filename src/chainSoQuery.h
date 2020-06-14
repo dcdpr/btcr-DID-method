@@ -1,12 +1,23 @@
 #ifndef TXREF_CHAINSOQUERY_H
 #define TXREF_CHAINSOQUERY_H
 
-
 #include "chainQuery.h"
 
-namespace Json {
-    class Value;
-}
+#pragma clang diagnostic push
+#pragma GCC diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#pragma clang diagnostic ignored "-Wdocumentation-pedantic"
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#pragma clang diagnostic ignored "-Wc++17-extensions"
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma GCC diagnostic ignored "-Wall"
+#pragma GCC diagnostic ignored "-Wextra"
+#include "json.hpp"
+#pragma clang diagnostic pop
+#pragma GCC diagnostic pop
+
 
 class ChainSoQuery : public ChainQuery {
 
@@ -16,6 +27,7 @@ public:
     /**
      * Given a BTC address and output index, return some data about the TX if it is unspent
      *
+     * @deprecated We don't use this function. Need to determine if we need it.
      * @param address The BTC address
      * @param utxoIndex The index of the unspent output
      * @param network The network being used ("main" or "test")
@@ -72,7 +84,7 @@ protected:
      * @param network Which bitcoin network ('main' or 'test')
      * @return The txid for the unspent output
      */
-    virtual std::string extractLastUpdatedTxid(const Json::Value &obj, const std::string &txid, const std::string &network) const;
+    virtual std::string extractLastUpdatedTxid(const nlohmann::json &obj, const std::string &txid, const std::string &network) const;
 
 };
 

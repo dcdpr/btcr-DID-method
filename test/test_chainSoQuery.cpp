@@ -1,11 +1,6 @@
 #include <gtest/gtest.h>
 #include <utility>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Weverything"
-#include <json/json.h>
-#pragma clang diagnostic pop
-
 #include "chainQuery.cpp"
 #include "chainSoQuery.cpp"
 #include "curlWrapper.cpp"
@@ -39,7 +34,7 @@ public:
 
     // public wrapper method so we can test protected method
     std::string wrapExtractLastUpdatedTxid(
-            const Json::Value &obj,
+            const nlohmann::json &obj,
             const std::string &txid,
             const std::string &network) const
     {

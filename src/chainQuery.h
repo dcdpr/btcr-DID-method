@@ -19,6 +19,7 @@ public:
     /**
      * Given a BTC address and output index, return some data about the TX if it is unspent
      *
+     * @deprecated We don't use this function. Need to determine if we need it.
      * @param address The BTC address
      * @param utxoIndex The index of the unspent output
      * @param network The network being used ("main" or "test")
