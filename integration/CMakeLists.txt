@@ -244,7 +244,7 @@ target_include_directories(IntegrationTests_chainSoQuery
 
 target_link_libraries(IntegrationTests_chainSoQuery
         PUBLIC
-        ${JSONCPP_LIBRARIES} ${CURL_LIBRARIES})
+        nlohmann-json ${JSONCPP_LIBRARIES} ${CURL_LIBRARIES})
 
 add_test(NAME "IntegrationTests_chainSoQuery"
         COMMAND $<TARGET_FILE:IntegrationTests_chainSoQuery>)

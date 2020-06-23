@@ -1,14 +1,15 @@
-#include <iostream>
-#include <cstdlib>
-#include <memory>
 #include "txid2txref.h"
 #include "t2tSupport.h"
 #include "bitcoinRPCFacade.h"
-#include <bitcoinapi/bitcoinapi.h>
 #include "anyoption.h"
 #include "classifyInputString.h"
+
+#include <bitcoinapi/bitcoinapi.h>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include <iostream>
+#include <cstdlib>
+#include <memory>
 
 namespace pt = boost::property_tree;
 
@@ -49,12 +50,18 @@ std::string find_homedir() {
     return ret;
 }
 
-int convertNumericArg(const std::string & argName, AnyOption *opt) {
+int convertIntegerArg(const std::string & argName, AnyOption *opt) {
     int i;
     try {
         i = std::stoi(opt->getValue(argName.c_str()));
     }
     catch(std::invalid_argument &) {
+        std::cerr << "Error: " << argName << " '" << opt->getValue(argName.c_str())
+                  << "' is invalid. Check command line usage.\n";
+        opt->printUsage();
+        std::exit(-1);
+    }
+    catch(std::out_of_range &) {
         std::cerr << "Error: " << argName << " '" << opt->getValue(argName.c_str())
                   << "' is invalid. Check command line usage.\n";
         opt->printUsage();
@@ -149,12 +156,12 @@ int parseCommandLineArgs(int argc, char **argv,
 
     // will try both well known ports (8332 and 18332) if one is not specified
     if (opt->getValue("rpcport") != nullptr) {
-        rpcConfig.rpcport = convertNumericArg("rpcport", opt.get());
+        rpcConfig.rpcport = convertIntegerArg("rpcport", opt.get());
     }
 
     // see if a txoIndex was provided.
     if (opt->getValue("txoIndex") != nullptr) {
-        cmdlineInput.txoIndex = convertNumericArg("txoIndex", opt.get());
+        cmdlineInput.txoIndex = convertIntegerArg("txoIndex", opt.get());
         if(cmdlineInput.txoIndex < 0) {
             std::cerr << "Error: txoIndex '" << cmdlineInput.txoIndex << "' should be zero or greater. Check command line usage.\n";
             opt->printUsage();

@@ -1,3 +1,7 @@
+#include "chainSoQuery.h"
+#include "curlWrapper.h"
+#include "satoshis.h"
+
 #include <unistd.h>
 #include <sstream>
 #include <utility>
@@ -5,15 +9,6 @@
 #include <iostream>
 #include <cassert>
 #include <algorithm>
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Weverything"
-#include <json/json.h>
-#pragma clang diagnostic pop
-
-#include "chainSoQuery.h"
-#include "curlWrapper.h"
-#include "satoshis.h"
 
 namespace {
 
@@ -86,42 +81,40 @@ namespace {
     }
 
     /**
-     * Parse a string containing JSON formatted data and return a Json::Value object.
+     * Parse a string containing JSON formatted data and return a nlohmann::json object.
      *
      * @param jsonData The string of data to parse
-     * @return A Json::Value object
+     * @return A nlohmann::json object
      */
-    Json::Value parseJson(const std::string &jsonData) {
-        Json::Value obj;
-        std::istringstream iss(jsonData);
-        iss >> obj;
-        return obj;
+    nlohmann::json parseJson(const std::string &jsonData) {
+        return nlohmann::json::parse(jsonData);
     }
 
     UnspentData extractUnspentData(
-            const Json::Value &obj, const std::string &address, int utxoIndex) {
+            const nlohmann::json &obj, const std::string &address, int utxoIndex) {
 
         UnspentData unspentData;
 
-        if (obj["status"].isNull() || obj["status"].asString() == "fail") {
+        if (obj["status"].is_null() || obj["status"] == "fail") {
             std::stringstream ss;
             ss << "Nothing found for address: " << address;
             throw std::runtime_error(ss.str());
         }
 
         // TODO: This is an incorrect use of utxoIndex!
-        Json::Value tx = obj["data"]["txs"][utxoIndex];
-        if (tx.type() == Json::nullValue) {
+        nlohmann::json txs = obj["data"]["txs"];
+        if (txs.is_null() || txs.size() <= utxoIndex) {
             std::stringstream ss;
             ss << "UTXO not found for utxoIndex: " << utxoIndex;
             throw std::runtime_error(ss.str());
         }
+        nlohmann::json tx = txs[utxoIndex];
 
-        unspentData.txid = tx["txid"].asString();
+        unspentData.txid = tx["txid"];
         unspentData.address = address;
-        unspentData.scriptPubKeyHex = tx["script_hex"].asString();
-        unspentData.amountSatoshis = btc2satoshi(atof(tx["value"].asString().data()));
-        unspentData.utxoIndex = tx["output_no"].asInt();
+        unspentData.scriptPubKeyHex = tx["script_hex"];
+        unspentData.amountSatoshis = btc2satoshi(atof(tx["value"].get<std::string>().data()));
+        unspentData.utxoIndex = tx["output_no"];
 
         return unspentData;
     }
@@ -162,6 +155,7 @@ std::string ChainSoQuery::retrieveJsonData(const std::string &url, int retryAtte
 /**
  * Given a BTC address and output index, return some data about the TX if it is unspent
  *
+ * @deprecated We don't use this function. Need to determine if we need it.
  * @param address The BTC address
  * @param utxoIndex The index of the unspent output
  * @param network The network being used ("main" or "test")
@@ -171,7 +165,7 @@ UnspentData ChainSoQuery::getUnspentOutputs(
         const std::string &address, int utxoIndex, const std::string &network) const {
 
     std::string data = retrieveJsonData(getTxUnspentUrl(network, address));
-    Json::Value obj = parseJson(data);
+    nlohmann::json obj = parseJson(data);
 
     return extractUnspentData(obj, address, utxoIndex);
 }
@@ -193,13 +187,8 @@ std::string ChainSoQuery::getLastUpdatedTxid(
 
     std::string url = isTxSpentUrl(network, txid, utxoIndex);
     std::string data = retrieveJsonData(url);
-    try {
-        Json::Value obj = parseJson(data);
-        return extractLastUpdatedTxid(obj, txid, network);
-    }
-    catch(Json::RuntimeError &) {
-        return "";
-    }
+    nlohmann::json obj = parseJson(data);
+    return extractLastUpdatedTxid(obj, txid, network);
 }
 
 /**
@@ -215,23 +204,23 @@ int ChainSoQuery::determineNextUtxoIndex(const std::string &nextTxid, const std:
     // call getTx to find all the outputs for the next txid
     std::string url = getTxUrl(network, nextTxid);
     std::string data = retrieveJsonData(url);
-    Json::Value obj = parseJson(data);
+    nlohmann::json obj = parseJson(data);
 
-    if (obj["status"].isNull() || obj["status"].asString() == "fail") {
+    if (obj["status"].is_null() || obj["status"] == "fail") {
         std::stringstream ss;
         ss << "Nothing found for txid: " << nextTxid;
         throw std::runtime_error(ss.str());
     }
 
-    Json::ArrayIndex numOutputs = obj["data"]["outputs"].size();
+    size_t numOutputs = obj["data"]["outputs"].size();
 
     // create set of output #s for all non OP_RETURN scripts
     std::set<int> outputNums;
-    for (Json::ArrayIndex i = 0; i < numOutputs; i++) {
-        Json::Value output = obj["data"]["outputs"][i];
+    for (size_t i = 0; i < numOutputs; i++) {
+        nlohmann::json output = obj["data"]["outputs"][i];
         // only insert if this is not an OP_RETURN
-        if (output["script"].asString().find("OP_RETURN", 0) == std::string::npos)
-            outputNums.insert(output["output_no"].asInt());
+        if (output["script"].get<std::string>().find("OP_RETURN", 0) == std::string::npos)
+            outputNums.insert(output["output_no"].get<int>());
     }
 
     if (outputNums.empty()) {
@@ -253,23 +242,23 @@ int ChainSoQuery::determineNextUtxoIndex(const std::string &nextTxid, const std:
  * @return The txid for the unspent output
  */
 std::string
-ChainSoQuery::extractLastUpdatedTxid(const Json::Value &obj, const std::string &txid,
+ChainSoQuery::extractLastUpdatedTxid(const nlohmann::json &obj, const std::string &txid,
                                      const std::string &network) const {
 
-    if (obj["status"].isNull() || obj["status"].asString() == "fail") {
+    if (obj["status"].is_null() || obj["status"] == "fail") {
         std::stringstream ss;
         ss << "Nothing found for txid: " << txid;
         throw std::runtime_error(ss.str());
     }
 
     // if not spent, return current txid
-    if (!obj["data"]["is_spent"].asBool()) {
+    if (!obj["data"]["is_spent"]) {
         return txid;
     }
 
     // if spent, then we have to follow the transaction chain to find the "tip", or the
     // most-recent unspent transaction
-    std::string nextTxid = obj["data"]["spent"]["txid"].asString();
+    std::string nextTxid = obj["data"]["spent"]["txid"];
 
     // the nextTxid may have more than one output--examine the outputs to get index of the
     // first non-OP_RETURN output.
