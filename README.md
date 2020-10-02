@@ -227,7 +227,7 @@ Alternately, instead of a txid, `txid2txref` can be given a txref to
 decode and look up the transaction info in bitcoind:
 
 ```
-$ ./src/txid2txref txtest1:8yv2-xzpq-qpqq-8x3w-2w
+$ ./src/txid2txref txtest1:8yv2-xzpq-qpqq-cew3-4s
 {
     "txid": "f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107",
     "txref": "txtest1:8yv2-xzpq-qpqq-cew3-4s",
