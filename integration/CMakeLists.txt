@@ -26,7 +26,7 @@ add_custom_target(checkVerbose
 # Integration tests for txid2txref
 
 # no arguments
-add_test(NAME "IntegrationTests_t2t_Is_Runnable "
+add_test(NAME "IntegrationTests_t2t_Is_Runnable"
     COMMAND $<TARGET_FILE:txid2txref>)
 
 # ask for help
@@ -126,7 +126,7 @@ set_tests_properties("IntegrationTests_t2t_txid_from_txrefext_bad_txoIndex" PROP
 # time... Maybe we need to do something with a bitcoind using regtest.
 
 # no arguments
-add_test(NAME "IntegrationTests_cbd_Is_Runnable "
+add_test(NAME "IntegrationTests_cbd_Is_Runnable"
     COMMAND $<TARGET_FILE:createBtcrDid>)
 
 # ask for help
@@ -157,7 +157,7 @@ set_tests_properties("IntegrationTests_cbd_bad_args_index_2_error" PROPERTIES
 # Integration tests for didResolver
 
 # no arguments
-add_test(NAME "IntegrationTests_didResolver_Is_Runnable "
+add_test(NAME "IntegrationTests_didResolver_Is_Runnable"
         COMMAND $<TARGET_FILE:didResolver>)
 
 # ask for help
