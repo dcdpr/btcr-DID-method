@@ -22,6 +22,10 @@ add_subdirectory(external/anyoption)
 add_subdirectory(external/nlohmann)
 add_subdirectory(src)
 
+option(LIBTXREF_BUILD_GOOGLETEST "Build googletest" OFF)
+option(LIBTXREF_BUILD_RAPIDCHECK "Build rapidcheck" OFF)
+add_subdirectory(libtxref)
+
 enable_testing()
 add_subdirectory(test)
 add_subdirectory(integration)
