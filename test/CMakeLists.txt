@@ -24,7 +24,7 @@ add_subdirectory("rapidcheck")
 
 
 ############################################################
-# Target: txref_test
+# Target: UnitTests_src
 
 add_executable(UnitTests_src main.cpp test_chainSoQuery.cpp test_classifyInputString.cpp test_encodeOpReturnData.cpp test_satoshis.cpp jsonTestData.h)
 
@@ -50,6 +50,4 @@ target_link_libraries(UnitTests_src
 add_test(NAME UnitTests_src
         COMMAND UnitTests_src)
 
-add_subdirectory(testbech32)
-add_subdirectory(testtxref)
 add_subdirectory(testdomain)
