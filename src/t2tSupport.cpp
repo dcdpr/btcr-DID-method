@@ -75,12 +75,12 @@ namespace t2t {
 
     void decodeTxref(const BitcoinRPCFacade &btc, const std::string & txref, struct Transaction &transaction) {
 
-        txref::LocationData locationData = txref::decode(txref);
+        txref::DecodedResult decodedResult = txref::decode(txref);
 
         blockchaininfo_t blockChainInfo = btc.getblockchaininfo();
 
         // get block hash for block
-        std::string blockHash = btc.getblockhash(locationData.blockHeight);
+        std::string blockHash = btc.getblockhash(decodedResult.blockHeight);
 
         // use block hash to get the block info
         blockinfo_t blockInfo = btc.getblock(blockHash);
@@ -89,10 +89,10 @@ namespace t2t {
         std::string txid;
         try {
             txid = blockInfo.tx.at(
-                    static_cast<unsigned long>(locationData.transactionPosition));
+                    static_cast<unsigned long>(decodedResult.transactionPosition));
         }
         catch (std::out_of_range &) {
-            std::cerr << "Error: Could not find txid for transactionPosition '" << locationData.transactionPosition
+            std::cerr << "Error: Could not find txid for transactionPosition '" << decodedResult.transactionPosition
                       << "' within the block." << std::endl;
             std::exit(-1);
         }
@@ -100,10 +100,10 @@ namespace t2t {
         // output
         transaction.query = txref;
         transaction.txid = txid;
-        transaction.txref = locationData.txref;
-        transaction.blockHeight = locationData.blockHeight;
-        transaction.position = locationData.transactionPosition;
-        transaction.txoIndex = locationData.txoIndex;
+        transaction.txref = decodedResult.txref;
+        transaction.blockHeight = decodedResult.blockHeight;
+        transaction.position = decodedResult.transactionPosition;
+        transaction.txoIndex = decodedResult.txoIndex;
         transaction.network = blockChainInfo.chain;
     }
 
