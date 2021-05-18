@@ -1,5 +1,4 @@
 include(CTest)
-include(../cmake/DownloadProject/DownloadProject.cmake)
 include(../cmake/FindBitcoinApiCpp.cmake)
 
 find_package(CURL)
@@ -10,15 +9,8 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES Clang)
   set(DCD_CXX_FLAGS ${DCD_CXX_FLAGS} -Wno-global-constructors)
 endif()
 
-download_project(
-    PROJ googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG master
-    UPDATE_DISCONNECTED 1
-)
-
-add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
-
+option(INSTALL_GTEST "Enable installation of googletest." OFF)
+add_subdirectory("googletest")
 
 # Turn off some warnings to silence issues coming from rapidcheck code
 if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
@@ -32,7 +24,7 @@ add_subdirectory("rapidcheck")
 
 
 ############################################################
-# Target: txref_test
+# Target: UnitTests_src
 
 add_executable(UnitTests_src main.cpp test_chainSoQuery.cpp test_classifyInputString.cpp test_encodeOpReturnData.cpp test_satoshis.cpp jsonTestData.h)
 
@@ -58,6 +50,4 @@ target_link_libraries(UnitTests_src
 add_test(NAME UnitTests_src
         COMMAND UnitTests_src)
 
-add_subdirectory(testbech32)
-add_subdirectory(testtxref)
 add_subdirectory(testdomain)

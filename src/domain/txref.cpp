@@ -36,11 +36,11 @@ Txref::Txref(const std::string &t, const BitcoinRPCFacade &btc) {
     // make copies of passed in parameters
     txrefStr = t;
 
-    txref::LocationData locationData = txref::decode(txrefStr);
+    txref::DecodedResult decodedResult = txref::decode(txrefStr);
 
 
     // get block hash for block at location "blockHeight"
-    std::string blockHash = btc.getblockhash(locationData.blockHeight);
+    std::string blockHash = btc.getblockhash(decodedResult.blockHeight);
 
     // use block hash to get the block
     blockinfo_t blockInfo = btc.getblock(blockHash);
@@ -49,7 +49,7 @@ Txref::Txref(const std::string &t, const BitcoinRPCFacade &btc) {
     std::string txidStr;
     try {
         txidStr = blockInfo.tx.at(
-                static_cast<unsigned long>(locationData.transactionPosition));
+                static_cast<unsigned long>(decodedResult.transactionPosition));
     }
     catch (std::out_of_range &) {
         std::cerr << "Error: Could not find transaction " << txrefStr
@@ -58,7 +58,7 @@ Txref::Txref(const std::string &t, const BitcoinRPCFacade &btc) {
     }
 
     txid = std::make_shared<Txid>(txidStr, btc);
-    vout = std::make_shared<Vout>(locationData.txoIndex);
+    vout = std::make_shared<Vout>(decodedResult.txoIndex);
 
 }
 

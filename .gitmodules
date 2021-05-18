@@ -1,0 +1,3 @@
+[submodule "libtxref"]
+	path = libtxref
+	url = https://github.com/dcdpr/libtxref.git

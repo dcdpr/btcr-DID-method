@@ -26,7 +26,7 @@ add_custom_target(checkVerbose
 # Integration tests for txid2txref
 
 # no arguments
-add_test(NAME "IntegrationTests_t2t_Is_Runnable "
+add_test(NAME "IntegrationTests_t2t_Is_Runnable"
     COMMAND $<TARGET_FILE:txid2txref>)
 
 # ask for help
@@ -67,7 +67,7 @@ set_tests_properties("IntegrationTests_t2t_txref_from_unknown_txid" PROPERTIES
 add_test(NAME "IntegrationTests_t2t_txref_from_known_txid"
     COMMAND $<TARGET_FILE:txid2txref> f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107)
 set_tests_properties("IntegrationTests_t2t_txref_from_known_txid" PROPERTIES
-        PASS_REGULAR_EXPRESSION "txtest1:xyv2-xzpq-q63z-7p4"
+        PASS_REGULAR_EXPRESSION "txtest1:xyv2-xzpq-qsjd-dmf"
         FAIL_REGULAR_EXPRESSION "Warning;Error")
 
 # get txrefext from a known txid.
@@ -78,19 +78,19 @@ set_tests_properties("IntegrationTests_t2t_txref_from_known_txid" PROPERTIES
 add_test(NAME "IntegrationTests_t2t_txref_from_known_txid_index_0"
     COMMAND $<TARGET_FILE:txid2txref> --txoIndex 0 f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107)
 set_tests_properties("IntegrationTests_t2t_txref_from_known_txid_index_0" PROPERTIES
-        PASS_REGULAR_EXPRESSION "txtest1:xyv2-xzpq-q63z-7p4"
+        PASS_REGULAR_EXPRESSION "txtest1:xyv2-xzpq-qsjd-dmf"
         FAIL_REGULAR_EXPRESSION "Warning;Error")
 
 add_test(NAME "IntegrationTests_t2t_txrefext_from_known_txid_index_1"
     COMMAND $<TARGET_FILE:txid2txref> --txoIndex 1 f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107)
 set_tests_properties("IntegrationTests_t2t_txrefext_from_known_txid_index_1" PROPERTIES
-        PASS_REGULAR_EXPRESSION "txtest1:8yv2-xzpq-qpqq-cew3-4s"
+        PASS_REGULAR_EXPRESSION "txtest1:8yv2-xzpq-qpqq-j6pz-0v"
         FAIL_REGULAR_EXPRESSION "Warning;Error")
 
 # get txid from txref.
 
 add_test(NAME "IntegrationTests_t2t_txid_from_txref"
-        COMMAND $<TARGET_FILE:txid2txref> txtest1:xyv2-xzpq-q63z-7p4)
+        COMMAND $<TARGET_FILE:txid2txref> txtest1:xyv2-xzpq-qsjd-dmf)
 set_tests_properties("IntegrationTests_t2t_txid_from_txref" PROPERTIES
         PASS_REGULAR_EXPRESSION "f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107"
         FAIL_REGULAR_EXPRESSION "Warning;Error")
@@ -98,7 +98,7 @@ set_tests_properties("IntegrationTests_t2t_txid_from_txref" PROPERTIES
 # get txid from txrefext.
 
 add_test(NAME "IntegrationTests_t2t_txid_from_txrefext"
-        COMMAND $<TARGET_FILE:txid2txref> txtest1:8yv2-xzpq-qpqq-cew3-4s)
+        COMMAND $<TARGET_FILE:txid2txref> txtest1:8yv2-xzpq-qpqq-j6pz-0v)
 set_tests_properties("IntegrationTests_t2t_txid_from_txrefext" PROPERTIES
         PASS_REGULAR_EXPRESSION "f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107"
         FAIL_REGULAR_EXPRESSION "Warning;Error")
@@ -107,13 +107,13 @@ set_tests_properties("IntegrationTests_t2t_txid_from_txrefext" PROPERTIES
 # that is already encoded in the txref
 
 add_test(NAME "IntegrationTests_t2t_txid_from_txref_bad_txoIndex"
-        COMMAND $<TARGET_FILE:txid2txref> --txoIndex 3 txtest1:xyv2-xzpq-q63z-7p4)
+        COMMAND $<TARGET_FILE:txid2txref> --txoIndex 3 txtest1:xyv2-xzpq-qsjd-dmf)
 set_tests_properties("IntegrationTests_t2t_txid_from_txref_bad_txoIndex" PROPERTIES
         PASS_REGULAR_EXPRESSION "Warning: txoIndex '3' was ignored"
         FAIL_REGULAR_EXPRESSION "Error")
 
 add_test(NAME "IntegrationTests_t2t_txid_from_txrefext_bad_txoIndex"
-        COMMAND $<TARGET_FILE:txid2txref> --txoIndex 3 8yv2-xzpq-qpqq-cew3-4s)
+        COMMAND $<TARGET_FILE:txid2txref> --txoIndex 3 8yv2-xzpq-qpqq-j6pz-0v)
 set_tests_properties("IntegrationTests_t2t_txid_from_txrefext_bad_txoIndex" PROPERTIES
         PASS_REGULAR_EXPRESSION "Warning: txoIndex '3' was ignored"
         FAIL_REGULAR_EXPRESSION "Error")
@@ -126,7 +126,7 @@ set_tests_properties("IntegrationTests_t2t_txid_from_txrefext_bad_txoIndex" PROP
 # time... Maybe we need to do something with a bitcoind using regtest.
 
 # no arguments
-add_test(NAME "IntegrationTests_cbd_Is_Runnable "
+add_test(NAME "IntegrationTests_cbd_Is_Runnable"
     COMMAND $<TARGET_FILE:createBtcrDid>)
 
 # ask for help
@@ -137,17 +137,17 @@ add_test(NAME "IntegrationTests_cbd_Is_Runnable-h"
 # that is already encoded in the txref
 
 add_test(NAME "IntegrationTests_cbd_bad_args_index_0_warning"
-        COMMAND $<TARGET_FILE:createBtcrDid> -n --txoIndex 0 txtest1:xs9n-2rjq-q3up-v2y 2NF8nkNM13FTVn97yHGZQgBpBUZvJc7WmMc cRnkSDWFHbPHbsWy2vK3u413J4KUm7e255a166b6d1640d104e8b 0.0001 https://example.com/ddo-test.jsonld)
+        COMMAND $<TARGET_FILE:createBtcrDid> -n --txoIndex 0 txtest1:xz4h-jz7l-qfhw-kd7 2NF8nkNM13FTVn97yHGZQgBpBUZvJc7WmMc cRnkSDWFHbPHbsWy2vK3u413J4KUm7e255a166b6d1640d104e8b 0.0001 https://example.com/ddo-test.jsonld)
 set_tests_properties("IntegrationTests_cbd_bad_args_index_0_warning" PROPERTIES
         PASS_REGULAR_EXPRESSION "Warning: passing txoIndex '0' on the command line was not needed as the value of '0' is encoded within your txref")
 
 add_test(NAME "IntegrationTests_cbd_bad_args_index_1_warning"
-        COMMAND $<TARGET_FILE:createBtcrDid> -n --txoIndex 1 txtest1:8s9n-2rjq-qpqq-tmjd-2k 2NF8nkNM13FTVn97yHGZQgBpBUZvJc7WmMc cRnkSDWFHbPHbsWy2vK3u413J4KUm7e255a166b6d1640d104e8b 0.0001 https://example.com/ddo-test.jsonld)
+        COMMAND $<TARGET_FILE:createBtcrDid> -n --txoIndex 1 txtest1:8z4h-jz7l-qpqq-xkh8-xa 2NF8nkNM13FTVn97yHGZQgBpBUZvJc7WmMc cRnkSDWFHbPHbsWy2vK3u413J4KUm7e255a166b6d1640d104e8b 0.0001 https://example.com/ddo-test.jsonld)
 set_tests_properties("IntegrationTests_cbd_bad_args_index_1_warning" PROPERTIES
         PASS_REGULAR_EXPRESSION "Warning: passing txoIndex '1' on the command line was not needed as the value of '1' is encoded within your txref")
 
 add_test(NAME "IntegrationTests_cbd_bad_args_index_2_error"
-        COMMAND $<TARGET_FILE:createBtcrDid> -n --txoIndex 2 txtest1:8s9n-2rjq-qpqq-tmjd-2k 2NF8nkNM13FTVn97yHGZQgBpBUZvJc7WmMc cRnkSDWFHbPHbsWy2vK3u413J4KUm7e255a166b6d1640d104e8b 0.0001 https://example.com/ddo-test.jsonld)
+        COMMAND $<TARGET_FILE:createBtcrDid> -n --txoIndex 2 txtest1:8z4h-jz7l-qpqq-xkh8-xa 2NF8nkNM13FTVn97yHGZQgBpBUZvJc7WmMc cRnkSDWFHbPHbsWy2vK3u413J4KUm7e255a166b6d1640d104e8b 0.0001 https://example.com/ddo-test.jsonld)
 set_tests_properties("IntegrationTests_cbd_bad_args_index_2_error" PROPERTIES
         PASS_REGULAR_EXPRESSION "Error: passing txoIndex '2' on the command line is not supported as the value of '1' is encoded within your txref"
         FAIL_REGULAR_EXPRESSION "Warning")
@@ -157,7 +157,7 @@ set_tests_properties("IntegrationTests_cbd_bad_args_index_2_error" PROPERTIES
 # Integration tests for didResolver
 
 # no arguments
-add_test(NAME "IntegrationTests_didResolver_Is_Runnable "
+add_test(NAME "IntegrationTests_didResolver_Is_Runnable"
         COMMAND $<TARGET_FILE:didResolver>)
 
 # ask for help
@@ -166,11 +166,11 @@ add_test(NAME "IntegrationTests_didResolver_Is_Runnable-h"
 
 # DID with zero updates/spends:
 #
-# did:btcr:8xvh-jzj2-ppqq-v8n2-8g encodes txid
+# did:btcr:8xvh-jzj2-ppqq-xyue-a5 encodes txid
 # f3b955b2db510ba2f60446de51a9e4bcfb96a0e2ad8154d39bfefaffb305e6b0,
 # output index 1. This is unspent.
 add_test(NAME "IntegrationTests_didResolver_followTip_zero_spends"
-        COMMAND $<TARGET_FILE:didResolver> --exitAfterFollowTip did:btcr:8xvh-jzj2-ppqq-v8n2-8g)
+        COMMAND $<TARGET_FILE:didResolver> --exitAfterFollowTip did:btcr:8xvh-jzj2-ppqq-xyue-a5)
 
 set_tests_properties("IntegrationTests_didResolver_followTip_zero_spends" PROPERTIES
         PASS_REGULAR_EXPRESSION "txid with unspent output: f3b955b2db510ba2f60446de51a9e4bcfb96a0e2ad8154d39bfefaffb305e6b0"
@@ -178,50 +178,50 @@ set_tests_properties("IntegrationTests_didResolver_followTip_zero_spends" PROPER
 
 # DID with one update/spend:
 #
-# did:btcr:8svh-jzt7-qpqq-lqdx-gu encodes txid
+# did:btcr:8svh-jzt7-qpqq-4rz4-jq encodes txid
 # 2e71684bba5c953c09c9f2363233af9938af4fe05d2b22df3df1c3dabdcc8200,
 # output index 1. This is spent to create new DID
-# did:btcr:8jvh-jzxc-ppqq-y0z5-qw. That encodes txid
+# did:btcr:8jvh-jzxc-ppqq-wvd8-6j. That encodes txid
 # 604a0cf5c5b794ca8b90a817b0624d5e6f1fab1ff4675f72b7a31679945ebdd9,
 # output index 1. This is unspent. Both DIDs should have the same "tip" (604a...)
 add_test(NAME "IntegrationTests_didResolver_followTip_one_spend_p1"
-        COMMAND $<TARGET_FILE:didResolver> --exitAfterFollowTip did:btcr:8svh-jzt7-qpqq-lqdx-gu)
+        COMMAND $<TARGET_FILE:didResolver> --exitAfterFollowTip did:btcr:8svh-jzt7-qpqq-4rz4-jq)
 set_tests_properties("IntegrationTests_didResolver_followTip_one_spend_p1" PROPERTIES
         PASS_REGULAR_EXPRESSION "txid with unspent output: 604a0cf5c5b794ca8b90a817b0624d5e6f1fab1ff4675f72b7a31679945ebdd9"
         FAIL_REGULAR_EXPRESSION "Warning;Error")
 
 add_test(NAME "IntegrationTests_didResolver_followTip_one_spend_p2"
-        COMMAND $<TARGET_FILE:didResolver> --exitAfterFollowTip did:btcr:8jvh-jzxc-ppqq-y0z5-qw)
+        COMMAND $<TARGET_FILE:didResolver> --exitAfterFollowTip did:btcr:8jvh-jzxc-ppqq-wvd8-6j)
 set_tests_properties("IntegrationTests_didResolver_followTip_one_spend_p2" PROPERTIES
         PASS_REGULAR_EXPRESSION "txid with unspent output: 604a0cf5c5b794ca8b90a817b0624d5e6f1fab1ff4675f72b7a31679945ebdd9"
         FAIL_REGULAR_EXPRESSION "Warning;Error")
 
 # DID with two updates/spends:
 #
-# did:btcr:8z4h-jz7l-qpqq-v4c5-up encodes txid
+# did:btcr:8z4h-jz7l-qpqq-xkh8-xa encodes txid
 # cb0252c5ea4e24bee19edd1ed1338ef077dc75d30383097d8c4bae3a9862b35a,
 # output index 1. This is spent to create new DID
-# did:btcr:8x4h-jz54-qpqq-k29f-jw. That encodes txid
+# did:btcr:8x4h-jz54-qpqq-uf26-gj. That encodes txid
 # 3289a36a8ca15017269a6b6e3977732fc21c8106d85020d5493ee9f5c8e00958,
 # output index 1. This is spent to create new DID
-# did:btcr:8g4h-jz2g-qpqq-m23x-xr. That encodes txid
+# did:btcr:8g4h-jz2g-qpqq-3f74-ul. That encodes txid
 # 8a76b282fa1e3585d5c4c0dd2774400aa0a075e2cd255f0f5324f2e837f282c5,
 # output index 1. This is unspent. All three DIDs should have the
 # same "tip" (8a76...)
 add_test(NAME "IntegrationTests_didResolver_followTip_two_spends_p1"
-        COMMAND $<TARGET_FILE:didResolver> --exitAfterFollowTip did:btcr:8z4h-jz7l-qpqq-v4c5-up)
+        COMMAND $<TARGET_FILE:didResolver> --exitAfterFollowTip did:btcr:8z4h-jz7l-qpqq-xkh8-xa)
 set_tests_properties("IntegrationTests_didResolver_followTip_two_spends_p1" PROPERTIES
         PASS_REGULAR_EXPRESSION "txid with unspent output: 8a76b282fa1e3585d5c4c0dd2774400aa0a075e2cd255f0f5324f2e837f282c5"
         FAIL_REGULAR_EXPRESSION "Warning;Error")
 
 add_test(NAME "IntegrationTests_didResolver_followTip_two_spends_p2"
-        COMMAND $<TARGET_FILE:didResolver> --exitAfterFollowTip did:btcr:8x4h-jz54-qpqq-k29f-jw)
+        COMMAND $<TARGET_FILE:didResolver> --exitAfterFollowTip did:btcr:8x4h-jz54-qpqq-uf26-gj)
 set_tests_properties("IntegrationTests_didResolver_followTip_two_spends_p2" PROPERTIES
         PASS_REGULAR_EXPRESSION "txid with unspent output: 8a76b282fa1e3585d5c4c0dd2774400aa0a075e2cd255f0f5324f2e837f282c5"
         FAIL_REGULAR_EXPRESSION "Warning;Error")
 
 add_test(NAME "IntegrationTests_didResolver_followTip_two_spends_p3"
-        COMMAND $<TARGET_FILE:didResolver> --exitAfterFollowTip did:btcr:8g4h-jz2g-qpqq-m23x-xr)
+        COMMAND $<TARGET_FILE:didResolver> --exitAfterFollowTip did:btcr:8g4h-jz2g-qpqq-3f74-ul)
 set_tests_properties("IntegrationTests_didResolver_followTip_two_spends_p3" PROPERTIES
         PASS_REGULAR_EXPRESSION "txid with unspent output: 8a76b282fa1e3585d5c4c0dd2774400aa0a075e2cd255f0f5324f2e837f282c5"
         FAIL_REGULAR_EXPRESSION "Warning;Error")
