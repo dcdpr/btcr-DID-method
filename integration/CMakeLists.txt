@@ -118,6 +118,16 @@ set_tests_properties("IntegrationTests_t2t_txid_from_txrefext_bad_txoIndex" PROP
         PASS_REGULAR_EXPRESSION "Warning: txoIndex '3' was ignored"
         FAIL_REGULAR_EXPRESSION "Error")
 
+# make sure we return correct network for a txref
+
+add_test(NAME "IntegrationTests_t2t_check_network_mismatch_for_txref"
+        COMMAND $<TARGET_FILE:txid2txref> tx1:rqqq‑qqqq‑qwtv‑vjr)
+set_tests_properties("IntegrationTests_t2t_check_network_mismatch_for_txref" PROPERTIES
+        PASS_REGULAR_EXPRESSION "will not be found in your bitcoind")
+
+# check special case for txid 4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b
+
+
 ############################################################
 # Integration tests for createBtcrDid
 
