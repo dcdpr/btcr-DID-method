@@ -8,12 +8,20 @@
 
 namespace t2t {
 
+    bool isNetworkMismatch(const std::string & hrp, const std::string & networkName) {
+        return
+                !((hrp == txref::BECH32_HRP_MAIN && networkName == "main") ||
+                (hrp == txref::BECH32_HRP_TEST && networkName == "test") ||
+                (hrp == txref::BECH32_HRP_REGTEST && networkName == "regtest"));
+    }
+
     void encodeTxid(const BitcoinRPCFacade & btc, const std::string & txid, int txoIndex, struct Transaction & transaction) {
 
         blockchaininfo_t blockChainInfo = btc.getblockchaininfo();
 
         // determine what network we are on
         bool isTestnet = blockChainInfo.chain == "test";
+        bool isRegtest = blockChainInfo.chain == "regtest";
 
         // use txid to call getrawtransaction to find the blockhash
         getrawtransaction_t rawTransaction = btc.getrawtransaction(txid, 1);
@@ -58,6 +66,9 @@ namespace t2t {
         if (isTestnet) {
             txref = txref::encodeTestnet(
                     blockHeight, static_cast<int>(blockIndex), txoIndex, false);
+        } else if (isRegtest) {
+            txref = txref::encodeRegtest(
+                    blockHeight, static_cast<int>(blockIndex), txoIndex, false);
         } else {
             txref = txref::encode(
                     blockHeight, static_cast<int>(blockIndex), txoIndex, false);
@@ -78,6 +89,13 @@ namespace t2t {
         txref::DecodedResult decodedResult = txref::decode(txref);
 
         blockchaininfo_t blockChainInfo = btc.getblockchaininfo();
+
+        if(isNetworkMismatch(decodedResult.hrp, blockChainInfo.chain)) {
+            std::cerr << "Error: txref '" << txref
+                      << "' will not be found in your bitcoind which is configured for the "
+                      << blockChainInfo.chain << " network." << std::endl;
+            std::exit(-1);
+        }
 
         // get block hash for block
         std::string blockHash = btc.getblockhash(decodedResult.blockHeight);

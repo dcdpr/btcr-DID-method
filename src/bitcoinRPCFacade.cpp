@@ -7,6 +7,11 @@ namespace {
     int MAINNET_PORT = 8332;
     int TESTNET_PORT = 18332;
 
+    // blockhash for block 0 can be found with "bitcoin-cli getblockhash 0"
+    char block_0_hash[] = "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f";
+    // hex for transaction 0 can be found with "bitcoin-cli getblock 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f 2 | jq '.tx[0].hex'"
+    char block_0_tx_0_hex[] = "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff4d04ffff001d0104455468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73ffffffff0100f2052a01000000434104678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5fac00000000";
+
     bool isConnectionGood(BitcoinAPI *b) {
         try {
             b->getblockcount();
@@ -24,19 +29,19 @@ BitcoinRPCFacade::BitcoinRPCFacade(
 
     std::stringstream ss;
     if(config.rpcport != 0) {
-        bitcoinAPI = new BitcoinAPI(config.rpcuser, config.rpcpassword, config.rpchost, config.rpcport);
+        bitcoinAPI = new BitcoinAPI(config.rpcuser, config.rpcpassword, config.rpcconnect, config.rpcport);
         if (isConnectionGood(bitcoinAPI))
             return;
-        ss << "Error: Can't connect to " << config.rpchost << " on port " << config.rpcport;
+        ss << "Error: Can't connect to " << config.rpcconnect << " on port " << config.rpcport;
     }
     else {
-        bitcoinAPI = new BitcoinAPI(config.rpcuser, config.rpcpassword, config.rpchost, MAINNET_PORT);
+        bitcoinAPI = new BitcoinAPI(config.rpcuser, config.rpcpassword, config.rpcconnect, MAINNET_PORT);
         if (isConnectionGood(bitcoinAPI))
             return;
-        bitcoinAPI = new BitcoinAPI(config.rpcuser, config.rpcpassword, config.rpchost, TESTNET_PORT);
+        bitcoinAPI = new BitcoinAPI(config.rpcuser, config.rpcpassword, config.rpcconnect, TESTNET_PORT);
         if (isConnectionGood(bitcoinAPI))
             return;
-        ss << "Error: Can't connect to " << config.rpchost << " on either port (" << MAINNET_PORT << "," << TESTNET_PORT << ")";
+        ss << "Error: Can't connect to " << config.rpcconnect << " on either port (" << MAINNET_PORT << "," << TESTNET_PORT << ")";
     }
     throw std::runtime_error(ss.str());
 }
@@ -44,7 +49,23 @@ BitcoinRPCFacade::BitcoinRPCFacade(
 BitcoinRPCFacade::~BitcoinRPCFacade() = default;
 
 getrawtransaction_t BitcoinRPCFacade::getrawtransaction(const std::string &txid, int verbose) const {
-    return bitcoinAPI->getrawtransaction(txid, verbose);
+    if(txid != "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b")
+        return bitcoinAPI->getrawtransaction(txid, verbose);
+    else {
+        // if we are not on mainnet, just call out to the api
+        blockchaininfo_t blockChainInfo = getblockchaininfo();
+        if(blockChainInfo.chain != "main")
+            return bitcoinAPI->getrawtransaction(txid, verbose);
+
+        // mainnet genesis transaction 4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b
+        // can not be retrieved from bitcoind, so we will fake it here just enough to allow callers of
+        // getrawtransaction() to work with it.
+        getrawtransaction_t tx;
+        tx.blockhash = block_0_hash;
+        tx.hex = block_0_tx_0_hex;
+        tx.vout.resize(1);
+        return tx;
+    }
 }
 
 blockinfo_t BitcoinRPCFacade::getblock(const std::string &blockhash) const {

@@ -155,7 +155,7 @@ $ ./src/txid2txref --help
 Usage: txid2txref [options] <txid|txref>
 
  -h  --help                 Print this help
- --rpchost [rpchost or IP]  RPC host (default: 127.0.0.1)
+ --rpcconnect [hostname or IP]  RPC host (default: 127.0.0.1)
  --rpcuser [user]           RPC user
  --rpcpassword [pass]       RPC password
  --rpcport [port]           RPC port (default: try both 8332 and 18332)
@@ -170,7 +170,7 @@ bitcoind over RPC. There are four `--rpc*` options that you can use for
 connecting to a local or remote bitcoind:
 
 ```
-$ ./src/txid2txref --rpcuser bitcoinrpc --rpcpassword super-secret-passwd --rpchost 127.0.0.1 --rpcport 18332 <txid>
+$ ./src/txid2txref --rpcuser bitcoinrpc --rpcpassword super-secret-passwd --rpcconnect 127.0.0.1 --rpcport 18332 <txid>
 {...}
 ```
 
@@ -251,7 +251,7 @@ options available:
 Usage: createBtcrDid [options] <inputXXX> <outputAddress> <private key> <fee> <ddoRef>
 
  -h  --help                 Print this help
- --rpchost [rpchost or IP]  RPC host (default: 127.0.0.1)
+ --rpcconnect [hostname or IP]  RPC host (default: 127.0.0.1)
  --rpcuser [user]           RPC user
  --rpcpassword [pass]       RPC password
  --rpcport [port]           RPC port (default: try both 8332 and 18332)
@@ -270,7 +270,7 @@ bitcoind over RPC. There are four `--rpc*` options that you can use for
 connecting to a local or remote bitcoind:
 
 ```
-$ ./src/createBtcrDid --rpcuser bitcoinrpc --rpcpassword super-secret-passwd --rpchost 127.0.0.1 --rpcport 18332 ...
+$ ./src/createBtcrDid --rpcuser bitcoinrpc --rpcpassword super-secret-passwd --rpcconnect 127.0.0.1 --rpcport 18332 ...
 ```
 
 If you have bitcoind running locally, you probably have a bitcoin.conf
