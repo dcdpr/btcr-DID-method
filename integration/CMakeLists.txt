@@ -125,8 +125,6 @@ add_test(NAME "IntegrationTests_t2t_check_network_mismatch_for_txref"
 set_tests_properties("IntegrationTests_t2t_check_network_mismatch_for_txref" PROPERTIES
         PASS_REGULAR_EXPRESSION "will not be found in your bitcoind")
 
-# check special case for txid 4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b
-
 
 ############################################################
 # Integration tests for createBtcrDid
