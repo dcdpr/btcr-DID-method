@@ -73,7 +73,7 @@ struct btcaddressinfo_t { // not using addressinfo_t as that is already used in 
 struct RpcConfig {
     std::string rpcuser = "";
     std::string rpcpassword ="";
-    std::string rpchost = "127.0.0.1";
+    std::string rpcconnect = "127.0.0.1";
     int rpcport = 0;
 };
 

@@ -24,19 +24,19 @@ BitcoinRPCFacade::BitcoinRPCFacade(
 
     std::stringstream ss;
     if(config.rpcport != 0) {
-        bitcoinAPI = new BitcoinAPI(config.rpcuser, config.rpcpassword, config.rpchost, config.rpcport);
+        bitcoinAPI = new BitcoinAPI(config.rpcuser, config.rpcpassword, config.rpcconnect, config.rpcport);
         if (isConnectionGood(bitcoinAPI))
             return;
-        ss << "Error: Can't connect to " << config.rpchost << " on port " << config.rpcport;
+        ss << "Error: Can't connect to " << config.rpcconnect << " on port " << config.rpcport;
     }
     else {
-        bitcoinAPI = new BitcoinAPI(config.rpcuser, config.rpcpassword, config.rpchost, MAINNET_PORT);
+        bitcoinAPI = new BitcoinAPI(config.rpcuser, config.rpcpassword, config.rpcconnect, MAINNET_PORT);
         if (isConnectionGood(bitcoinAPI))
             return;
-        bitcoinAPI = new BitcoinAPI(config.rpcuser, config.rpcpassword, config.rpchost, TESTNET_PORT);
+        bitcoinAPI = new BitcoinAPI(config.rpcuser, config.rpcpassword, config.rpcconnect, TESTNET_PORT);
         if (isConnectionGood(bitcoinAPI))
             return;
-        ss << "Error: Can't connect to " << config.rpchost << " on either port (" << MAINNET_PORT << "," << TESTNET_PORT << ")";
+        ss << "Error: Can't connect to " << config.rpcconnect << " on either port (" << MAINNET_PORT << "," << TESTNET_PORT << ")";
     }
     throw std::runtime_error(ss.str());
 }
@@ -44,7 +44,13 @@ BitcoinRPCFacade::BitcoinRPCFacade(
 BitcoinRPCFacade::~BitcoinRPCFacade() = default;
 
 getrawtransaction_t BitcoinRPCFacade::getrawtransaction(const std::string &txid, int verbose) const {
-    return bitcoinAPI->getrawtransaction(txid, verbose);
+    if(txid != "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b")
+        return bitcoinAPI->getrawtransaction(txid, verbose);
+    else {
+        getrawtransaction_t tx;
+        // just need blockhash and vout?...
+        return bitcoinAPI->getrawtransaction(txid, verbose);
+    }
 }
 
 blockinfo_t BitcoinRPCFacade::getblock(const std::string &blockhash) const {

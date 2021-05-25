@@ -81,7 +81,7 @@ int parseCommandLineArgs(int argc, char **argv,
     opt->addUsage( "Usage: txid2txref [options] <txid|txref>" );
     opt->addUsage( "" );
     opt->addUsage( " -h  --help                 Print this help " );
-    opt->addUsage( " --rpchost [rpchost or IP]  RPC host (default: 127.0.0.1) " );
+    opt->addUsage( " --rpcconnect [hostname or IP]  RPC host (default: 127.0.0.1) " );
     opt->addUsage( " --rpcuser [user]           RPC user " );
     opt->addUsage( " --rpcpassword [pass]       RPC password " );
     opt->addUsage( " --rpcport [port]           RPC port (default: try both 8332 and 18332) " );
@@ -91,7 +91,7 @@ int parseCommandLineArgs(int argc, char **argv,
     opt->addUsage( "<txid|txref>                input: can be a txid to encode, or a txref to decode" );
 
     opt->setFlag("help", 'h');
-    opt->setOption("rpchost");
+    opt->setOption("rpcconnect");
     opt->setOption("rpcuser");
     opt->setOption("rpcpassword");
     opt->setOption("rpcport");
@@ -133,9 +133,9 @@ int parseCommandLineArgs(int argc, char **argv,
         return 0;
     }
 
-    // see if there is an rpchost specified. If not, use default
-    if (opt->getValue("rpchost") != nullptr) {
-        rpcConfig.rpchost = opt->getValue("rpchost");
+    // see if there is an rpcconnect specified. If not, use default
+    if (opt->getValue("rpcconnect") != nullptr) {
+        rpcConfig.rpcconnect = opt->getValue("rpcconnect");
     }
 
     // see if there is an rpcuser specified. If not, exit
