@@ -21,6 +21,7 @@ namespace t2t {
 
         // determine what network we are on
         bool isTestnet = blockChainInfo.chain == "test";
+        bool isRegtest = blockChainInfo.chain == "regtest";
 
         // use txid to call getrawtransaction to find the blockhash
         getrawtransaction_t rawTransaction = btc.getrawtransaction(txid, 1);
@@ -64,6 +65,9 @@ namespace t2t {
         std::string txref;
         if (isTestnet) {
             txref = txref::encodeTestnet(
+                    blockHeight, static_cast<int>(blockIndex), txoIndex, false);
+        } else if (isRegtest) {
+            txref = txref::encodeRegtest(
                     blockHeight, static_cast<int>(blockIndex), txoIndex, false);
         } else {
             txref = txref::encode(
