@@ -107,10 +107,10 @@ namespace t2t {
         std::string txid;
         try {
             txid = blockInfo.tx.at(
-                    static_cast<unsigned long>(decodedResult.transactionPosition));
+                    static_cast<unsigned long>(decodedResult.transactionIndex));
         }
         catch (std::out_of_range &) {
-            std::cerr << "Error: Could not find txid for transactionPosition '" << decodedResult.transactionPosition
+            std::cerr << "Error: Could not find txid for transactionPosition '" << decodedResult.transactionIndex
                       << "' within the block." << std::endl;
             std::exit(-1);
         }
@@ -120,7 +120,7 @@ namespace t2t {
         transaction.txid = txid;
         transaction.txref = decodedResult.txref;
         transaction.blockHeight = decodedResult.blockHeight;
-        transaction.position = decodedResult.transactionPosition;
+        transaction.position = decodedResult.transactionIndex;
         transaction.txoIndex = decodedResult.txoIndex;
         transaction.network = blockChainInfo.chain;
     }

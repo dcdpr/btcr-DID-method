@@ -39,17 +39,17 @@ Txref::Txref(const std::string &t, const BitcoinRPCFacade &btc) {
     txref::DecodedResult decodedResult = txref::decode(txrefStr);
 
 
-    // get block hash for block at location "blockHeight"
+    // get block hash for block
     std::string blockHash = btc.getblockhash(decodedResult.blockHeight);
 
-    // use block hash to get the block
+    // use block hash to get the block info
     blockinfo_t blockInfo = btc.getblock(blockHash);
 
-    // get the txid from the transaction at "position"
+    // get the txid from the transaction
     std::string txidStr;
     try {
         txidStr = blockInfo.tx.at(
-                static_cast<unsigned long>(decodedResult.transactionPosition));
+                static_cast<unsigned long>(decodedResult.transactionIndex));
     }
     catch (std::out_of_range &) {
         std::cerr << "Error: Could not find transaction " << txrefStr
