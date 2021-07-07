@@ -26,7 +26,7 @@ add_subdirectory("rapidcheck")
 ############################################################
 # Target: UnitTests_src
 
-add_executable(UnitTests_src main.cpp test_chainSoQuery.cpp test_classifyInputString.cpp test_encodeOpReturnData.cpp test_satoshis.cpp jsonTestData.h)
+add_executable(UnitTests_src main.cpp test_chainSoQuery.cpp test_encodeOpReturnData.cpp test_satoshis.cpp jsonTestData.h)
 
 target_compile_features(UnitTests_src PRIVATE cxx_std_11)
 target_compile_options(UnitTests_src PRIVATE ${DCD_CXX_FLAGS})

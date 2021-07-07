@@ -1,8 +1,8 @@
 #include "txid2txref.h"
 #include "t2tSupport.h"
+#include "libtxref.h"
 #include "bitcoinRPCFacade.h"
 #include "anyoption.h"
-#include "classifyInputString.h"
 
 #include <bitcoinapi/bitcoinapi.h>
 #include <boost/property_tree/ptree.hpp>
@@ -195,14 +195,14 @@ int main(int argc, char *argv[]) {
 
         t2t::Transaction transaction;
 
-        InputParam inputParam = classifyInputString(cmdlineInput.query);
+        txref::InputParam inputParam = txref::classifyInputString(cmdlineInput.query);
 
-        if(inputParam == InputParam::txid_param) {
+        if(inputParam == txref::InputParam::txid) {
             if(cmdlineInput.txoIndex < 0)
                 cmdlineInput.txoIndex = 0;
             t2t::encodeTxid(btc, cmdlineInput.query, cmdlineInput.txoIndex, transaction);
         }
-        else if(inputParam == InputParam::txref_param || inputParam == InputParam::txrefext_param) {
+        else if(inputParam == txref::InputParam::txref || inputParam == txref::InputParam::txrefext) {
             t2t::decodeTxref(btc, cmdlineInput.query, transaction);
             if(cmdlineInput.txoIndex >= 0)
                 std::cerr << "Warning: txoIndex '"

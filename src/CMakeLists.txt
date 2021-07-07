@@ -10,7 +10,6 @@ find_package(CURL)
 add_executable(txid2txref
         txid2txref.h txid2txref.cpp
         t2tSupport.h t2tSupport.cpp
-        classifyInputString.h classifyInputString.cpp
         bitcoinRPCFacade.h bitcoinRPCFacade.cpp)
 
 target_compile_features(txid2txref PRIVATE cxx_std_11)
@@ -29,7 +28,6 @@ add_executable(createBtcrDid
         bitcoinRPCFacade.h bitcoinRPCFacade.cpp
         chainQuery.h chainQuery.cpp chainSoQuery.h chainSoQuery.cpp
         curlWrapper.h curlWrapper.cpp
-        classifyInputString.h classifyInputString.cpp
         encodeOpReturnData.h encodeOpReturnData.cpp
         satoshis.h domain/txid.cpp domain/txid.h domain/vout.cpp domain/vout.h domain/txref.cpp domain/txref.h domain/did.cpp domain/did.h domain/blockHeight.cpp domain/blockHeight.h domain/transactionIndex.cpp domain/transactionIndex.h)
 
@@ -48,7 +46,6 @@ add_executable(didResolver
         bitcoinRPCFacade.h bitcoinRPCFacade.cpp
         chainQuery.h chainQuery.cpp chainSoQuery.h chainSoQuery.cpp
         curlWrapper.h curlWrapper.cpp
-        classifyInputString.h classifyInputString.cpp
         t2tSupport.h t2tSupport.cpp
         satoshis.h domain/txid.cpp domain/txid.h domain/vout.cpp domain/vout.h domain/txref.cpp domain/txref.h domain/did.cpp domain/did.h domain/blockHeight.cpp domain/blockHeight.h domain/transactionIndex.cpp domain/transactionIndex.h)
 
@@ -65,7 +62,6 @@ target_link_libraries(didResolver PUBLIC bech32 txref anyoption nlohmann-json ${
 add_executable(didVerifier
         didVerifier.cpp
         bitcoinRPCFacade.h bitcoinRPCFacade.cpp
-        classifyInputString.h classifyInputString.cpp
         t2tSupport.h t2tSupport.cpp
         satoshis.h domain/txid.cpp domain/txid.h domain/vout.cpp domain/vout.h domain/txref.cpp domain/txref.h domain/did.cpp domain/did.h domain/blockHeight.cpp domain/blockHeight.h domain/transactionIndex.cpp domain/transactionIndex.h)
 

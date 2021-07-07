@@ -1,7 +1,7 @@
 #include "bitcoinRPCFacade.h"
 #include "encodeOpReturnData.h"
-#include "classifyInputString.h"
 #include "anyoption.h"
+#include "libtxref.h"
 #include <iostream>
 #include <cstdlib>
 #include <memory>
@@ -165,7 +165,7 @@ int main(int argc, char *argv[]) {
 
         // 0. Determine InputType
 
-        InputParam inputParam = classifyInputString(transactionData.inputString);
+        txref::InputParam inputParam = txref::classifyInputString(transactionData.inputString);
 
             // skeleton of a diddo verifier:
     //

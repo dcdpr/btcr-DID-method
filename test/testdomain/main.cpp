@@ -3,7 +3,6 @@
 
 // TODO find a better way to include objects from main src directory
 #include "../../src/bitcoinRPCFacade.cpp"
-#include "../../src/classifyInputString.cpp"
 #include "txid.cpp"
 #include "vout.cpp"
 #include "blockHeight.cpp"
