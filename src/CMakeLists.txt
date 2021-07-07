@@ -31,7 +31,7 @@ add_executable(createBtcrDid
         curlWrapper.h curlWrapper.cpp
         classifyInputString.h classifyInputString.cpp
         encodeOpReturnData.h encodeOpReturnData.cpp
-        satoshis.h domain/txid.cpp domain/txid.h domain/vout.cpp domain/vout.h domain/txref.cpp domain/txref.h domain/did.cpp domain/did.h domain/blockHeight.cpp domain/blockHeight.h domain/transactionPosition.cpp domain/transactionPosition.h)
+        satoshis.h domain/txid.cpp domain/txid.h domain/vout.cpp domain/vout.h domain/txref.cpp domain/txref.h domain/did.cpp domain/did.h domain/blockHeight.cpp domain/blockHeight.h domain/transactionIndex.cpp domain/transactionIndex.h)
 
 target_compile_features(createBtcrDid PRIVATE cxx_std_11)
 target_compile_options(createBtcrDid PRIVATE ${DCD_CXX_FLAGS})
@@ -50,7 +50,7 @@ add_executable(didResolver
         curlWrapper.h curlWrapper.cpp
         classifyInputString.h classifyInputString.cpp
         t2tSupport.h t2tSupport.cpp
-        satoshis.h domain/txid.cpp domain/txid.h domain/vout.cpp domain/vout.h domain/txref.cpp domain/txref.h domain/did.cpp domain/did.h domain/blockHeight.cpp domain/blockHeight.h domain/transactionPosition.cpp domain/transactionPosition.h)
+        satoshis.h domain/txid.cpp domain/txid.h domain/vout.cpp domain/vout.h domain/txref.cpp domain/txref.h domain/did.cpp domain/did.h domain/blockHeight.cpp domain/blockHeight.h domain/transactionIndex.cpp domain/transactionIndex.h)
 
 target_compile_features(didResolver PRIVATE cxx_std_11)
 target_compile_options(didResolver PRIVATE ${DCD_CXX_FLAGS})
@@ -67,7 +67,7 @@ add_executable(didVerifier
         bitcoinRPCFacade.h bitcoinRPCFacade.cpp
         classifyInputString.h classifyInputString.cpp
         t2tSupport.h t2tSupport.cpp
-        satoshis.h domain/txid.cpp domain/txid.h domain/vout.cpp domain/vout.h domain/txref.cpp domain/txref.h domain/did.cpp domain/did.h domain/blockHeight.cpp domain/blockHeight.h domain/transactionPosition.cpp domain/transactionPosition.h)
+        satoshis.h domain/txid.cpp domain/txid.h domain/vout.cpp domain/vout.h domain/txref.cpp domain/txref.h domain/did.cpp domain/did.h domain/blockHeight.cpp domain/blockHeight.h domain/transactionIndex.cpp domain/transactionIndex.h)
 
 target_compile_features(didVerifier PRIVATE cxx_std_11)
 target_compile_options(didVerifier PRIVATE ${DCD_CXX_FLAGS})

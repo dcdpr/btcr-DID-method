@@ -4,7 +4,7 @@
 #include "vout.h"
 #include "txid.h"
 #include "blockHeight.h"
-#include "transactionPosition.h"
+#include "transactionIndex.h"
 #include "../bitcoinRPCFacade.h"
 #include <memory>
 

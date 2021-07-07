@@ -35,7 +35,7 @@ void printAsJson(const t2t::Transaction &transaction) {
     root.put("did", txref2did(transaction.txref));
     root.put("network", transaction.network);
     root.put("block-height", transaction.blockHeight);
-    root.put("transaction-position", transaction.position);
+    root.put("transaction-index", transaction.transactionIndex);
     root.put("txo-index", transaction.txoIndex);
     root.put("query-string", transaction.query);
 

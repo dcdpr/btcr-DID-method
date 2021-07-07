@@ -7,7 +7,7 @@
 #include "txid.cpp"
 #include "vout.cpp"
 #include "blockHeight.cpp"
-#include "transactionPosition.cpp"
+#include "transactionIndex.cpp"
 #include "txref.cpp"
 #include "did.cpp"
 

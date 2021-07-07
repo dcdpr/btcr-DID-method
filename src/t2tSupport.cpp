@@ -38,7 +38,7 @@ namespace t2t {
                       << numConfirmations << " found." << std::endl;
         }
 
-        // go through block's transaction array to find transaction position
+        // go through block's transaction array to find transaction index
         std::vector<std::string> blockTransactions = blockInfo.tx;
         std::vector<std::string>::size_type blockIndex;
         for (blockIndex = 0; blockIndex < blockTransactions.size(); ++blockIndex) {
@@ -61,7 +61,7 @@ namespace t2t {
             std::exit(-1);
         }
 
-        // call txref code with block height, transaction position, and txoIndex (if provided) to get txref
+        // call txref code with block height, transaction index, and txoIndex (if provided) to get txref
         std::string txref;
         if (isTestnet) {
             txref = txref::encodeTestnet(
@@ -79,7 +79,7 @@ namespace t2t {
         transaction.txid = txid;
         transaction.txref = txref;
         transaction.blockHeight = blockHeight;
-        transaction.position = static_cast<int>(blockIndex);
+        transaction.transactionIndex = static_cast<int>(blockIndex);
         transaction.network = blockChainInfo.chain;
         transaction.txoIndex = txoIndex;
     }
@@ -110,7 +110,7 @@ namespace t2t {
                     static_cast<unsigned long>(decodedResult.transactionIndex));
         }
         catch (std::out_of_range &) {
-            std::cerr << "Error: Could not find txid for transactionPosition '" << decodedResult.transactionIndex
+            std::cerr << "Error: Could not find txid for transactionIndex '" << decodedResult.transactionIndex
                       << "' within the block." << std::endl;
             std::exit(-1);
         }
@@ -120,7 +120,7 @@ namespace t2t {
         transaction.txid = txid;
         transaction.txref = decodedResult.txref;
         transaction.blockHeight = decodedResult.blockHeight;
-        transaction.position = decodedResult.transactionIndex;
+        transaction.transactionIndex = decodedResult.transactionIndex;
         transaction.txoIndex = decodedResult.txoIndex;
         transaction.network = blockChainInfo.chain;
     }

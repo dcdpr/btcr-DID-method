@@ -171,7 +171,7 @@ int main(int argc, char *argv[]) {
     //
     // 1) verify that diddo is valid json-ld (how?)
     // 2) extract txref from diddo (id field?)
-    // 3) decode txref to find block height, transaction position, and txo index
+    // 3) decode txref to find block height, transaction index, and txo index
     // 4) follow txo chain if necessary (as in didResolver) to find the last unspent output
     // 5) Extract the hex-encoded public key that signed the transaction and verify it matches
     //    the #keys-1 key in the authentication array

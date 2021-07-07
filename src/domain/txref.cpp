@@ -15,17 +15,17 @@ Txref::Txref(const Txid & t, const Vout & v, const BitcoinRPCFacade & btc)
         throw std::runtime_error("vout provided is too large for this transaction");
     }
 
-    // call txref encode with block height, transaction position, and vout to get txref string
+    // call txref encode with block height, transaction index, and vout to get txref string
     if (txid->isTestnet()) {
         txrefStr = txref::encodeTestnet(
                 txid->blockHeight()->value(),
-                txid->transactionPosition()->value(),
+                txid->transactionIndex()->value(),
                 vout->value(),
                 true); // TODO forceExtended = true for now
     } else {
         txrefStr = txref::encode(
                 txid->blockHeight()->value(),
-                txid->transactionPosition()->value(),
+                txid->transactionIndex()->value(),
                 vout->value(),
                 true); // TODO forceExtended = true for now
     }

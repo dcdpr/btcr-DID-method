@@ -9,15 +9,15 @@ class Vout {
 public:
     /**
      * Construct a Vout from the given index
-     * @param inIndex the index of the particular output in a transaction
+     * @param i the index of the particular output in a transaction
      */
-    explicit Vout(int inIndex);
+    explicit Vout(int i);
 
     /**
      * Get this Vout as an integer value
      * @return this Vout as an integer value
      */
-    int value();
+    int value() const;
 
     bool operator==(const Vout &rhs) const;
 

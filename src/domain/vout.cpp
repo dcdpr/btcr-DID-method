@@ -1,14 +1,14 @@
 #include <stdexcept>
 #include "vout.h"
 
-Vout::Vout(int inIndex) {
-    if(inIndex < 0)
+Vout::Vout(int i) {
+    if(i < 0)
         throw std::runtime_error("index can not be less than zero");
 
-    index = inIndex;
+    index = i;
 }
 
-int Vout::value() {
+int Vout::value() const {
     return index;
 }
 

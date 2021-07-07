@@ -10,7 +10,7 @@ namespace t2t {
         std::string txref = "";
         std::string network = "";
         int blockHeight = 0;
-        int position = 0;
+        int transactionIndex = 0;
         int txoIndex = 0;
         std::string query = "";
     };

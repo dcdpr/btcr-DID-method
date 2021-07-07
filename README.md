@@ -203,7 +203,7 @@ $ ./src/txid2txref f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528
     "did": "did:btcr:xyv2-xzpq-q63z-7p4",
     "network": "test",
     "block-height": "1152194",
-    "transaction-position": "1",
+    "transaction-index": "1",
     "txo-index": "0",
     "query-string": "f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107"
 }
@@ -234,7 +234,7 @@ $ ./src/txid2txref txtest1:8yv2-xzpq-qpqq-cew3-4s
     "did": "did:btcr:8yv2-xzpq-qpqq-cew3-4s",
     "network": "test",
     "block-height": "1152194",
-    "transaction-position": "1",
+    "transaction-index": "1",
     "txo-index": "1",
     "query-string": "txtest1:8yv2-xzpq-qpqq-cew3-4s"
 }
