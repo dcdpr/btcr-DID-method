@@ -4,7 +4,7 @@
 
 #include "blockHeight.h"
 #include "../bitcoinRPCFacade.h"
-#include "transactionPosition.h"
+#include "transactionIndex.h"
 #include <memory>
 #include <string>
 
@@ -37,7 +37,7 @@ public:
 
     std::shared_ptr<BlockHeight> blockHeight() const;
 
-    std::shared_ptr<TransactionPosition> transactionPosition() const;
+    std::shared_ptr<TransactionIndex> transactionIndex() const;
 
     bool operator==(const Txid &rhs) const;
 
@@ -74,7 +74,7 @@ private:
 
 
     std::shared_ptr<BlockHeight> pBlockHeight;
-    std::shared_ptr<TransactionPosition> pTransactionPosition;
+    std::shared_ptr<TransactionIndex> pTransactionIndex;
 
     bool testnet;
     std::string txidStr;

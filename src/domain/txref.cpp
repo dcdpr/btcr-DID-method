@@ -15,17 +15,17 @@ Txref::Txref(const Txid & t, const Vout & v, const BitcoinRPCFacade & btc)
         throw std::runtime_error("vout provided is too large for this transaction");
     }
 
-    // call txref encode with block height, transaction position, and vout to get txref string
+    // call txref encode with block height, transaction index, and vout to get txref string
     if (txid->isTestnet()) {
         txrefStr = txref::encodeTestnet(
                 txid->blockHeight()->value(),
-                txid->transactionPosition()->value(),
+                txid->transactionIndex()->value(),
                 vout->value(),
                 true); // TODO forceExtended = true for now
     } else {
         txrefStr = txref::encode(
                 txid->blockHeight()->value(),
-                txid->transactionPosition()->value(),
+                txid->transactionIndex()->value(),
                 vout->value(),
                 true); // TODO forceExtended = true for now
     }
@@ -39,17 +39,17 @@ Txref::Txref(const std::string &t, const BitcoinRPCFacade &btc) {
     txref::DecodedResult decodedResult = txref::decode(txrefStr);
 
 
-    // get block hash for block at location "blockHeight"
+    // get block hash for block
     std::string blockHash = btc.getblockhash(decodedResult.blockHeight);
 
-    // use block hash to get the block
+    // use block hash to get the block info
     blockinfo_t blockInfo = btc.getblock(blockHash);
 
-    // get the txid from the transaction at "position"
+    // get the txid from the transaction
     std::string txidStr;
     try {
         txidStr = blockInfo.tx.at(
-                static_cast<unsigned long>(decodedResult.transactionPosition));
+                static_cast<unsigned long>(decodedResult.transactionIndex));
     }
     catch (std::out_of_range &) {
         std::cerr << "Error: Could not find transaction " << txrefStr

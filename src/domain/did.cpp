@@ -1,5 +1,5 @@
 #include "did.h"
-#include "../classifyInputString.h"
+#include "libtxref.h"
 #include <algorithm>
 
 namespace {
@@ -22,9 +22,9 @@ Did::Did(const std::string &did, const BitcoinRPCFacade & btc) {
 
     localDid.erase(0, sizeof(schemeAndMethod)-1);
 
-    InputParam inputParam = classifyInputString(localDid);
+    txref::InputParam inputParam = txref::classifyInputString(localDid);
 
-    if(inputParam != txref_param && inputParam != txrefext_param) {
+    if(inputParam != txref::InputParam::txref && inputParam != txref::InputParam::txrefext) {
         throw std::runtime_error(
                 "DID parameter doesn't contain a valid txref. Should be of the form 'did:btcr:<txref>'");
     }

@@ -189,7 +189,7 @@ int main(int argc, char *argv[]) {
         std::cout << "  txref: " << pTxref->asString() << "\n";
         std::cout << "  txid: " << pTxref->getTxid()->asString() << "\n";
         std::cout << "  block height: " << pTxref->getTxid()->blockHeight()->value() << "\n";
-        std::cout << "  transaction position: " << pTxref->getTxid()->transactionPosition()->value() << "\n";
+        std::cout << "  transaction index: " << pTxref->getTxid()->transactionIndex()->value() << "\n";
         std::cout << "  txoIndex: " << pTxref->getVout()->value() << "\n";
 
 

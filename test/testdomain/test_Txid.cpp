@@ -64,23 +64,23 @@ std::string lowercase(const std::string &s) {
  * Convenience function to create a Txid object for testing.
  *
  * Will create and use a MockBitcoinRPCFacade which will associate the
- * txidStr with the given blockHeight and transactionPosition. These need not
+ * txidStr with the given blockHeight and transactionIndex. These need not
  * be truly valid.
  *
  * @param txidStr The txid string to use
  * @param blockHeight The block height
- * @param transactionPosition The transaction position
+ * @param transactionIndex The transaction index
  * @return A dumb pointer to a new Txid object
  */
 Txid * createTestTxid(
         const std::string &txidStr,
         int blockHeight,
-        int transactionPosition)
+        int transactionIndex)
 {
     MockBitcoinRPCFacade btc;
 
     assert(blockHeight >= 0);
-    assert(transactionPosition >= 0);
+    assert(transactionIndex >= 0);
 
     // if bitcoind CAN find a txid, it will return the hex of the rawtransaction
     getrawtransaction_t rawTransaction1;
@@ -104,7 +104,7 @@ Txid * createTestTxid(
     blockInfo.height = blockHeight;
     std::vector<std::string> blockTransactions {"123abc", "234abc", "456abc"};
     blockTransactions[
-            static_cast<std::vector<std::string>::size_type>(transactionPosition)] = lowercase(txidStr);
+            static_cast<std::vector<std::string>::size_type>(transactionIndex)] = lowercase(txidStr);
     blockInfo.tx = blockTransactions;
     EXPECT_CALL(btc, getblock(_))
             .WillOnce(Return(blockInfo));
@@ -114,76 +114,76 @@ Txid * createTestTxid(
 
 TEST(TxidTest, txid_is_found) {
     int blockHeight = 12345;
-    int transactionPosition = 1;
+    int transactionIndex = 1;
     std::string txidStr = "8a76b282fa1e3585d5c4c0dd2774400aa0a075e2cd255f0f5324f2e837f282c5";
 
     std::unique_ptr<Txid> txid;
 
-    ASSERT_NO_THROW(txid.reset(createTestTxid(txidStr, blockHeight, transactionPosition)));
+    ASSERT_NO_THROW(txid.reset(createTestTxid(txidStr, blockHeight, transactionIndex)));
 
     ASSERT_EQ(blockHeight, txid->blockHeight()->value());
-    ASSERT_EQ(transactionPosition, txid->transactionPosition()->value());
+    ASSERT_EQ(transactionIndex, txid->transactionIndex()->value());
 }
 
 TEST(TxidTest, txid_with_uppercase_chars_is_found) {
     int blockHeight = 12345;
-    int transactionPosition = 1;
+    int transactionIndex = 1;
     std::string txidStr = "8A76B282FA1E3585D5C4C0DD2774400AA0A075E2CD255F0F5324F2E837F282C5";
 
     std::unique_ptr<Txid> txid;
 
-    ASSERT_NO_THROW(txid.reset(createTestTxid(txidStr, blockHeight, transactionPosition)));
+    ASSERT_NO_THROW(txid.reset(createTestTxid(txidStr, blockHeight, transactionIndex)));
 
     ASSERT_EQ(blockHeight, txid->blockHeight()->value());
-    ASSERT_EQ(transactionPosition, txid->transactionPosition()->value());
+    ASSERT_EQ(transactionIndex, txid->transactionIndex()->value());
 }
 
 TEST(TxidTest, test_txid_equality) {
     int blockHeight = 12345;
-    int transactionPosition = 1;
+    int transactionIndex = 1;
     std::string txidStr = "8a76b282fa1e3585d5c4c0dd2774400aa0a075e2cd255f0f5324f2e837f282c5";
 
     std::unique_ptr<Txid> txid1;
-    ASSERT_NO_THROW(txid1.reset(createTestTxid(txidStr, blockHeight, transactionPosition)));
+    ASSERT_NO_THROW(txid1.reset(createTestTxid(txidStr, blockHeight, transactionIndex)));
 
     txidStr = "8A76B282FA1E3585D5C4C0DD2774400AA0A075E2CD255F0F5324F2E837F282C5";
 
     std::unique_ptr<Txid> txid2;
-    ASSERT_NO_THROW(txid2.reset(createTestTxid(txidStr, blockHeight, transactionPosition)));
+    ASSERT_NO_THROW(txid2.reset(createTestTxid(txidStr, blockHeight, transactionIndex)));
 
     ASSERT_EQ(*txid1, *txid2);
 }
 
 TEST(TxidTest, test_txid_inequality_for_diff_blockheight) {
     int blockHeight = 12345;
-    int transactionPosition = 1;
+    int transactionIndex = 1;
     std::string txidStr = "8a76b282fa1e3585d5c4c0dd2774400aa0a075e2cd255f0f5324f2e837f282c5";
 
     std::unique_ptr<Txid> txid1;
-    ASSERT_NO_THROW(txid1.reset(createTestTxid(txidStr, blockHeight, transactionPosition)));
+    ASSERT_NO_THROW(txid1.reset(createTestTxid(txidStr, blockHeight, transactionIndex)));
 
     txidStr = "8A76B282FA1E3585D5C4C0DD2774400AA0A075E2CD255F0F5324F2E837F282C5";
     blockHeight = 12344;
 
     std::unique_ptr<Txid> txid2;
-    ASSERT_NO_THROW(txid2.reset(createTestTxid(txidStr, blockHeight, transactionPosition)));
+    ASSERT_NO_THROW(txid2.reset(createTestTxid(txidStr, blockHeight, transactionIndex)));
 
     ASSERT_NE(*txid1, *txid2);
 }
 
 TEST(TxidTest, test_txid_inequality_for_diff_txpos) {
     int blockHeight = 12345;
-    int transactionPosition = 1;
+    int transactionIndex = 1;
     std::string txidStr = "8a76b282fa1e3585d5c4c0dd2774400aa0a075e2cd255f0f5324f2e837f282c5";
 
     std::unique_ptr<Txid> txid1;
-    ASSERT_NO_THROW(txid1.reset(createTestTxid(txidStr, blockHeight, transactionPosition)));
+    ASSERT_NO_THROW(txid1.reset(createTestTxid(txidStr, blockHeight, transactionIndex)));
 
     txidStr = "8A76B282FA1E3585D5C4C0DD2774400AA0A075E2CD255F0F5324F2E837F282C5";
-    transactionPosition = 2;
+    transactionIndex = 2;
 
     std::unique_ptr<Txid> txid2;
-    ASSERT_NO_THROW(txid2.reset(createTestTxid(txidStr, blockHeight, transactionPosition)));
+    ASSERT_NO_THROW(txid2.reset(createTestTxid(txidStr, blockHeight, transactionIndex)));
 
     ASSERT_NE(*txid1, *txid2);
 }

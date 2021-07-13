@@ -49,8 +49,8 @@ std::shared_ptr<BlockHeight> Txid::blockHeight() const {
     return pBlockHeight;
 }
 
-std::shared_ptr<TransactionPosition> Txid::transactionPosition() const {
-    return pTransactionPosition;
+std::shared_ptr<TransactionIndex> Txid::transactionIndex() const {
+    return pTransactionIndex;
 }
 
 void Txid::extractTransactionDetails(const std::string & inTxidStr, const BitcoinRPCFacade & btc) {
@@ -71,7 +71,7 @@ void Txid::extractTransactionDetails(const std::string & inTxidStr, const Bitcoi
     blockchaininfo_t blockChainInfo = btc.getblockchaininfo();
     testnet = blockChainInfo.chain == "test";
 
-    // go through block's transaction array to find transaction position
+    // go through block's transaction array to find transaction index
     std::vector<std::string> blockTransactions = blockInfo.tx;
     std::vector<std::string>::size_type blockIndex;
     for (blockIndex = 0; blockIndex < blockTransactions.size(); ++blockIndex) {
@@ -84,7 +84,7 @@ void Txid::extractTransactionDetails(const std::string & inTxidStr, const Bitcoi
         throw std::runtime_error("Could not find transaction " + inTxidStr + "within the block");
     }
 
-    pTransactionPosition = std::make_shared<TransactionPosition>(blockIndex);
+    pTransactionIndex = std::make_shared<TransactionIndex>(blockIndex);
 
 }
 
@@ -94,7 +94,7 @@ bool Txid::isTestnet() const {
 
 bool Txid::operator==(const Txid &rhs) const {
     return *pBlockHeight == *rhs.pBlockHeight &&
-           *pTransactionPosition == *rhs.pTransactionPosition &&
+           *pTransactionIndex == *rhs.pTransactionIndex &&
            testnet == rhs.testnet &&
            txidStr == rhs.txidStr;
 }

@@ -1,10 +1,10 @@
 #include "bitcoinRPCFacade.h"
 #include "encodeOpReturnData.h"
 #include "satoshis.h"
-#include "classifyInputString.h"
 #include "txid2txref.h"
 #include "t2tSupport.h"
 #include "anyoption.h"
+#include "libtxref.h"
 #include <iostream>
 #include <cstdlib>
 #include <memory>
@@ -282,24 +282,24 @@ int main(int argc, char *argv[]) {
 
         // 0. Determine InputType
 
-        InputParam inputParam = classifyInputString(cmdlineInput.query);
+        txref::InputParam inputParam = txref::classifyInputString(cmdlineInput.query);
 
         // 1. Get unspent transaction output data
 
         t2t::Transaction transaction;
         UnspentData unspentData;
 
-        if(inputParam == InputParam::address_param) {
+        if(inputParam == txref::InputParam::address) {
             // get unspent amount and txid from inputAddress
             // TODO: disabling this for now since it wasn't implemented correctly
             std::cerr << "Error: creating a DID from a BTC address is not currently supported.\n";
             std::exit(-1);
         }
-        else if(inputParam == InputParam::txref_param || inputParam == InputParam::txrefext_param) {
+        else if(inputParam == txref::InputParam::txref || inputParam == txref::InputParam::txrefext) {
             // decode txref
             transaction = getTransaction(cmdlineInput, btc);
         }
-        else if(inputParam == InputParam::txid_param) {
+        else if(inputParam == txref::InputParam::txid) {
             transaction.query = cmdlineInput.query;
             transaction.txid = cmdlineInput.query;
             transaction.txoIndex = cmdlineInput.txoIndex;

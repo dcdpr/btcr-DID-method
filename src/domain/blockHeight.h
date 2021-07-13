@@ -9,15 +9,15 @@ class BlockHeight {
 public:
     /**
      * Construct a BlockHeight from the given index
-     * @param inHeight the index of the particular block in the chain
+     * @param h the index of the particular block in the chain
      */
-    explicit BlockHeight(int inHeight);
+    explicit BlockHeight(int h);
 
     /**
      * Get this BlockHeight as an integer value
      * @return this BlockHeight as an integer value
      */
-    int value();
+    int value() const;
 
     bool operator==(const BlockHeight &rhs) const;
 
