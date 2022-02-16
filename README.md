@@ -119,7 +119,7 @@ sudo make install
 If you don't already have it, download [btcr-DID-method from Github](https://github.com/dcdpr/btcr-DID-method/). Clone it or grab a zip file, as you prefer.
 
 ```
-$ git clone https://github.com/dcdpr/btcr-DID-method.git
+$ git clone --recurse-submodules https://github.com/dcdpr/btcr-DID-method.git
 $ # or
 $ wget https://github.com/dcdpr/btcr-DID-method/archive/master.zip && unzip master.zip && rm master.zip
 ```
