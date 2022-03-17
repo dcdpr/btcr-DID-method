@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <memory>
+#include <stdexcept>
 #include <bitcoinapi/bitcoinapi.h>
 
 

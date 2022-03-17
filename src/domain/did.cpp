@@ -1,6 +1,7 @@
 #include "did.h"
 #include "libtxref.h"
 #include <algorithm>
+#include <stdexcept>
 
 namespace {
     const char schemeAndMethod[] = "did:btcr:";

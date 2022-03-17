@@ -8,6 +8,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <memory>
+#include <stdexcept>
 #include <bitcoinapi/bitcoinapi.h>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>

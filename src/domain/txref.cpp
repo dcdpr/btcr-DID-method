@@ -1,9 +1,9 @@
+#include "libtxref.h"
+#include "txref.h"
 #include <memory>
 #include <stdexcept>
 #include <bitcoinapi/types.h>
 #include <iostream>
-#include "libtxref.h"
-#include "txref.h"
 
 Txref::Txref(const Txid & t, const Vout & v, const BitcoinRPCFacade & btc)
 {

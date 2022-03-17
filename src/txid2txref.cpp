@@ -10,6 +10,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <memory>
+#include <stdexcept>
 
 namespace pt = boost::property_tree;
 

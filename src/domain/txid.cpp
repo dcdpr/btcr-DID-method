@@ -1,9 +1,9 @@
+#include "txid.h"
 #include <algorithm>
 #include <memory>
 #include <stdexcept>
 #include <bitcoinapi/types.h>
 #include <iostream>
-#include "txid.h"
 
 Txid::Txid(const std::string & inTxidStr, const BitcoinRPCFacade & btc) {
     // lowercase for consistency

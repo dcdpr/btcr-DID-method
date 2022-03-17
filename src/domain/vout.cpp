@@ -1,5 +1,5 @@
-#include <stdexcept>
 #include "vout.h"
+#include <stdexcept>
 
 Vout::Vout(int i) {
     if(i < 0)
