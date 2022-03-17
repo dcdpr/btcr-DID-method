@@ -13,35 +13,36 @@ create the DID.
 
 ## Building txid2txref and createBtcrDid
 
-This README assumes that you have bitcoind running somewhere, locally
-or remotely. bitcoind needs to be a full node--either on mainnet or
-testnet--and needs to have `—txindex` and RPC turned on.
+This README assumes that you have bitcoind running somewhere, locally or
+remotely. bitcoind needs to be a full node and needs to have a full
+transaction database (launched with -txindex or with txindex=1 in
+bitcoin.conf) and needs to have RPC turned on (launched with -server or
+server=1 in bitcoin.conf).
 
-We have developed and tested `txid2txref` and `createBtcrDid` on MacOS,
-Debian, Ubuntu and MacOS systems. Each OS has it differences, so please check the instructions below:
+We have developed and tested `txid2txref` and `createBtcrDid` on Debian,
+Ubuntu and MacOS systems. Each OS has it differences, so please check
+the instructions below:
 
 ### Debian / Ubuntu
 
-The following instructions should work with any of Debian 8: "jessie", 9: "stretch" or 10: "buster". These 
-instructions also work with Ubuntu 16: "xenial xerus" and 18: "bionic beaver". Intermediate versions of the above 
-will probably work as well, but if you have any problems please let us know.
+The following instructions should work with any of Debian 8, 9, 10, or
+11 and Ubuntu 16, 18 and 20. Intermediate and subsequent versions will
+probably work as well, but if you have any problems please let us know.
 
-#### Install some pre-requirements
+#### Install Prerequisites
 
 You will need to have a basic C++ development setup and several dependent packages:
 ```
 $ sudo apt-get update
-$ sudo apt-get install make cmake gcc g++ libcurl4-openssl-dev libjsoncpp-dev uuid-dev libjsonrpccpp-dev libjsonrpccpp-tools libboost-dev
+$ sudo apt-get install make cmake gcc g++ git unzip libcurl4-openssl-dev libjsoncpp-dev uuid-dev libjsonrpccpp-dev libjsonrpccpp-tools libboost-dev
 ```
 
 #### Build and install libbitcoin-api-cpp
 
-Download [libbitcoin-api-cpp from Github](https://github.com/minium/bitcoin-api-cpp/). Clone it or grab a zip file, as you prefer.
+Clone [libbitcoin-api-cpp from Github](https://github.com/minium/bitcoin-api-cpp/).
 
 ```
 $ git clone https://github.com/minium/bitcoin-api-cpp.git
-$ # or
-$ wget https://github.com/minium/bitcoin-api-cpp/archive/master.zip && unzip master.zip && rm master.zip
 ```
 
 This is a cmake-based project, so the standard process can be done here:
@@ -57,12 +58,12 @@ sudo make install
 
 #### Build txid2txref and createBtcrDid
 
-If you don't already have it, download [btcr-DID-method from Github](https://github.com/dcdpr/btcr-DID-method/). Clone it or grab a zip file, as you prefer.
+If you don't already have it, clone [btcr-DID-method from
+Github](https://github.com/dcdpr/btcr-DID-method/). There are git
+submodules in the project, so we need to be sure to init and update them correctly:
 
 ```
-$ git clone https://github.com/dcdpr/btcr-DID-method.git
-$ # or
-$ wget https://github.com/dcdpr/btcr-DID-method/archive/master.zip && unzip master.zip && rm master.zip
+$ git clone --recurse-submodules https://github.com/dcdpr/btcr-DID-method.git
 ```
 
 This is a cmake-based project, so the standard process can be done here:
@@ -77,13 +78,15 @@ make
 
 ### MacOS
 
-The following instructions should work with any of MacOS 10.13: "High Sierra", 10.14: "Mojave" and 10.15: "Catalina".
+The following instructions should work with any of MacOS 10.13: "High
+Sierra", 10.14: "Mojave" and 10.15: "Catalina". Subsequent versions will
+probably work as well, but if you have any problems please let us know.
 
-#### Install some pre-requirements
+#### Install Prerequisites
 
 You will want to install [homebrew](https://brew.sh/) if you haven't already. See their installation instructions, or try:
 ```
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ``` 
 
 Next, you will need to get some packages:
@@ -95,12 +98,10 @@ $ brew install jsoncpp libjson-rpc-cpp boost
 #### Build and install bitcoin-api-cpp
 
 homebrew installs jsoncpp (from above step) a little differently than bitcoin-api-cpp expects. Until the bitcoin-api-cpp folks update their project, 
-you should download our local copy of [bitcoin-api-cpp from Github](https://github.com/danpape/bitcoin-api-cpp/). Clone it or grab a zip file, as you prefer.
+you should clone our local copy of [bitcoin-api-cpp from Github](https://github.com/danpape/bitcoin-api-cpp/).
 
 ```
 $ git clone https://github.com/danpape/bitcoin-api-cpp.git
-$ # or
-$ wget https://github.com/danpape/bitcoin-api-cpp/archive/master.zip && unzip master.zip && rm master.zip
 ```
 
 This is a cmake-based project, so the standard process can be done here:
@@ -116,12 +117,11 @@ sudo make install
 
 #### Build txid2txref and createBtcrDid
 
-If you don't already have it, download [btcr-DID-method from Github](https://github.com/dcdpr/btcr-DID-method/). Clone it or grab a zip file, as you prefer.
-
+If you don't already have it, clone [btcr-DID-method from Github](https://github.com/dcdpr/btcr-DID-method/).
+There are git submodules in the project, so we need to be sure to init
+and update them correctly:
 ```
 $ git clone --recurse-submodules https://github.com/dcdpr/btcr-DID-method.git
-$ # or
-$ wget https://github.com/dcdpr/btcr-DID-method/archive/master.zip && unzip master.zip && rm master.zip
 ```
 
 This is a cmake-based project, so the standard process can be done here:
@@ -155,12 +155,12 @@ $ ./src/txid2txref --help
 Usage: txid2txref [options] <txid|txref>
 
  -h  --help                 Print this help
- --rpcconnect [hostname or IP]  RPC host (default: 127.0.0.1)
+ --rpcconnect [host or IP]  RPC host (default: 127.0.0.1)
  --rpcuser [user]           RPC user
  --rpcpassword [pass]       RPC password
  --rpcport [port]           RPC port (default: try both 8332 and 18332)
  --config [config_path]     Full pathname to bitcoin.conf (default: <homedir>/.bitcoin/bitcoin.conf)
- --txoIndex [index #]       Index # for XTO within the transaction (default: 0)
+ --txoIndex [index #]       Index # for TXO within the transaction (default: 0)
 
 <txid|txref>                input: can be a txid to encode, or a txref to decode
 ```
@@ -251,12 +251,13 @@ options available:
 Usage: createBtcrDid [options] <inputXXX> <outputAddress> <private key> <fee> <ddoRef>
 
  -h  --help                 Print this help
- --rpcconnect [hostname or IP]  RPC host (default: 127.0.0.1)
+ --rpcconnect [host or IP]  RPC host (default: 127.0.0.1)
  --rpcuser [user]           RPC user
  --rpcpassword [pass]       RPC password
  --rpcport [port]           RPC port (default: try both 8332 and 18332)
  --config [config_path]     Full pathname to bitcoin.conf (default: <homedir>/.bitcoin/bitcoin.conf)
  --txoIndex [index]         Index # of which TXO to use from the input transaction (default: 0)
+ -n --dryrun                Do everything except submit transaction to blockchain
 
 <inputXXX>      input: (bitcoin address, txid, txref) needs at least slightly more unspent BTCs than your offered fee
 <outputAddress> output bitcoin address: will receive transaction change and be the basis for your DID
@@ -292,9 +293,9 @@ $ ./src/createBtcrDid --config /tmp/bitcoin.conf ...
 #### inputXXX
 This is the input transaction--where you need to have at least slightly
 more unspent BTCs than your offered fee (see below). You can refer to
-this transaction in many ways: a Bitcoin address (plus txoIndex, given
-with `--txoIndex` parameter); a txid (plus txoIndex); a txref (plus
-txoIndex).
+this transaction in many ways: a Bitcoin address (with optional
+txoIndex, given with `--txoIndex` parameter); a txid (with optional
+txoIndex); a txref (with optional txoIndex).
 
 #### outputAddress
 This is the output Bitcoin address. It will receive transaction change and be the basis for your DID.
@@ -314,8 +315,8 @@ JSON-LD document. (optional)
 Some prerequisites:
 - you need a running instance of bitcoind, with the option "txindex=1"
 enabled so you have full transaction history.
-- you need to have some BTC, either on the main or
-test blockchain (whatever your bitcoind is running)
+- you need to have some BTC, either on the mainnet, testnet, or
+restest blockchain (whatever your bitcoind is running)
 - you need the txid of a transaction with your BTC, and the index of the
 TXO you want to use (if it is other than 0)
 - if you want your DID to have a reference to an external document with
@@ -347,9 +348,9 @@ $ ./src/txid2txref --txoIndex 0 79d864cc59b0c3ac240fc78e5a79edb13182b88c9ed1c605
 
 You need to decide how much you want to spend to create your DID--this
 is the transaction fee. You probably want this as low as possible. For
-the testnet, you can probably get by with a fee of 0.0005 BTC for now.
+the testnet, you can probably get by with a fee of 0.0005 BTC.
 
-Now you need a new address for your transaction change to go to. This
+You need a new address for your transaction change to go to. This
 will also be the basis for your DID. You can make one with bitcoin-cli:
 
 ```
@@ -382,7 +383,6 @@ Transaction submitted. Result txid: cd94e5a4a1aa1b19988faed93d31d50195b753901303
 Using a block explorer, you can check that it looks good. For instance,
 you can look up this example transaction on
 [blockcypher.com](https://live.blockcypher.com/btc-testnet/tx/cd94e5a4a1aa1b19988faed93d31d50195b75390130304358369a63e8caec5ef/)
-or [smartbit.com.au](https://testnet.smartbit.com.au/tx/cd94e5a4a1aa1b19988faed93d31d50195b75390130304358369a63e8caec5ef)
 and can see that 0.0005 BTC was spent, from
 `mvwGweRzRDwydpJfW1uqWJN4iZvNBZ9zZ4` to
 `myxJdFGMAnX4SiBg2hTKsZRr8ReE5irjS5`. There is also an extra TXO there,
