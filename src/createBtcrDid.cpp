@@ -8,6 +8,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <memory>
+#include <stdexcept>
 #include <bitcoinapi/bitcoinapi.h>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -133,7 +134,7 @@ int parseCommandLineArgs(int argc, char **argv,
     opt->addUsage( "Usage: createBtcrDid [options] <inputXXX> <outputAddress> <private key> <fee> <ddoRef>" );
     opt->addUsage( "" );
     opt->addUsage( " -h  --help                 Print this help " );
-    opt->addUsage( " --rpcconnect [hostname or IP]  RPC host (default: 127.0.0.1) " );
+    opt->addUsage( " --rpcconnect [host or IP]  RPC host (default: 127.0.0.1) " );
     opt->addUsage( " --rpcuser [user]           RPC user " );
     opt->addUsage( " --rpcpassword [pass]       RPC password " );
     opt->addUsage( " --rpcport [port]           RPC port (default: try both 8332 and 18332) " );

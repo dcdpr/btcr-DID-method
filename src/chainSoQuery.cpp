@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cassert>
 #include <algorithm>
+#include <stdexcept>
 
 namespace {
 

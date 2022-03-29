@@ -1,5 +1,5 @@
-#include <stdexcept>
 #include "transactionIndex.h"
+#include <stdexcept>
 
 TransactionIndex::TransactionIndex(int i) {
     if(i < 0)

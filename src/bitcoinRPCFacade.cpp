@@ -1,6 +1,7 @@
 #include "bitcoinRPCFacade.h"
 
 #include <bitcoinapi/bitcoinapi.h>
+#include <stdexcept>
 
 namespace {
 

@@ -1,5 +1,5 @@
-#include <stdexcept>
 #include "blockHeight.h"
+#include <stdexcept>
 
 BlockHeight::BlockHeight(int h) {
     if(h < 0)
